@@ -11,7 +11,7 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				files: {
-					'dist/app.min.js': [
+					'app.min.js': [
 						'jquery-2.1.4.min.js',
 						'angular.min.js',
 						'gw2api.js',
@@ -26,7 +26,7 @@ module.exports = function(grunt) {
 		cssmin: {
 			dist: {
 				files: {
-					'dist/app.min.css': [
+					'app.min.css': [
 						'bootstrap/css/bootstrap.css',
 						'bootstrap/css/bootstrap.theme.css',
 						'style.css',
@@ -36,8 +36,8 @@ module.exports = function(grunt) {
 		},
 		replace: {
 			dist: {
-				src: 'dist/app.min.css',
-				dest: 'dist/app.min.css',
+				src: 'app.min.css',
+				dest: 'app.min.css',
 				replacements: [{
 					from: '../fonts/',
 					to: 'fonts/'
@@ -47,7 +47,7 @@ module.exports = function(grunt) {
 		processhtml: {
 			dist: {
 				files: {
-					'dist/index.html': 'index.html'
+					'index.html': 'origin-index.html'
 				}
 			}
 		},
@@ -58,13 +58,7 @@ module.exports = function(grunt) {
 						expand: true,
 						cwd: 'bootstrap/fonts',
 						src: ['*'],
-						dest: 'dist/fonts'
-					},
-					{
-						expand: true,
-						cwd: 'img',
-						src: ['*'],
-						dest: 'dist/img'
+						dest: 'fonts'
 					}
 				]
 			}
