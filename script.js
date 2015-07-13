@@ -536,7 +536,6 @@ angular.module('legendarySearch', [
 			FullRecipeComputer
 				.getRecipeTree($scope.selectedLegendary, $scope.bankContent || {}, $scope.buyImmediately)
 				.then(function(data) {
-					console.debug(data);
 					$scope.costTree = data;
 				}, function(error) {
 					alert("Cost tree error:", error);
