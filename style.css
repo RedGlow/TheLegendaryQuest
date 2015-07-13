@@ -1,0 +1,181 @@
+/**
+ * PAGE
+ */
+ 
+body {
+	background-image: url("img/guardianlogo.png");
+	background-repeat: no-repeat;
+}
+
+.subtitle {
+	font-weight: bold;
+}
+
+footer {
+	margin-top: 5em;
+}
+
+/**
+ * GENERAL BODY SETUP
+ */
+
+form {
+	margin-top: 1em;
+}
+
+@font-face
+{
+	font-family: 'EasonPro'; src: url('https://d1h9a8s8eodvjz.cloudfront.net//fonts/eason/v1/easonpro-regular-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face
+{
+	font-family: 'EasonPro'; src: url('https://d1h9a8s8eodvjz.cloudfront.net//fonts/eason/v1/easonpro-italic-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: italic;
+}
+
+@font-face
+{
+	font-family: 'EasonPro'; src: url('https://d1h9a8s8eodvjz.cloudfront.net//fonts/eason/v1/easonpro-bold-webfont.woff') format('woff');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face
+{
+	font-family: 'CronosPro'; src: url('https://d1h9a8s8eodvjz.cloudfront.net//fonts/cronos/v1/cronospro-regular-webfont.woff') format('woff');
+	font-weight:normal;
+	font-style:normal;
+}
+
+@font-face
+{
+	font-family: 'CronosPro'; src: url('https://d1h9a8s8eodvjz.cloudfront.net//fonts/cronos/v1/cronospro-italic-webfont.woff') format('woff');
+	font-weight:normal;
+	font-style:italic;
+}
+
+@font-face
+{
+	font-family: 'CronosPro'; src: url('https://d1h9a8s8eodvjz.cloudfront.net//fonts/cronos/v1/cronospro-semibold-webfont.woff') format('woff');
+	font-weight:bold;
+	font-style:normal;
+}
+
+@font-face
+{
+	font-family: 'CronosPro'; src: url('https://d1h9a8s8eodvjz.cloudfront.net//fonts/cronos/v1/cronospro-semibolditalic-webfont.woff') format('woff');
+	font-weight:bold;
+	font-style:italic;
+}
+
+/**
+ * HEADINGS
+ **/
+
+h1 {
+	text-transform: uppercase;
+}
+
+.running-requests {
+	text-align: right;
+}
+
+/**
+ * PRICES
+ */
+
+.currency {
+	padding-right: 16px;
+	background-repeat: no-repeat;
+	background-position: right;
+}
+
+.currency.gold {
+	background-image: url('http://www.gw2spidy.com/assets/v20130214v1/img/gold.png');
+}
+
+.currency.silver {
+	background-image: url('http://www.gw2spidy.com/assets/v20130214v1/img/silver.png');
+}
+
+.currency.copper {
+	background-image: url('http://www.gw2spidy.com/assets/v20130214v1/img/copper.png');
+}
+
+.currency.karma {
+    background-image: url('http://www.gw2spidy.com/assets/img/Karma.png');
+}
+
+.currency.deadly_bloom {
+    background-image: url('http://wiki.guildwars2.com/images/thumb/b/b6/Deadly_Bloom.png/20px-Deadly_Bloom.png');
+	padding-right: 20px;
+}
+
+.currency.badge_of_honor {
+    background-image: url('http://wiki.guildwars2.com/images/thumb/3/3b/Badge_of_Honor.png/20px-Badge_of_Honor.png');
+	padding-right: 20px;
+}
+
+.currency.spirit_shard {
+    background-image: url('http://wiki.guildwars2.com/images/thumb/6/63/Spirit_Shard.png/20px-Spirit_Shard.png');
+	padding-right: 20px;
+}
+
+.currency.shard_of_zhaitan {
+    background-image: url('http://wiki.guildwars2.com/images/thumb/b/ba/Shard_of_Zhaitan.png/20px-Shard_of_Zhaitan.png');
+	padding-right: 20px;
+}
+
+.currency.ascalonian_tear {
+    background-image: url('http://wiki.guildwars2.com/images/thumb/b/b8/Ascalonian_Tear.png/20px-Ascalonian_Tear.png');
+	padding-right: 20px;
+}
+
+#costs .items li{
+	list-style: none;
+	display: inline-block;
+}
+
+/* ITEMS AND ITEM TABLES */
+
+.item img {
+	width: 64px;
+	height: 64px;
+}
+
+.item {
+	display: inline-block;
+	border: 1px solid #999;
+	margin: 10px;
+	padding: 5px;
+	text-align: center;
+}
+
+.recipe {
+	white-space: nowrap;
+}
+
+.recipe-element {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.expansion-arrow {
+	display: block;
+	margin-left: 10px;
+}
+
+a.expansion-arrow {
+	width: 78px;
+	text-align: center;
+}
+
+/* RESULTS */
+
+.results-row {
+	overflow-x: auto;
+}

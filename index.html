@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>The legendary quest</title>
+		<!-- build:js app.min.js -->
+		<script src="jquery-2.1.4.min.js"></script>
+		<script src="angular.min.js"></script>
+		<script src="gw2api.js"></script>
+		<script src="price-directive.js"></script>
+		<script src="now.js"></script>
+		<script src="script.js"></script>
+		<script src="bootstrap/js/bootstrap.min.js"></script>
+		<!-- /build -->
+		<!-- build:css app.min.css -->
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="style.css" />
+		<!-- /build -->
+		</head>
+	<body>
+		<section ng-app="legendarySearch"
+			ng-controller="ls.Map"
+			class="container">
+			
+			<!-- PRICE TEMPLATE -->
+			<script type="text/ng-template" id="price-directive.html">
+				<span class="value-{{price}}"><span class="currency gold" ng-if="hasGold">{{gold}}</span>
+				<span class="currency silver" ng-if="hasSilver">{{silver}}</span>
+				<span class="currency copper">{{copper}}</span></span>
+			</script>
+
+			<!-- ITEM TEMPLATE -->
+			<script type="text/ng-template" id="item.html">
+				<div class="item">
+					<img ng-src="{{item.icon}}" alt="{{item.name}}">
+					<div><span ng-if="amount > 1">{{amount}} x </span>{{ item.name }}</div>
+				</div>
+			</script>
+			
+			<!-- ITEM TABLE TEMPLATE -->
+			<script type="text/ng-template" id="item-table-directive.html">
+				<div class="item-table">
+					<item item-id="itemTree.itemId" amount="itemTree.amount" owned="itemTree.ownedAmount" buy-immediately="buyImmediately"></item>
+					<p class="cost" ng-if="itemTree.cost !== null">Buy: <price value="itemTree.cost"></price></p>
+					<a href="#" class="expansion-arrow" ng-click="toggle($event)" ng-if="!!itemTree.ingredients && itemTree.ingredients.length > 0 && itemTree.amount > itemTree.ownedAmount">
+						<i class="glyphicon" ng-class="{'glyphicon-chevron-up': !open, 'glyphicon-chevron-down': open}"></i>
+					</a>
+					<div class="recipe" ng-class="{'hidden': !open}" ng-if="itemTree.amount > itemTree.ownedAmount">
+						<span class="recipe-element" ng-repeat="element in itemTree.ingredients">
+							<!-- item case -->
+							<item-table ng-if="!!element.itemId" item-tree="element" buy-immediately="buyImmediately"></item-table>
+							<!-- currency case: copper -->
+							<price ng-if="!!element.currencyId && element.currencyId == 'copper'"
+								value="element.amount"></price>
+							<!-- currency case: other -->
+							<span ng-if="!!element.currencyId && element.currencyId != 'copper'"
+								class="currency" ng-class="element.currencyId">{{ element.amount }}</span>
+						</span>
+					</div>
+				</div>
+			</script>
+			
+			<!-- COSTS TEMPLATE -->
+			<script type="text/ng-template" id="costs-directive.html">
+				<div id="costs">
+					<div ng-if="!!unbuyableItemCosts">
+						<p>Unbuyable items to obtain:</p>
+						<ul class="items">
+							<li ng-repeat="(itemId, amount) in unbuyableItemCosts">
+								<item item-id="itemId" amount="amount"></item>
+							</li>
+						</ul>
+					</div>
+					<div ng-if="!!buyableItemCosts">
+						<p>Buyable items to obtain (on TP: <price value="totalCost"></price>):</p>
+						<ul class="items">
+							<li ng-repeat="(itemId, amount) in buyableItemCosts">
+								<item item-id="itemId" amount="amount"></item>
+							</li>
+						</ul>
+					</div>
+					<div ng-if="!!currencyCosts">
+						<p>Extra currencies needed:</p>
+						<ul class="currencies">
+							<li ng-repeat="(currencyId, amount) in currencyCosts">
+								<price ng-if="currencyId == 'copper'"
+									value="amount"></price>
+								<span ng-if="currencyId != 'copper'"
+									class="currency" ng-class="currencyId">{{ amount }}</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</script>
+			
+			<div class="row header-row">
+				<header class="col-sm-9 col-xs-12">
+					<h1 class="text-primary">The legendary quest</h1>
+					<p class="subtitle">A tool to plan the road to your legendary</p>
+				</header>
+				<div class="col-sm-3 col-xs-12">
+					<p class="running-requests" ng-if="numRunningRequests > 0">Running requests: {{ numRunningRequests }}</p>
+				</div>
+			</div>
+			
+			<div class="row input-row">
+				<div class="col-xs-12">
+					<form>
+						<fieldset>
+							<legend>Select your legendary and bank access</legend>
+
+							<!-- LEGENDARY SELECTOR -->
+							<div class="form-group">
+								<label for="legendary-selection">Legendary:</label>
+								<select class="form-control" id="legendary-selection"
+									ng-options="legendary.id as legendary.name for legendary in availableLegendaries"
+									ng-model="selectedLegendary"></select>
+							</div>
+							
+							<!-- BUY/SELL -->
+							<div class="form-group">
+								<label for="buy-selection">TP:</label>
+								<select class="form-control" id="buy-selection"
+									ng-model="buyImmediately"
+									convert-to-boolean>
+									<option value="true">Buy immediately</option>
+									<option value="false">Buy order</option>
+								</select>
+							</div>
+							
+							<!-- BANK/MATERIAL ACCESS -->
+							<div class="form-group">
+								<label for="api-key">API key:</label>
+								<input class="form-control" id="api-key" type="text" ng-model="apiKeyTemp">
+								<span class="help-block" ng-if="apiKey">currently used key: {{ apiKey }}</span>
+								<button class="btn btn-default" role="button" ng-click="apiKey = apiKeyTemp">Load bank contents</button>
+							</div>
+
+						</fieldset>
+					</form>
+				</div>
+			</div>
+			
+			<div class="row results-row">
+				<div class="col-xs-12">
+					<form ng-if="!!costTree">
+						<legend>Costs</legend>
+						<!-- FULL COSTS -->
+						<div class="full-costs">
+							<costs item-tree="costTree"></costs>
+						</div>
+					</form>
+				</div>
+			</div>
+						
+			<div class="row results-row">
+				<div class="col-xs-12">
+					<form ng-if="!!costTree">
+						<legend>Crafting tree</legend>
+						<!-- MAIN ITEM TABLE -->
+						<div class="results">
+							<item-table
+								buy-immediately="buyImmediately"
+								item-tree="costTree"></item-table>
+						</div>
+					</form>
+				</div>
+			</div>
+			
+			<footer>
+				<p>
+					<a href="http://www.guildwars.com/">Guild Wars</a>,
+					<a href="http://www.guildwars2.com/">Guild Wars 2</a>,
+					<a href="https://heartofthorns.guildwars2.com/">Guild Wars 2: Heart of Thorns</a>,
+					<a href="https://www.arena.net/">ArenaNet</a>,
+					<a href="http://us.ncsoft.com/">NCSOFT</a>,
+					the Interlocking NC Logo, and all associated logos and designs are trademarks or registered trademarks of NCSOFT Corporation.
+					All other trademarks are the property of their respective owners</p>
+			</footer>
+		</section>
+	</body>
+</html>
