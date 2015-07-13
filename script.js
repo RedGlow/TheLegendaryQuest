@@ -520,7 +520,7 @@ angular.module('legendarySearch', [
 		$scope.buyImmediately = true;
 		
 		// bank management
-		$scope.apiKeyTemp = "3FA6BCE3-7251-2B44-ABF6-DDE86089918256C9C214-59B2-456E-ADF4-78EB81B2E6D7";
+		$scope.apiKeyTemp = "";
 		$scope.$watch('apiKey', function() {
 			if(!$scope.apiKey) { return; }
 			BankService.getFullBankContent($scope.apiKey).then(function(bankContent) {
