@@ -135,6 +135,31 @@ h1 {
 	padding-right: 20px;
 }
 
+.currency.symbol_of_koda {
+    background-image: url('http://wiki.guildwars2.com/images/thumb/a/a7/Symbol_of_Koda.png/20px-Symbol_of_Koda.png');
+	padding-right: 20px;
+}
+
+.currency.flame_legion_charr_carving {
+    background-image: url('http://wiki.guildwars2.com/images/thumb/e/ec/Flame_Legion_Charr_Carving.png/20px-Flame_Legion_Charr_Carving.png');
+	padding-right: 20px;
+}
+
+.currency.manifesto_of_the_moletariate {
+    background-image: url('http://wiki.guildwars2.com/images/thumb/9/91/Manifesto_of_the_Moletariate.png/20px-Manifesto_of_the_Moletariate.png');
+	padding-right: 20px;
+}
+
+.currency.knowledge_crystal {
+    background-image: url('http://wiki.guildwars2.com/images/thumb/5/55/Knowledge_Crystal.png/20px-Knowledge_Crystal.png');
+	padding-right: 20px;
+}
+
+.currency.seal_of_beetletun {
+    background-image: url('http://wiki.guildwars2.com/images/thumb/d/d2/Seal_of_Beetletun.png/20px-Seal_of_Beetletun.png');
+	padding-right: 20px;
+}
+
 #costs .items li{
 	list-style: none;
 	display: inline-block;
