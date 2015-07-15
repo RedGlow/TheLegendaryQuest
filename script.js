@@ -3,6 +3,10 @@ angular.module('legendarySearch', [
 	'supplyCrateApp.price-directive'
 ])
 
+.config(['GW2APIProvider', function(GW2APIProvider) {
+	GW2APIProvider.language = 'en'; // force english language
+}])
+
 .service('CostComputer', function() {
 	return {
 		costs: {

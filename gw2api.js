@@ -16,6 +16,8 @@ angular.module('supplyCrateApp.gw2api', [
     provider.listingsEntrySecondsDuration = 60;
     // timeout delay
     provider.timeoutDelay = 250;
+	// default language (null => no language sent; value => language value sent)
+	provider.language = null;
 
 
     this.$get = function($q, $http, $log, $timeout, Now) {
@@ -92,6 +94,10 @@ angular.module('supplyCrateApp.gw2api', [
             // launch http get
             var ids = queueIds.join(",");
             var url = request.endpoint + "?ids=" + ids;
+			if(!!provider.language) {
+				url += '&lang=';
+				url += provider.language;
+			}
             $http
                 .get(url)
                 .then(function(response) {
