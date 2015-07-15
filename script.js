@@ -7,6 +7,26 @@ angular.module('legendarySearch', [
 	GW2APIProvider.language = 'en'; // force english language
 }])
 
+.service('RunningRequests', [
+	        "$q", "GW2API",
+	function($q,   GW2API) {
+		var extra = 0;
+		return {
+			get: function() {
+				return GW2API.getNumRunningRequests() + extra;
+			},
+			startRequest: function() {
+				extra++;
+			},
+			endRequest: function() {
+				extra--;
+			},
+			finallyEndRequest: function(reason) {
+				extra--;
+			}
+		};
+}])
+
 .service('CostComputer', function() {
 	return {
 		costs: {
@@ -521,27 +541,83 @@ angular.module('legendarySearch', [
 ])
 
 .service('BankService', [
-	        "$q", "$http",
-	function($q,   $http) {
+	        "$q", "$http", "RunningRequests",
+	function($q,   $http,   RunningRequests) {
 		return {
 			getFullBankContent: function(apiKey) {
-				var bankContent = $http.get("https://api.guildwars2.com/v2/account/bank?access_token=" + apiKey);
-				var materialContent = $http.get("https://api.guildwars2.com/v2/account/materials?access_token=" + apiKey);
-				return $q.all([bankContent, materialContent])
-					.then(function(responses) {
-						var idToAmount = {};
-						jQuery.each(responses, function(j, response) {
-							var data = response.data;
-							jQuery.each(data, function(i, entry) {
-								if(entry === null) { return; }
-								if(!idToAmount[entry.id]) {
-									idToAmount[entry.id] = 0;
-								}
-								idToAmount[entry.id] += entry.count;
-							});
-						});
-						return idToAmount;
+				var idToAmount = {};
+				function addResults(response) {
+					var data = !!response.data ? response.data : response;
+					jQuery.each(data, function(i, entry) {
+						if(entry === null) { return; }
+						if(!idToAmount[entry.id]) {
+							console.debug("Adding new key:", entry.id);
+							idToAmount[entry.id] = 0;
+						}
+						idToAmount[entry.id] += entry.count;
 					});
+				}
+				var errors = {
+					"inventories": false,
+					"characters": false
+				};
+				// check capabilities of the token
+				RunningRequests.startRequest();
+				return $http
+					.get("https://api.guildwars2.com/v2/tokeninfo?access_token=" + apiKey)
+					.then(function(response) {
+						RunningRequests.endRequest();
+						var tokenInfo = response.data;
+						var promises = [];
+						// add inventories
+						if(jQuery.inArray("inventories", tokenInfo.permissions) != -1) {
+							RunningRequests.startRequest();
+							var bankContent = $http
+								.get("https://api.guildwars2.com/v2/account/bank?access_token=" + apiKey)
+								.then(addResults)["finally"](RunningRequests.finallyEndRequest);
+								RunningRequests.startRequest();
+							var materialContent = $http
+								.get("https://api.guildwars2.com/v2/account/materials?access_token=" + apiKey)
+								.then(addResults)["finally"](RunningRequests.finallyEndRequest);
+							promises.push(bankContent);
+							promises.push(materialContent);
+						} else {
+							errors["inventories"] = true;
+						}
+						// add characters inventory
+						if(jQuery.inArray("characters", tokenInfo.permissions) != -1 &&
+							jQuery.inArray("inventories", tokenInfo.permissions) != -1) {
+							RunningRequests.startRequest();
+							var charactersBagsPromise = $http
+								.get("https://api.guildwars2.com/v2/characters?access_token=" + apiKey)["finally"](RunningRequests.finallyEndRequest)
+								.then(function(response) {
+									var characters = response.data;
+									return $q.all(jQuery.map(characters, function(character) {
+										RunningRequests.startRequest();
+										return $http
+											.get("https://api.guildwars2.com/v2/characters/" + character + "/inventory?access_token=" + apiKey)["finally"](RunningRequests.finallyEndRequest);
+									}));
+								}, RunningRequests.failEndRequest).then(function(characterContents) {
+									jQuery.each(characterContents, function(i, response) {
+										var characterContent = response.data;
+										jQuery.each(characterContent.bags, function(j, characterBag) {
+											addResults(characterBag.inventory);
+										});
+									});
+								});
+							promises.push(charactersBagsPromise);
+						} else {
+							errors["characters"] = true;
+						}
+						return $q.all(promises);
+					})["finally"](RunningRequests.finallyEndRequest)
+					.then(function() {
+						return {
+							items: idToAmount,
+							errors: errors
+						};
+					});
+					;
 			}
 		};
 	}
@@ -796,8 +872,8 @@ angular.module('legendarySearch', [
 ])
 
 .controller('ls.Map', [
-	        "$scope", "$q", "GW2API", "CostComputer", "BankService", "FullRecipeComputer",
-	function($scope,   $q,   GW2API,   CostComputer,   BankService,   FullRecipeComputer) {
+	        "$scope", "$q", "GW2API", "CostComputer", "BankService", "FullRecipeComputer", "RunningRequests",
+	function($scope,   $q,   GW2API,   CostComputer,   BankService,   FullRecipeComputer,   RunningRequests) {
 		// initialize legendary list
 		var availableLegendariesIds = CostComputer.legendaryIds;
 		$q.all(jQuery.map(availableLegendariesIds, function(legendaryId) {
@@ -819,8 +895,16 @@ angular.module('legendarySearch', [
 		$scope.apiKeyTemp = "";
 		$scope.$watch('apiKey', function() {
 			if(!$scope.apiKey) { return; }
-			BankService.getFullBankContent($scope.apiKey).then(function(bankContent) {
-				$scope.bankContent = bankContent;
+			BankService.getFullBankContent($scope.apiKey).then(function(data) {
+				$scope.bankContent = data.items;
+				$scope.bankContentErrors = data.errors;
+				console.debug("$scope.bankContent =", $scope.bankContent);
+				console.debug("$scope.bankContentErrors =", $scope.bankContentErrors);
+			}, function(response) {
+				$scope.bankContent = {};
+				$scope.bankContentErrors = {
+					accessError: response.data.text
+				};
 			})
 		});
 		
@@ -843,7 +927,7 @@ angular.module('legendarySearch', [
 		
 		// num running requests
 		$scope.$watch(function() {
-			return GW2API.getNumRunningRequests();
+			return RunningRequests.get();
 		}, function(newValue) {
 			$scope.numRunningRequests = newValue;
 		});

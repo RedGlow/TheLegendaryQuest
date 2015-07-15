@@ -132,9 +132,14 @@
 							<div class="form-group">
 								<label for="api-key">API key:</label>
 								<input class="form-control" id="api-key" type="text" ng-model="apiKeyTemp">
-								<span class="help-block" ng-if="apiKey">currently used key: {{ apiKey }}</span>
+								<p class="help-block" ng-if="apiKey">
+									<span>currently used key: {{ apiKey }}</span>
+									<span class="text-danger" ng-if="!!bankContentErrors && !!bankContentErrors.accessError"><br>access error to inventory/characters with given key: {{ bankContentErrors.accessError }}</span>
+									<span class="text-danger" ng-if="!!bankContentErrors && bankContentErrors.inventories"><br>given key has no 'inventories' scope (no data can be loaded)</span>
+									<span class="text-warning" ng-if="!!bankContentErrors && !bankContentErrors.inventories && bankContentErrors.characters"><br>given key has no 'characters' scope (character inventories cannot be loaded)</span>
+								</p>
 								<button class="btn btn-default" role="button" ng-click="apiKey = apiKeyTemp">Load bank contents</button>
-							</div>
+								</div>
 
 						</fieldset>
 					</form>
