@@ -4,6 +4,22 @@ module.exports = function(grunt) {
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
+		customizeBootstrap: {
+			build: {
+				options: {
+					bootstrapPath: 'node_modules/bootstrap',
+					local: 'manifest.less',
+					dest: 'build'
+				}
+			}
+		},
+		less: {
+			build: {
+				files: {
+					'build/bootstrap.css': 'build/bootstrap.less'
+				}
+			}
+		},
 		uglify: {
 			options: {
 				banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
@@ -27,21 +43,10 @@ module.exports = function(grunt) {
 			dist: {
 				files: {
 					'app.min.css': [
-						'bootstrap/css/bootstrap.css',
-						'bootstrap/css/bootstrap.theme.css',
+						'build/bootstrap.css',
 						'style.css',
 					]
 				}
-			}
-		},
-		replace: {
-			dist: {
-				src: 'app.min.css',
-				dest: 'app.min.css',
-				replacements: [{
-					from: '../fonts/',
-					to: 'fonts/'
-				}]
 			}
 		},
 		processhtml: {
@@ -52,11 +57,21 @@ module.exports = function(grunt) {
 			}
 		},
 		copy: {
+			fonts: {
+				files: [
+					{
+						expand: true,
+						cwd: 'node_modules/bootstrap/fonts',
+						src: ['*'],
+						dest: 'build/fonts'
+					}
+				]
+			},
 			dist: {
 				files: [
 					{
 						expand: true,
-						cwd: 'bootstrap/fonts',
+						cwd: 'node_modules/bootstrap/fonts',
 						src: ['*'],
 						dest: 'fonts'
 					}
@@ -65,15 +80,18 @@ module.exports = function(grunt) {
 		}
 	});
 
-	// Load the plugin that provides the "uglify" task.
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-
 	// Default task(s).
+	grunt.registerTask('develop', [
+		'customizeBootstrap',
+		'copy:fonts',
+		'less'
+	]);
+	
 	grunt.registerTask('default', [
+		'develop',
 		'uglify',
 		'cssmin',
-		'replace',
-		'copy',
+		'copy:dist',
 		'processhtml'
 	]);
 
