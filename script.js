@@ -319,10 +319,10 @@ angular.module('legendarySearch', [
 				{type: 'currency', id: 'badge_of_honor', amount: 500}
 			],
 			19675: [ // mystic clover
-				{ type: 'item', id: 19925},
-				{ type: 'item', id: 19976},
-				{ type: 'item', id: 19721},
-				{ type: 'item', id: 20796, amount: 2},
+				{ type: 'item', id: 19925, amount: 3.3},
+				{ type: 'item', id: 19976, amount: 3.3},
+				{ type: 'item', id: 19721, amount: 3.3},
+				{ type: 'item', id: 20796, amount: 6.6},
 			],
 			19925: [ // obsidian shard
 				{type: 'currency', id: 'karma', amount: 2100}
