@@ -28,7 +28,7 @@ module.exports = function(grunt) {
 			dist: {
 				files: {
 					'app.min.js': [
-						'jquery-2.1.4.min.js',
+						'node_modules/jquery/dist/jquery.min.js',
 						'angular.min.js',
 						'gw2api.js',
 						'price-directive.js',
