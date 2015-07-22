@@ -33,8 +33,7 @@ module.exports = function(grunt) {
 						'gw2api.js',
 						'price-directive.js',
 						'now.js',
-						'script.js',
-						'bootstrap/js/bootstrap.js'
+						'script.js'
 					]
 				}
 			}
