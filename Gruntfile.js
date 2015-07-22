@@ -29,7 +29,7 @@ module.exports = function(grunt) {
 				files: {
 					'app.min.js': [
 						'node_modules/jquery/dist/jquery.min.js',
-						'angular.min.js',
+						'node_modules/angular/angular.min.js',
 						'gw2api.js',
 						'price-directive.js',
 						'now.js',

@@ -2,6 +2,7 @@
   "name": "the-legendary-quest",
   "version": "0.1.0",
   "devDependencies": {
+    "angular": "^1.4.3",
     "bootstrap": "^3.3.5",
     "grunt": "^0.4.5",
     "grunt-cli": "^0.1.13",
