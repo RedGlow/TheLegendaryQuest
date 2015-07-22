@@ -120,7 +120,7 @@ angular.module('legendarySearch', [
 				{type: 'item', id: 19685, amount: 250},
 				{type: 'item', id: 24310, amount: 100}
 			],
-			19637: [
+			19637: [ // gift of weather
 				{type: 'item', id: 19671, amount: 1},
 				{type: 'item', id: 19685, amount: 250},
 				{type: 'item', id: 19732, amount: 250},
