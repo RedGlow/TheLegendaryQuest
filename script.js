@@ -29,30 +29,92 @@ angular.module('legendarySearch', [
 
 .service('CostComputer', function() {
 	return {
+		recipeItemIds: {
+			19621: 9615,
+			19622: 9617,
+			19623: 9618,
+			19624: 9616,
+			19627: 9621,
+			19628: 9622,
+			19629: 9623,
+			19630: 9624,
+			19631: 9625,
+			19632: 9626,
+			19633: 9627,
+			19634: 9631,
+			19635: 9628,
+			19636: 9629,
+			19637: 9630,
+			19638: 9632,
+			19639: 9633,
+			19640: 9634,
+			19641: 9635,
+			19642: 9636,
+			19643: 9637
+		},
 		costs: {
-			19621: [ // gift of metal
-				{type: 'item', id: 19686, amount: 250},
-				{type: 'item', id: 19681, amount: 250},
-				{type: 'item', id: 19684, amount: 250},
-				{type: 'item', id: 19685, amount: 250},
+			9615: [ // recipe: gift of metal
+				{type: 'currency', id: 'copper', amount: 100000}
 			],
-			19622: [ // gift of wood
-				{type: 'item', id: 19714, amount: 250},
-				{type: 'item', id: 19711, amount: 250},
-				{type: 'item', id: 19709, amount: 250},
-				{type: 'item', id: 19712, amount: 250},
+			9616: [ // recipe: gift of ice
+				{type: 'currency', id: 'copper', amount: 100000}
 			],
-			19623: [ // gift of energy
-				{type: 'item', id: 24274, amount: 250},
-				{type: 'item', id: 24275, amount: 250},
-				{type: 'item', id: 24276, amount: 250},
-				{type: 'item', id: 24277, amount: 250},
+			9617: [ // recipe: gift of wood
+				{type: 'currency', id: 'copper', amount: 100000}
 			],
-			19624: [ // gift of ice
-				{type: 'item', id: 19670, amount: 1},
-				{type: 'item', id: 19685, amount: 250},
-				{type: 'item', id: 24320, amount: 100},
-				{type: 'item', id: 24340, amount: 100}
+			9618: [ // recipe: gift of energy
+				{type: 'currency', id: 'copper', amount: 100000}
+			],
+			9621: [ // recipe: gift of nature
+				{type: 'currency', id: 'copper', amount: 100000}
+			],
+			9622: [ // recipe: unicorn statue
+				{type: 'currency', id: 'copper', amount: 100000}
+			],
+			9623: [ // recipe: gift of history
+				{type: 'currency', id: 'copper', amount: 100000}
+			],
+			9624: [ // recipe: gift of music
+				{type: 'currency', id: 'copper', amount: 100000}
+			],
+			9625: [ // recipe: gift of darkness
+				{type: 'currency', id: 'copper', amount: 100000}
+			],
+			9626: [ // recipe: gift of light
+				{type: 'currency', id: 'copper', amount: 100000}
+			],
+			9627: [ // recipe: vial of quicksilver
+				{type: 'currency', id: 'copper', amount: 100000}
+			],
+			9628: [ // recipe: gift of entertainment
+				{type: 'currency', id: 'copper', amount: 100000}
+			],
+			9629: [ // recipe: gift of stealth
+				{type: 'currency', id: 'copper', amount: 100000}
+			],
+			9630: [ // recipe: gift of weather
+				{type: 'currency', id: 'copper', amount: 100000}
+			],
+			9631: [ // recipe: liquid flame
+				{type: 'currency', id: 'copper', amount: 100000}
+			],
+			9632: [ // recipe: gift of color
+				{type: 'currency', id: 'copper', amount: 100000}
+			],
+			9633: [ // recipe: gift of lightning
+				{type: 'currency', id: 'copper', amount: 100000}
+			],
+			9634: [ // recipe: wolf statue
+				{type: 'currency', id: 'copper', amount: 100000}
+			],
+			9635: [ // recipe: shark statue
+				{type: 'currency', id: 'copper', amount: 100000}
+			],
+			9636: [ // recipe: eel statue
+				{type: 'currency', id: 'copper', amount: 100000}
+			],
+			9637: [ // recipe: gift of water
+				{type: 'currency', id: 'copper', amount: 100000}
 			],
 			19625: [ // gift of frostfang
 				{type: 'item', id: 19621, amount: 1},
@@ -66,101 +128,11 @@ angular.module('legendarySearch', [
 				{ type: 'item', id: 19673 },
 				{ type: 'item', id: 19672 }
 			],
-			19627: [ // gift of nature
-				{type: 'item', id: 19667, amount: 1},
-				{type: 'item', id: 12128, amount: 250},
-				{type: 'item', id: 19712, amount: 250},
-				{type: 'item', id: 19737, amount: 250}
-			],
-			19628: [ // unicorn statue
-				{type: 'item', id: 19667, amount: 1},
-				{type: 'item', id: 19685, amount: 250},
-				{type: 'item', id: 24512, amount: 100},
-				{type: 'item', id: 24522, amount: 100}
-			],
-			19629: [ // gift of history
-				{type: 'item', id: 19664, amount: 1},
-				{type: 'item', id: 19737, amount: 250},
-				{type: 'item', id: 24277, amount: 250},
-				{type: 'item', id: 24310, amount: 100}
-			],
-			19630: [ // gift of music
-				{type: 'item', id: 19665, amount: 1},
-				{type: 'item', id: 19685, amount: 250},
-				{type: 'item', id: 19746, amount: 250},
-				{type: 'item', id: 24522, amount: 100}
-			],
-			19631: [ // gift of darkness
-				{type: 'item', id: 19664, amount: 1},
-				{type: 'item', id: 19685, amount: 250},
-				{type: 'item', id: 19737, amount: 250},
-				{type: 'item', id: 24310, amount: 100}
-			],
-			19633: [ // vial of quicksilver
-				{type: 'item', id: 19666, amount: 1},
-				{type: 'item', id: 19688, amount: 250},
-				{type: 'item', id: 24315, amount: 150},
-				{type: 'item', id: 24502, amount: 250}
-			],
-			19634: [ // vial of liquid flame
-				{type: 'item', id: 19668, amount: 1},
-				{type: 'item', id: 12544, amount: 250},
-				{type: 'item', id: 24315, amount: 100},
-				{type: 'item', id: 24325, amount: 100}
-			],
-			19635: [ // gift of entertainment
-				{type: 'item', id: 19665, amount: 1},
-				{type: 'item', id: 19685, amount: 250},
-				{type: 'item', id: 19746, amount: 250},
-				{type: 'item', id: 20000, amount: 5}
-			],
-			19636: [ // gift of stealth
-				{type: 'item', id: 19671, amount: 1},
-				{type: 'item', id: 12545, amount: 250},
-				{type: 'item', id: 19685, amount: 250},
-				{type: 'item', id: 24310, amount: 100}
-			],
-			19637: [ // gift of weather
-				{type: 'item', id: 19671, amount: 1},
-				{type: 'item', id: 19685, amount: 250},
-				{type: 'item', id: 19732, amount: 250},
-				{type: 'item', id: 24305, amount: 100}
-			],
-			19638: [ // gift of color
-				{type: 'item', id: 19669, amount: 1},
-				{type: 'item', id: 20323, amount: 100},
-				{type: 'item', id: 24277, amount: 250},
-				{type: 'item', id: 24522, amount: 100}
-			],
-			19639: [ // gift of lightning
-				{type: 'item', id: 19664, amount: 1},
-				{type: 'item', id: 19685, amount: 250},
-				{type: 'item', id: 19746, amount: 250},
-				{type: 'item', id: 24305, amount: 100}
-			],
-			19641: [ // shark statue
-				{type: 'item', id: 19669, amount: 1},
-				{type: 'item', id: 19685, amount: 250},
-				{type: 'item', id: 24289, amount: 250},
-				{type: 'item', id: 24295, amount: 250}
-			],
-			19642: [ // eel statue
-				{type: 'item', id: 19666, amount: 1},
-				{type: 'item', id: 19685, amount: 250},
-				{type: 'item', id: 19737, amount: 250},
-				{type: 'item', id: 24289, amount: 250}
-			],
-			19643: [ // gift of water
-				{type: 'item', id: 19670, amount: 1},
-				{type: 'item', id: 19685, amount: 250},
-				{type: 'item', id: 24315, amount: 100},
-				{type: 'item', id: 24320, amount: 100}
-			],
 			19644: [ // gift of kudzu
 				{type: 'item', id: 19622, amount: 1},
 				{type: 'item', id: 19627, amount: 1},
 				{type: 'item', id: 19676, amount: 100},
-				{type: 'item', id: 24865, amount: 1},
+				{type: 'item', id: 24865, amount: 1}
 			],
 			19645: [ // gift of incinerator
 				{type: 'item', id: 19621, amount: 1},
@@ -270,7 +242,7 @@ angular.module('legendarySearch', [
 				{ type: 'item', id: 19676, amount: 100},
 				{ type: 'item', id: 24618}
 			],
-			19664: [ // gift of (light?)
+			19664: [ // gift of Ascalon
 				{type: 'currency', id: 'ascalonian_tear', amount: 500}
 			],
 			19665: [ // gift of the nobleman
@@ -505,6 +477,61 @@ angular.module('legendarySearch', [
 	}
 ])
 
+.service("RecipeSynthetizer", [
+	        "$q", "GW2API",
+	function($q,   GW2API) {
+		var brokenItems = {
+			9616: "Gift of Ice",
+			9622: "Unicorn Statue",
+			9623: "Gift of History",
+			9624: "Gift of Music",
+			9630: "Gift of Weather",
+			9632: "Gift of Color",
+			9634: "Wolf Statue",
+			9635: "Shark Statue",
+		};
+		var baseRecipe = {
+			"name": "Recipe: ",
+			"description": "XXX",
+			"type": "Consumable",
+			"level": 0,
+			"rarity": "Legendary",
+			"vendor_value": 12500,
+			"game_types": [
+				"Dungeon",
+				"Pve",
+				"Wvw"
+			],
+			"flags": [
+				"AccountBound",
+				"NoSalvage",
+				"AccountBindOnUse"
+			],
+			"restrictions": [
+			],
+			"id": 9636,
+			"icon": "https://render.guildwars2.com/file/3D423F6758A5265FF1195303529B32E239C6B0BF/849385.png",
+			"details": {
+				"type": "Unlock",
+				"unlock_type": "CraftingRecipe",
+				"recipe_id": 1715
+			}
+		};
+		return {
+			getItem: function(itemId) {
+				var brokenItem = brokenItems[itemId];
+				if(!!brokenItem) {
+					var newItem = jQuery.extend(true, {}, baseRecipe);
+					newItem.name = newItem.name + brokenItem;
+					return $q.when(newItem);
+				} else {
+					return GW2API.getItem(itemId);
+				}
+			}
+		};
+	}
+])
+
 .service('RecipeComputer', [
 	        "$q", "GW2API", "GW2APIFinder", "CostComputer",
 	function($q,   GW2API,   GW2APIFinder,   CostComputer) {
@@ -518,13 +545,26 @@ angular.module('legendarySearch', [
 						.getRecipeFromOutput(itemId)
 						.then(function(recipeIds) {
 							if(recipeIds.length == 0) {
-								return $q.reject("No recipe found");
+								return $q.reject("No recipe found for itemId = " + itemId);
 							}
 							var recipeId = recipeIds[0];
 							return GW2API.getRecipe(recipeId);
 						})
 						.then(function(recipe) {
-							return jQuery.map(recipe.ingredients, function(entry) {
+							var ingredients = recipe.ingredients;
+							if(jQuery.inArray("LearnedFromItem", recipe.flags || []) != -1) {
+								var recipeItemId = CostComputer.recipeItemIds[recipe.output_item_id];
+								if(!recipeItemId) {
+									return $q.reject("No recipe item id registered for output item id = " + recipe.output_item_id);
+								} else {
+									ingredients = ingredients.slice(0);
+									ingredients.push({
+										item_id: recipeItemId,
+										count: 1
+									});
+								}
+							}
+							return jQuery.map(ingredients, function(entry) {
 								return {
 									type: 'item',
 									id: entry.item_id,
@@ -753,10 +793,10 @@ angular.module('legendarySearch', [
 			amount: '=',
 			buyImmediately: '='
 		},
-		controller: function($scope, GW2API) {
+		controller: function($scope, RecipeSynthetizer) {
 			$scope.$watch('itemId', function() {
 				if(!$scope.itemId) { return; }
-				GW2API.getItem(parseInt($scope.itemId)).then(function(item) {
+				RecipeSynthetizer.getItem(parseInt($scope.itemId)).then(function(item) {
 					$scope.item = item;
 				});
 			});
