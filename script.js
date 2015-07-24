@@ -900,7 +900,7 @@ angular.module('legendarySearch', [
 						totalCost;
 					fill($scope.itemTree, 1, itemCosts, currencyCosts, copperCosts);
 					totalCost = splitItems(itemCosts, unbuyableItemCosts, buyableItemCosts, copperCosts);
-					$scope.totalCost = totalCost;
+					$scope.totalCost = Math.round(totalCost);
 					$scope.buyableItemCosts = jQuery.isEmptyObject(buyableItemCosts) ? null : buyableItemCosts;
 					$scope.unbuyableItemCosts = jQuery.isEmptyObject(unbuyableItemCosts) ? null : unbuyableItemCosts;
 					$scope.currencyCosts = jQuery.isEmptyObject(currencyCosts) ? null : currencyCosts;
