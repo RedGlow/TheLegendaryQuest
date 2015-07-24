@@ -934,6 +934,7 @@ angular.module('legendarySearch', [
 		// bank management
 		$scope.apiKeyTemp = "";
 		$scope.$watch('apiKey', function() {
+			$scope.bankContentErrors = null;
 			if(!$scope.apiKey) { return; }
 			BankService.getFullBankContent($scope.apiKey).then(function(data) {
 				$scope.bankContent = data.items;
