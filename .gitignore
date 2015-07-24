@@ -48,8 +48,4 @@ Temporary Items
 
 node_modules
 build
-fonts
-index.html
 mongoose*.exe
-app.min.css
-app.min.js
