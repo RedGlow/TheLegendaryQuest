@@ -640,7 +640,9 @@ angular.module('legendarySearch', [
 									jQuery.each(characterContents, function(i, response) {
 										var characterContent = response.data;
 										jQuery.each(characterContent.bags, function(j, characterBag) {
-											addResults(characterBag.inventory);
+											if(!!characterBag) {
+												addResults(characterBag.inventory);
+											}
 										});
 									});
 								});
