@@ -477,7 +477,7 @@ angular.module('legendarySearch', [
 	}
 ])
 
-.service("RecipeSynthetizer", [
+.service("RecipeSynthesizer", [
 	        "$q", "GW2API",
 	function($q,   GW2API) {
 		var brokenItems = {
@@ -492,7 +492,7 @@ angular.module('legendarySearch', [
 		};
 		var baseRecipe = {
 			"name": "Recipe: ",
-			"description": "XXX",
+			"description": "Synthesized recipe",
 			"type": "Consumable",
 			"level": 0,
 			"rarity": "Legendary",
@@ -591,7 +591,6 @@ angular.module('legendarySearch', [
 					jQuery.each(data, function(i, entry) {
 						if(entry === null) { return; }
 						if(!idToAmount[entry.id]) {
-							console.debug("Adding new key:", entry.id);
 							idToAmount[entry.id] = 0;
 						}
 						idToAmount[entry.id] += entry.count;
@@ -667,6 +666,9 @@ angular.module('legendarySearch', [
 	        "$q", "GW2API", "RecipeComputer",
 	function($q,   GW2API,   RecipeComputer) {
 		return {
+			// ownedAmount: the amount of this item in the bank we could use for this node
+			// unitaryRecipeAmount: the amount needed to produce one of these items using the recipe
+			// remainingNeededAmount: the amount still needed to complete the amount needed for this node
 			getRecipeTree: function(rootItemId, bankContent, buyImmediately) {
 				// default dict operations: increment amount, get a value
 				function add(dict, key, value) {
@@ -684,15 +686,17 @@ angular.module('legendarySearch', [
 				
 				// local bankContent copy
 				bankContent = jQuery.extend({}, bankContent);
-				function getRecipe(itemId, amount) {
+				function getRecipe(itemId, unitaryRecipeAmount, remainingNeededAmount) {
 					// check what we can get from the bank
-					var ownedAmount = Math.min(amount, get(bankContent, itemId));
+					var ownedAmount = Math.min(remainingNeededAmount, get(bankContent, itemId));
 					bankContent[itemId] -= ownedAmount;
-					if(ownedAmount == amount) {
+					remainingNeededAmount -= ownedAmount;
+					if(remainingNeededAmount == 0) {
 						// we already own enough
 						return $q.when({
 							itemId: itemId,
-							amount: amount,
+							unitaryRecipeAmount: unitaryRecipeAmount,
+							remainingNeededAmount: remainingNeededAmount,
 							ownedAmount: ownedAmount,
 							cost: null,
 							ingredients: []
@@ -722,16 +726,17 @@ angular.module('legendarySearch', [
 						// analyze the recipe
 						var ingredientsPromises;
 						if(recipeResult !== null) {
-							//recipeResult = []; // DEBUG
 							ingredientsPromises = $q.all(jQuery.map(recipeResult, function(ingredient) {
 								var iid = ingredient.id,
-									iamount = ingredient.amount || 1;
+									iamount = ingredient.amount || 1,
+									iRemainingNeededAmount = iamount * remainingNeededAmount;
 								if(ingredient.type === 'item') {
-									return getRecipe(parseInt(iid), iamount);
+									return getRecipe(parseInt(iid), iamount, iRemainingNeededAmount);
 								} else {
 									return $q.when({
 										currencyId: ingredient.id,
-										amount: iamount,
+										unitaryRecipeAmount: iamount,
+										remainingNeededAmount: iRemainingNeededAmount,
 										ownedAmount: 0, // TODO: wait for wallet api
 										cost: null,
 										ingredients: []
@@ -757,28 +762,24 @@ angular.module('legendarySearch', [
 								ingredientsCost += ingredient.cost;
 							});
 						}
+						var returnValue = {
+							itemId: itemId,
+							unitaryRecipeAmount: unitaryRecipeAmount,
+							remainingNeededAmount: remainingNeededAmount,
+							ownedAmount: ownedAmount,
+							cost: costResult
+						};
 						if(ingredientsResults === null || (ingredientsCost !== null && costResult !== null && ingredientsCost > costResult)) {
 							// not worth it: let's skip ingredients
-							return {
-								itemId: itemId,
-								amount: amount,
-								ownedAmount: ownedAmount,
-								cost: costResult,
-								ingredients: []
-							};
+							returnValue.ingredients = [];
 						} else {
 							// worth it: keep them
-							return {
-								itemId: itemId,
-								amount: amount,
-								ownedAmount: ownedAmount,
-								cost: costResult,
-								ingredients: ingredientsResults
-							};
+							returnValue.ingredients = ingredientsResults;
 						}
+						return returnValue;
 					});
 				}
-				return getRecipe(rootItemId, 1);
+				return getRecipe(rootItemId, 1, 1);
 			}
 		};
 	}
@@ -793,10 +794,10 @@ angular.module('legendarySearch', [
 			amount: '=',
 			buyImmediately: '='
 		},
-		controller: function($scope, RecipeSynthetizer) {
+		controller: function($scope, RecipeSynthesizer) {
 			$scope.$watch('itemId', function() {
 				if(!$scope.itemId) { return; }
-				RecipeSynthetizer.getItem(parseInt($scope.itemId)).then(function(item) {
+				RecipeSynthesizer.getItem(parseInt($scope.itemId)).then(function(item) {
 					$scope.item = item;
 				});
 			});
@@ -859,11 +860,12 @@ angular.module('legendarySearch', [
 					}
 					dict[key] += amount;
 				}
-				function fill(itemTree, amountMultiplier, itemCosts, currencyCosts, copperCosts) {
+				function fill(itemTree, itemCosts, currencyCosts, copperCosts) {
 					if(itemTree.cost !== null & !!itemTree.itemId) {
+						// cache the copper costs for later consumption
 						copperCosts[itemTree.itemId] = itemTree.cost;
 					}
-					var neededAmount = amountMultiplier * (itemTree.amount - itemTree.ownedAmount);
+					var neededAmount = itemTree.remainingNeededAmount;
 					if(neededAmount == 0) {
 						return;
 					}
@@ -875,7 +877,7 @@ angular.module('legendarySearch', [
 						}
 					} else {
 						jQuery.each(itemTree.ingredients, function(i, ingredient) {
-							fill(ingredient, neededAmount, itemCosts, currencyCosts, copperCosts);
+							fill(ingredient, itemCosts, currencyCosts, copperCosts);
 						});
 					}
 				}
@@ -886,7 +888,7 @@ angular.module('legendarySearch', [
 							buyableItemCosts[id] = itemCosts[id];
 							total += copperCosts[id] * itemCosts[id];
 						} else {
-							unbuyableItemCosts[id] = itemCosts[id]
+							unbuyableItemCosts[id] = itemCosts[id];
 						}
 					});
 					return total;
@@ -898,7 +900,7 @@ angular.module('legendarySearch', [
 						unbuyableItemCosts = {},
 						buyableItemCosts = {},
 						totalCost;
-					fill($scope.itemTree, 1, itemCosts, currencyCosts, copperCosts);
+					fill($scope.itemTree, itemCosts, currencyCosts, copperCosts);
 					totalCost = splitItems(itemCosts, unbuyableItemCosts, buyableItemCosts, copperCosts);
 					$scope.totalCost = Math.round(totalCost);
 					$scope.buyableItemCosts = jQuery.isEmptyObject(buyableItemCosts) ? null : buyableItemCosts;

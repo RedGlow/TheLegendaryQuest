@@ -39,21 +39,26 @@
 			<!-- ITEM TABLE TEMPLATE -->
 			<script type="text/ng-template" id="item-table-directive.html">
 				<div class="item-table">
-					<item item-id="itemTree.itemId" amount="itemTree.amount" owned="itemTree.ownedAmount" buy-immediately="buyImmediately"></item>
+					<item item-id="itemTree.itemId" amount="itemTree.unitaryRecipeAmount" owned="itemTree.ownedAmount" buy-immediately="buyImmediately"></item>
 					<p class="cost" ng-if="itemTree.cost !== null">Buy: <price value="itemTree.cost"></price></p>
-					<a href="#" class="expansion-arrow" ng-click="toggle($event)" ng-if="!!itemTree.ingredients && itemTree.ingredients.length > 0 && itemTree.amount > itemTree.ownedAmount">
+					<a href="#" class="expansion-arrow"
+						ng-click="toggle($event)"
+						ng-if="!!itemTree.ingredients && itemTree.ingredients.length > 0 && itemTree.remainingNeededAmount > 0">
 						<i class="glyphicon" ng-class="{'glyphicon-chevron-up': !open, 'glyphicon-chevron-down': open}"></i>
 					</a>
-					<div class="recipe" ng-class="{'hidden': !open}" ng-if="itemTree.amount > itemTree.ownedAmount">
-						<span class="recipe-element" ng-repeat="element in itemTree.ingredients">
+					<div class="recipe"
+						ng-class="{'hidden': !open}"
+						ng-if="itemTree.remainingNeededAmount > 0">
+						<span class="recipe-element"
+							ng-repeat="element in itemTree.ingredients">
 							<!-- item case -->
 							<item-table ng-if="!!element.itemId" item-tree="element" buy-immediately="buyImmediately"></item-table>
 							<!-- currency case: copper -->
 							<price ng-if="!!element.currencyId && element.currencyId == 'copper'"
-								value="element.amount"></price>
+								value="element.unitaryRecipeAmount"></price>
 							<!-- currency case: other -->
 							<span ng-if="!!element.currencyId && element.currencyId != 'copper'"
-								class="currency" ng-class="element.currencyId">{{ element.amount }}</span>
+								class="currency" ng-class="element.currencyId">{{ element.unitaryRecipeAmount }}</span>
 						</span>
 					</div>
 				</div>
