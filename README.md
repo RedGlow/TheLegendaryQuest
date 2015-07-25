@@ -39,6 +39,10 @@ In order to setup a functional development environment, the following steps are 
 
 ## Changelog
 
+### [0.2.1](https://www.reddit.com/r/Guildwars2/comments/3efvdt/the_legendary_quest_v_020/)
+
+* Fixed a bug which prevented the correct computation of materials in the character inventories if a bag slot had no bag in it.
+
 ### [0.2.0](https://www.reddit.com/r/Guildwars2/comments/3efvdt/the_legendary_quest_v_020/)
 
 * All the legendaries are included ([#7](https://github.com/RedGlow/TheLegendaryQuest/issues/7))
