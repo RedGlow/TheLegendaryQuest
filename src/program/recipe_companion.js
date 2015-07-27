@@ -441,6 +441,7 @@ angular.module('legendarySearch.recipeCompanion', [
 		9622: "Unicorn Statue",
 		9623: "Gift of History",
 		9624: "Gift of Music",
+		9628: "Gift of Entertainment",
 		9630: "Gift of Weather",
 		9632: "Gift of Color",
 		9634: "Wolf Statue",
