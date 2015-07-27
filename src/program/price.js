@@ -1,4 +1,4 @@
-angular.module('supplyCrateApp.price-directive', [
+angular.module('supplyCrateApp.price', [
 ])
 
 .directive('price', function() {

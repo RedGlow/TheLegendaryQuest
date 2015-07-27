@@ -5,7 +5,7 @@ angular.module('legendarySearch.main', [
 	'legendarySearch.recipeCompanion',
 	'legendarySearch.recursiveRecipeComputer',
 	'legendarySearch.runningRequests',
-	'supplyCrateApp.price-directive',
+	'supplyCrateApp.price',
 	'legendarySearch.item',
 	'legendarySearch.itemTable',
 	'legendarySearch.convertToBoolean',
