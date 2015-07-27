@@ -20,6 +20,11 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+		jshint: {
+			dist: {
+				src: 'src/program/*.js'
+			}
+		},
 		uglify: {
 			options: {
 				banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
@@ -94,6 +99,7 @@ module.exports = function(grunt) {
 	
 	grunt.registerTask('default', [
 		'develop',
+		'jshint',
 		'uglify',
 		'cssmin',
 		'copy:dist',

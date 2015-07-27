@@ -55,7 +55,7 @@ angular.module('legendarySearch.bank', [
 							promises.push(bankContent);
 							promises.push(materialContent);
 						} else {
-							errors["inventories"] = true;
+							errors.inventories = true;
 						}
 						// add characters inventory
 						if(jQuery.inArray("characters", tokenInfo.permissions) != -1 &&
@@ -82,7 +82,7 @@ angular.module('legendarySearch.bank', [
 								});
 							promises.push(charactersBagsPromise);
 						} else {
-							errors["characters"] = true;
+							errors.characters = true;
 						}
 						return $q.all(promises);
 					})["finally"](RunningRequests.finallyEndRequest)
@@ -91,7 +91,7 @@ angular.module('legendarySearch.bank', [
 							items: idToAmount,
 							errors: errors
 						};
-					});
+					})
 					;
 			}
 		};

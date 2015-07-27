@@ -24,10 +24,10 @@ angular.module('legendarySearch.costs', [
 						copperCosts[itemTree.itemId] = itemTree.cost;
 					}
 					var neededAmount = itemTree.remainingNeededAmount;
-					if(neededAmount == 0) {
+					if(neededAmount === 0) {
 						return;
 					}
-					if(!itemTree.ingredients || itemTree.ingredients.length == 0) {
+					if(!itemTree.ingredients || itemTree.ingredients.length === 0) {
 						if(!!itemTree.itemId) {
 							add(itemCosts, itemTree.itemId, neededAmount);
 						} else {

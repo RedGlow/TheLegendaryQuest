@@ -53,7 +53,7 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 					var ownedAmount = Math.min(remainingNeededAmount, get(bankContent, itemId));
 					bankContent[itemId] -= ownedAmount;
 					remainingNeededAmount -= ownedAmount;
-					if(remainingNeededAmount == 0) {
+					if(remainingNeededAmount === 0) {
 						// we already own enough
 						return $q.when({
 							itemId: itemId,

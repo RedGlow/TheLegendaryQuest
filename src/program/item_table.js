@@ -17,7 +17,7 @@ angular.module('legendarySearch.itemTable', [
 				scope.toggle = function($event) {
 					scope.open = !scope.open;
 					$event.preventDefault();
-				}
+				};
 				if(!!scope.itemTree) {
 					element.append(content);
 					$compile(element.contents())(scope.$new());

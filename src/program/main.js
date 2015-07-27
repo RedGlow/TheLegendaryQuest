@@ -20,7 +20,7 @@ angular.module('legendarySearch.main', [
 		$q.all(jQuery.map(availableLegendariesIds, function(legendaryId) {
 			return GW2API.getItem(legendaryId).then(function(legendary) {
 				return {name: legendary.name, id: legendary.id};
-			})
+			});
 		})).then(function(availableLegendaries) {
 			availableLegendaries.sort(function(l1, l2) {
 				return l1.name.localeCompare(l2.name);
@@ -47,7 +47,7 @@ angular.module('legendarySearch.main', [
 				$scope.bankContentErrors = {
 					accessError: response.data.text
 				};
-			})
+			});
 		});
 		
 		// load cost tree
@@ -75,3 +75,5 @@ angular.module('legendarySearch.main', [
 		});
 	}
 ])
+
+;

@@ -529,7 +529,7 @@ angular.module('legendarySearch.recipeCompanion', [
 			} else {
 				return apiGetRecipeFromOutputId(itemId)
 					.then(function(recipeIds) {
-						if(recipeIds.length == 0) {
+						if(recipeIds.length === 0) {
 							return $q.reject("No recipe found for itemId = " + itemId);
 						}
 						var recipeId = recipeIds[0];
@@ -559,7 +559,7 @@ angular.module('legendarySearch.recipeCompanion', [
 					});
 			}
 		}
-	}
+	};
 })
 
 ;

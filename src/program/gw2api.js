@@ -118,17 +118,18 @@ angular.module('supplyCrateApp.gw2api', [
 							isRejection: false
                         };
                     }
+					var queueId, queueRow;
                     for(i = 0; i < data.length; i++) {
                         item = data[i];
                         id = item.id;
-                        var queueRow = request.queued[id];
+                        queueRow = request.queued[id];
                         for(var j = 0; j < queueRow.length; j++) {
                             queueRow[j].resolve(item);
 							numRunningRequests--;
                         }
                         delete request.queued[id];
 						for(var k = 0; k < ids.length; k++) {
-							var queueId = queueIds[k];
+							queueId = queueIds[k];
 							if(queueId == id) {
 								break;
 							}
@@ -136,8 +137,8 @@ angular.module('supplyCrateApp.gw2api', [
 						queueIds.splice(k, 1);
                     }
 					for(i = 0; i < queueIds.length; i++) {
-						var queueId = queueIds[i];
-						var queueRow = request.queued[queueId];
+						queueId = queueIds[i];
+						queueRow = request.queued[queueId];
 						var returnValue = {
 							"text": "all ids provided are invalid"
 						};
@@ -146,8 +147,8 @@ angular.module('supplyCrateApp.gw2api', [
 							value: returnValue,
 							isRejection: true
 						};
-                        for(var j = 0; j < queueRow.length; j++) {
-                            queueRow[j].reject(returnValue);
+                        for(var jj = 0; jj < queueRow.length; jj++) {
+                            queueRow[jj].reject(returnValue);
 							numRunningRequests--;
                         }
                         delete request.queued[queueId];
