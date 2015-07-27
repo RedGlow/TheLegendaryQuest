@@ -2,9 +2,9 @@ angular.module('legendarySearch.main', [
 	'legendarySearch',
 	'supplyCrateApp.gw2api',
 	'legendarySearch.bank',
+	'legendarySearch.recipeCompanion',
 	'legendarySearch.fullRecipeComputer',
 	'legendarySearch.runningRequests',
-	'legendarySearch.costComputer',
 	'supplyCrateApp.price-directive',
 	'legendarySearch.item',
 	'legendarySearch.itemTable',
@@ -13,10 +13,10 @@ angular.module('legendarySearch.main', [
 ])
 
 .controller('Main', [
-	        "$scope", "$q", "GW2API", "CostComputer", "Bank", "FullRecipeComputer", "RunningRequests",
-	function($scope,   $q,   GW2API,   CostComputer,   Bank,   FullRecipeComputer,   RunningRequests) {
+	        "$scope", "$q", "GW2API", "Bank", "FullRecipeComputer", "RunningRequests", "RecipeCompanion",
+	function($scope,   $q,   GW2API,   Bank,   FullRecipeComputer,   RunningRequests,   RecipeCompanion) {
 		// initialize legendary list
-		var availableLegendariesIds = CostComputer.legendaryIds;
+		var availableLegendariesIds = RecipeCompanion.getLegendaryIds();
 		$q.all(jQuery.map(availableLegendariesIds, function(legendaryId) {
 			return GW2API.getItem(legendaryId).then(function(legendary) {
 				return {name: legendary.name, id: legendary.id};

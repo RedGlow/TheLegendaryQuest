@@ -1,5 +1,5 @@
 angular.module('legendarySearch.item', [
-	'legendarySearch.recipeSynthesizer'
+	'legendarySearch.recipeCompanion'
 ])
 
 .directive('item', function() {
@@ -11,10 +11,10 @@ angular.module('legendarySearch.item', [
 			amount: '=',
 			buyImmediately: '='
 		},
-		controller: function($scope, RecipeSynthesizer) {
+		controller: function($scope, RecipeCompanion) {
 			$scope.$watch('itemId', function() {
 				if(!$scope.itemId) { return; }
-				RecipeSynthesizer.getItem(parseInt($scope.itemId)).then(function(item) {
+				RecipeCompanion.getSynthesizedItem(parseInt($scope.itemId)).then(function(item) {
 					$scope.item = item;
 				});
 			});

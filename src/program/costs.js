@@ -1,11 +1,10 @@
 angular.module('legendarySearch.costs', [
-	'supplyCrateApp.gw2api',
-	'legendarySearch.recipeComputer'
+	'supplyCrateApp.gw2api'
 ])
 
 .directive('costs', [
-	        "$q", "GW2API", "RecipeComputer",
-	function($q,   GW2API,   RecipeComputer) {
+	        "$q", "GW2API",
+	function($q,   GW2API) {
 		return {
 			restrict: 'E',
 			scope: {

@@ -1,11 +1,11 @@
 angular.module('legendarySearch.fullRecipeComputer', [
 	'supplyCrateApp.gw2api',
-	'legendarySearch.recipeComputer'
+	'legendarySearch.recipeCompanion'
 ])
 
 .service('FullRecipeComputer', [
-	        "$q", "GW2API", "RecipeComputer",
-	function($q,   GW2API,   RecipeComputer) {
+	        "$q", "GW2API", "RecipeCompanion",
+	function($q,   GW2API,   RecipeCompanion) {
 		return {
 			// ownedAmount: the amount of this item in the bank we could use for this node
 			// unitaryRecipeAmount: the amount needed to produce one of these items using the recipe
@@ -44,8 +44,8 @@ angular.module('legendarySearch.fullRecipeComputer', [
 						});
 					}
 					// get the recipe promise for this element
-					var recipePromise = RecipeComputer
-						.getRecipe(itemId)
+					var recipePromise = RecipeCompanion
+						.getRecipeFromOutputId(itemId)
 						.then(function(result) { return result; },
 							function(error) { return null; });
 					// get the cost promise of this element
