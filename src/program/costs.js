@@ -43,8 +43,8 @@ angular.module('legendarySearch.costs', [
 					var total = 0;
 					jQuery.each(itemCosts, function(id, amount) {
 						if(copperCosts[id] !== undefined) {
-							buyableItemCosts[id] = itemCosts[id];
-							total += copperCosts[id] * itemCosts[id];
+							buyableItemCosts[id] = Math.ceil(itemCosts[id]);
+							total += copperCosts[id] * buyableItemCosts[id];
 						} else {
 							unbuyableItemCosts[id] = itemCosts[id];
 						}
