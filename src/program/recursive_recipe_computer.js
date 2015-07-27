@@ -1,15 +1,36 @@
-angular.module('legendarySearch.fullRecipeComputer', [
+angular.module('legendarySearch.recursiveRecipeComputer', [
 	'supplyCrateApp.gw2api',
 	'legendarySearch.recipeCompanion'
 ])
 
-.service('FullRecipeComputer', [
+/**
+ * A service that produce all the costs for a recipe, recursively resolving the
+ * costs of ingredients and producing a tree of recipes.
+ * This service is the central service of the whole program, and uses the recipe and
+ * listings functions in order to produce the data used by the interface.
+ */
+.service('RecursiveRecipeComputer', [
 	        "$q", "GW2API", "RecipeCompanion",
 	function($q,   GW2API,   RecipeCompanion) {
 		return {
 			// ownedAmount: the amount of this item in the bank we could use for this node
 			// unitaryRecipeAmount: the amount needed to produce one of these items using the recipe
 			// remainingNeededAmount: the amount still needed to complete the amount needed for this node
+			/**
+			 * Gets the recipe tree for an item.
+			 * @param {int} rootItemId - The item id of the root of the recipe tree.
+			 * @param {{id: amount}} bankContent - A map between item ids and the amount of such
+			 *   items in the bank / material storage / character inventories.
+			 * @param {boolean} buyImmediately - Whether the ingredients will be immediately
+			 *   bought or not.
+			 * @returns {recipeItem} - The root of the recipe tree. Each entry has various keys.
+			 *   itemId: the id of the item; unitaryRecipeAmount: the amount needed to produce
+			 *   one of the parent items using the recipe; ownedAmount: the amount of this item
+			 *   in the bank we could use for this node; remainingNeededAmount: the amount still
+			 *   needed to complete the amount needed for this node; cost: the cost of this item
+			 *   in the TP according to the given buy strategy; ingredients: a list of recipeItem
+			 *   used to create this item (leaves of this node in the tree).
+			 */
 			getRecipeTree: function(rootItemId, bankContent, buyImmediately) {
 				// default dict operations: increment amount, get a value
 				function add(dict, key, value) {
@@ -120,6 +141,7 @@ angular.module('legendarySearch.fullRecipeComputer', [
 						return returnValue;
 					});
 				}
+				// get the base node, declaring we want one and still need one.
 				return getRecipe(rootItemId, 1, 1);
 			}
 		};

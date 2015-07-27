@@ -3,7 +3,7 @@ angular.module('legendarySearch.main', [
 	'supplyCrateApp.gw2api',
 	'legendarySearch.bank',
 	'legendarySearch.recipeCompanion',
-	'legendarySearch.fullRecipeComputer',
+	'legendarySearch.recursiveRecipeComputer',
 	'legendarySearch.runningRequests',
 	'supplyCrateApp.price-directive',
 	'legendarySearch.item',
@@ -13,8 +13,8 @@ angular.module('legendarySearch.main', [
 ])
 
 .controller('Main', [
-	        "$scope", "$q", "GW2API", "Bank", "FullRecipeComputer", "RunningRequests", "RecipeCompanion",
-	function($scope,   $q,   GW2API,   Bank,   FullRecipeComputer,   RunningRequests,   RecipeCompanion) {
+	        "$scope", "$q", "GW2API", "Bank", "RecursiveRecipeComputer", "RunningRequests", "RecipeCompanion",
+	function($scope,   $q,   GW2API,   Bank,   RecursiveRecipeComputer,   RunningRequests,   RecipeCompanion) {
 		// initialize legendary list
 		var availableLegendariesIds = RecipeCompanion.getLegendaryIds();
 		$q.all(jQuery.map(availableLegendariesIds, function(legendaryId) {
@@ -55,7 +55,7 @@ angular.module('legendarySearch.main', [
 			if(!$scope.selectedLegendary || $scope.buyImmediately === null) {
 				return;
 			}
-			FullRecipeComputer
+			RecursiveRecipeComputer
 				.getRecipeTree($scope.selectedLegendary, $scope.bankContent || {}, $scope.buyImmediately)
 				.then(function(data) {
 					$scope.costTree = data;
