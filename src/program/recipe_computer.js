@@ -1,20 +1,20 @@
 angular.module('legendarySearch.recipeComputer', [
 	'supplyCrateApp.gw2api',
-	'legendarySearch.apiFinder',
+	'legendarySearch.recipeFinder',
 	'legendarySearch.costComputer'
 ])
 
 .service('RecipeComputer', [
-	        "$q", "GW2API", "GW2APIFinder", "CostComputer",
-	function($q,   GW2API,   GW2APIFinder,   CostComputer) {
+	        "$q", "GW2API", "RecipeFinder", "CostComputer",
+	function($q,   GW2API,   RecipeFinder,   CostComputer) {
 		return {
 			getRecipe: function(itemId) {
 				// get out implicit recipes
 				var recipe = CostComputer.costs[itemId];
 				// get out api recipes, if we have no other recipe
 				if(!recipe) {
-					return GW2APIFinder
-						.getRecipeFromOutput(itemId)
+					return RecipeFinder
+						.getFromOutput(itemId)
 						.then(function(recipeIds) {
 							if(recipeIds.length == 0) {
 								return $q.reject("No recipe found for itemId = " + itemId);
