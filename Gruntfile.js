@@ -8,7 +8,7 @@ module.exports = function(grunt) {
 			build: {
 				options: {
 					bootstrapPath: 'node_modules/bootstrap',
-					local: 'manifest.less',
+					local: 'src/manifest.less',
 					dest: 'build'
 				}
 			}
@@ -33,10 +33,7 @@ module.exports = function(grunt) {
 					'app.min.js': [
 						'node_modules/jquery/dist/jquery.min.js',
 						'node_modules/angular/angular.min.js',
-						'gw2api.js',
-						'price-directive.js',
-						'now.js',
-						'script.js'
+						'src/program/*.js'
 					]
 				}
 			}
@@ -46,7 +43,7 @@ module.exports = function(grunt) {
 				files: {
 					'app.min.css': [
 						'build/bootstrap.css',
-						'style.css',
+						'src/style.css',
 					]
 				}
 			}
@@ -54,7 +51,7 @@ module.exports = function(grunt) {
 		processhtml: {
 			dist: {
 				files: {
-					'index.html': 'origin-index.html'
+					'index.html': 'src/origin-index.html'
 				}
 			}
 		},
@@ -76,6 +73,12 @@ module.exports = function(grunt) {
 						cwd: 'node_modules/bootstrap/fonts',
 						src: ['*'],
 						dest: 'fonts'
+					},
+					{
+						expand: true,
+						cwd: 'src/img',
+						src: ['*'],
+						dest: 'img'
 					}
 				]
 			}

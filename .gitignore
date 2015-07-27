@@ -46,6 +46,7 @@ Temporary Items
 # Project-specific ignores
 # ===========================
 
+img
 node_modules
 build
 fonts

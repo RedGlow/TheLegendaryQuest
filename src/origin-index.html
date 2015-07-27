@@ -4,21 +4,33 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<title>The legendary quest</title>
 		<!-- build:js app.min.js -->
-		<script src="node_modules/jquery/dist/jquery.min.js"></script>
-		<script src="node_modules/angular/angular.min.js"></script>
-		<script src="gw2api.js"></script>
-		<script src="price-directive.js"></script>
-		<script src="now.js"></script>
-		<script src="script.js"></script>
+		<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+		<script src="../node_modules/angular/angular.min.js"></script>
+		<script src="program/api_finder.js"></script>
+		<script src="program/bank_service.js"></script>
+		<script src="program/convert_to_boolean.js"></script>
+		<script src="program/costs.js"></script>
+		<script src="program/cost_computer.js"></script>
+		<script src="program/full_recipe_computer.js"></script>
+		<script src="program/gw2api.js"></script>
+		<script src="program/item.js"></script>
+		<script src="program/item_table.js"></script>
+		<script src="program/main.js"></script>
+		<script src="program/now.js"></script>
+		<script src="program/price-directive.js"></script>
+		<script src="program/program.js"></script>
+		<script src="program/recipe_computer.js"></script>
+		<script src="program/recipe_synthesizer.js"></script>
+		<script src="program/running_requests.js"></script>
 		<!-- /build -->
 		<!-- build:css app.min.css -->
-		<link rel="stylesheet" href="build/bootstrap.css">
+		<link rel="stylesheet" href="../build/bootstrap.css">
 		<link rel="stylesheet" href="style.css" />
 		<!-- /build -->
 		</head>
 	<body>
-		<section ng-app="legendarySearch"
-			ng-controller="ls.Map"
+		<section ng-app="legendarySearch.main"
+			ng-controller="Main"
 			class="container">
 			
 			<!-- PRICE TEMPLATE -->
