@@ -503,6 +503,12 @@ angular.module('legendarySearch.recipeCompanion', [
 			}
 		},
 		
+		/**
+		 * Get a recipe, considering also the mystic forge ones and possibly synthesizing recipe item ids
+		 * when the API is missing elements.
+		 * @param {int} itemId - The output item id.
+		 * @returns {promise<recipe>} - A recipe item.
+		 */
 		getRecipeFromOutputId: function(itemId) {
 			function apiGetRecipeFromOutputId(id) {
 				if(!!cache[id]) {
