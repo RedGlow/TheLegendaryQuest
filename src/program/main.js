@@ -1,7 +1,7 @@
 angular.module('legendarySearch.main', [
 	'legendarySearch',
 	'supplyCrateApp.gw2api',
-	'legendarySearch.bankService',
+	'legendarySearch.bank',
 	'legendarySearch.fullRecipeComputer',
 	'legendarySearch.runningRequests',
 	'legendarySearch.costComputer',
@@ -13,8 +13,8 @@ angular.module('legendarySearch.main', [
 ])
 
 .controller('Main', [
-	        "$scope", "$q", "GW2API", "CostComputer", "BankService", "FullRecipeComputer", "RunningRequests",
-	function($scope,   $q,   GW2API,   CostComputer,   BankService,   FullRecipeComputer,   RunningRequests) {
+	        "$scope", "$q", "GW2API", "CostComputer", "Bank", "FullRecipeComputer", "RunningRequests",
+	function($scope,   $q,   GW2API,   CostComputer,   Bank,   FullRecipeComputer,   RunningRequests) {
 		// initialize legendary list
 		var availableLegendariesIds = CostComputer.legendaryIds;
 		$q.all(jQuery.map(availableLegendariesIds, function(legendaryId) {
@@ -37,7 +37,7 @@ angular.module('legendarySearch.main', [
 		$scope.$watch('apiKey', function() {
 			$scope.bankContentErrors = null;
 			if(!$scope.apiKey) { return; }
-			BankService.getFullBankContent($scope.apiKey).then(function(data) {
+			Bank.getFullContent($scope.apiKey).then(function(data) {
 				$scope.bankContent = data.items;
 				$scope.bankContentErrors = data.errors;
 				console.debug("$scope.bankContent =", $scope.bankContent);

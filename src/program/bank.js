@@ -1,12 +1,24 @@
-angular.module('legendarySearch.bankService', [
+angular.module('legendarySearch.bank', [
 	'legendarySearch.runningRequests'
 ])
 
-.service('BankService', [
+/**
+ * A service to access bank (and inventories) contents.
+ */
+.service('Bank', [
 	        "$q", "$http", "RunningRequests",
 	function($q,   $http,   RunningRequests) {
 		return {
-			getFullBankContent: function(apiKey) {
+			/**
+			 * Get the contents of bank and character inventories.
+			 *
+			 * @param {string} apiKey - The API key to access bank and character inventories.
+			 * @returns {promise<{items, errors}>} - A promise containing an object with two keys: "items" is a map
+			 *   between item ids and amount of those items, "errors" is a flag map ("characters": whether there have
+			 *   been errors accessing the characters; "inventories": whether there have been errors accessing the
+			 *   bank/material/inventories).
+			 */
+			getFullContent: function(apiKey) {
 				var idToAmount = {};
 				function addResults(response) {
 					var data = !!response.data ? response.data : response;
