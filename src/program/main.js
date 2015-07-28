@@ -34,6 +34,7 @@ angular.module('legendarySearch.main', [
 		
 		// bank management
 		$scope.apiKeyTemp = "";
+		$scope.bankContent = {};
 		$scope.$watch('apiKey', function() {
 			$scope.bankContentErrors = null;
 			if(!$scope.apiKey) { return; }
@@ -48,6 +49,9 @@ angular.module('legendarySearch.main', [
 					accessError: response.data.text
 				};
 			});
+		});
+		$scope.$watch('bankContent', function() {
+			$scope.showPercentage = !!$scope.bankContent && !jQuery.isEmptyObject($scope.bankContent);
 		});
 		
 		// load cost tree

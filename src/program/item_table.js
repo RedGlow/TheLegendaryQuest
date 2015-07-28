@@ -10,7 +10,8 @@ angular.module('legendarySearch.itemTable', [
 			restrict: 'E',
 			scope: {
 				itemTree: '=',
-				buyImmediately: '='
+				buyImmediately: '=',
+				showPercentage: '='
 			},
 			controller: function($scope, RecipeCompanion) {
 				$scope.$watch('itemTree.itemId', function() {

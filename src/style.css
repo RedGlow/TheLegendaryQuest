@@ -87,6 +87,10 @@ h1 {
 /**
  * PRICES
  */
+ 
+.copper-value {
+	white-space: nowrap;
+}
 
 .currency {
 	padding-right: 16px;
@@ -168,9 +172,9 @@ h1 {
 /* ITEMS AND ITEM TABLES */
 
 .item-data {
-	margin: 10px 0;
-	padding: 5px;
-	background: linear-gradient(to right, #eee, #fff);
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background: linear-gradient(to left, #eee, #fff);
 	background-color: #eee;
 }
 
@@ -178,13 +182,15 @@ h1 {
 	background: #eee;
 }
 
-.item-data .img, .item-data .details {
-	display: inline-block;
-	vertical-align: top;
+.item-data .img-col {
+	padding-left: 0;
+	padding-right: 0;
 }
 
-.item-data .item-row > div {
-	display: inline-block;
+.item-data .img {
+	cursor: pointer;
+	width: 100%;
+	max-width: 64px;
 }
 
 .item-data .recipe-amount {
@@ -194,7 +200,6 @@ h1 {
 
 .item-data .name {
 	font-weight: bold;
-    width: 12em;
 }
 
 .item-data .amount {
@@ -203,7 +208,7 @@ h1 {
     border-radius: 4px;
     background-color: white;
     vertical-align: top;
-	width: 10em;
+	width: 100%;
 }
 
 .item-data .amount .percentage-bar {
@@ -220,12 +225,10 @@ h1 {
 }
 
 .item-data .single-cost {
-	margin-right: 1em;
 }
 
 .item-data .trading-post {
-	width: 15em;
-}
+
 
 .item {
 	display: block;
