@@ -32,7 +32,7 @@
 			
 			<!-- PRICE TEMPLATE -->
 			<script type="text/ng-template" id="price-directive.html">
-				<span class="value-{{price}}"><span class="currency gold" ng-if="hasGold">{{gold}}</span>
+				<span class="value-{{value}}"><span class="currency gold" ng-if="hasGold">{{gold}}</span>
 				<span class="currency silver" ng-if="hasSilver">{{silver}}</span>
 				<span class="currency copper">{{copper}}</span></span>
 			</script>
@@ -48,17 +48,41 @@
 			<!-- ITEM TABLE TEMPLATE -->
 			<script type="text/ng-template" id="item-table-directive.html">
 				<div class="item-table">
-					<item item-id="itemTree.itemId" amount="itemTree.unitaryRecipeAmount" owned="itemTree.ownedAmount" buy-immediately="buyImmediately"></item>
-					<p class="cost" ng-if="itemTree.cost !== null">Buy: <price value="itemTree.cost"></price></p>
-					<a href="#" class="expansion-arrow"
-						ng-click="toggle($event)"
-						ng-if="!!itemTree.ingredients && itemTree.ingredients.length > 0 && itemTree.remainingNeededAmount > 0">
-						<i class="glyphicon" ng-class="{'glyphicon-chevron-up': !open, 'glyphicon-chevron-down': open}"></i>
-					</a>
-					<div class="recipe"
+					<div class="item-data">
+						<img class="img" ng-src="{{item.icon}}" alt="{{item.name}}" ng-click="toggle($event)">
+						<div class="details">
+							<div class="item-row">
+								<div class="name">
+									<span ng-if="itemTree.unitaryRecipeAmount > 1">{{itemTree.unitaryRecipeAmount}} x</span>
+									<span class="name">{{item.name}}</span>
+								</div>
+								<div class="trading-post" ng-class="{invisible: !itemTree.tradingPostCost}">
+									Trading post:
+									<price value="itemTree.tradingPostCost"></price>
+								</div>
+								<div class="amount">
+									<div class="percentage-bar" ng-style="{width: itemTree.roundedPercentage + '%'}"></div>
+									<div class="percentage-text">
+									{{itemTree.ownedAmount}} / {{itemTree.ownedAmount + itemTree.remainingNeededAmount}}
+									({{itemTree.roundedPercentage}}%)
+									</div>
+								</div>
+							</div>
+							<div class="item-row"
+								ng-if="itemTree.totalCosts.length != 1 || itemTree.totalCosts[0].currencyId != 'copper' || itemTree.totalCosts[0].amount != itemTree.tradingPostCost">
+								<div class="single-cost" ng-repeat="cost in itemTree.totalCosts">
+									<span ng-if="!!cost.itemId">{{cost.amount}} x {{cost.itemId}}</span>
+									<price ng-if="cost.currencyId === 'copper'" value="cost.amount"></price>
+									<span ng-if="!!cost.currencyId && cost.currencyId !== 'copper'"
+										class="currency" ng-class="cost.currencyId">{{ cost.amount }}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<ul class="recipe"
 						ng-class="{'hidden': !open}"
 						ng-if="itemTree.remainingNeededAmount > 0">
-						<span class="recipe-element"
+						<li class="recipe-element"
 							ng-repeat="element in itemTree.ingredients">
 							<!-- item case -->
 							<item-table ng-if="!!element.itemId" item-tree="element" buy-immediately="buyImmediately"></item-table>
@@ -68,8 +92,8 @@
 							<!-- currency case: other -->
 							<span ng-if="!!element.currencyId && element.currencyId != 'copper'"
 								class="currency" ng-class="element.currencyId">{{ element.unitaryRecipeAmount }}</span>
-						</span>
-					</div>
+						</li>
+					</ul>
 				</div>
 			</script>
 			
@@ -159,17 +183,17 @@
 				</div>
 			</div>
 			
-			<div class="row results-row">
+			<!--<div class="row results-row">
 				<div class="col-xs-12">
 					<form ng-if="!!costTree">
-						<legend>Costs</legend>
+						<legend>Costs</legend>-->
 						<!-- FULL COSTS -->
-						<div class="full-costs">
+						<!--<div class="full-costs">
 							<costs item-tree="costTree"></costs>
 						</div>
 					</form>
 				</div>
-			</div>
+			</div>-->
 						
 			<div class="row results-row">
 				<div class="col-xs-12">

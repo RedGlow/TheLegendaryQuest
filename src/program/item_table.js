@@ -1,5 +1,6 @@
 angular.module('legendarySearch.itemTable', [
-	'supplyCrateApp.gw2api'
+	'supplyCrateApp.gw2api',
+	'legendarySearch.recipeCompanion'
 ])
 
 .directive('itemTable', [
@@ -10,6 +11,14 @@ angular.module('legendarySearch.itemTable', [
 			scope: {
 				itemTree: '=',
 				buyImmediately: '='
+			},
+			controller: function($scope, RecipeCompanion) {
+				$scope.$watch('itemTree.itemId', function() {
+					if(!$scope.itemTree.itemId) { return; }
+					RecipeCompanion.getSynthesizedItem(parseInt($scope.itemTree.itemId)).then(function(item) {
+						$scope.item = item;
+					});
+				});
 			},
 			link: function(scope, element, attrs) {
 				var content = $templateCache.get('item-table-directive.html');
