@@ -185,59 +185,53 @@
 			
 			<div class="row input-row">
 				<div class="col-xs-12">
-					<form>
+					<form class="form-horizontal">
 						<fieldset>
 							<legend>Select your legendary and bank access</legend>
 
 							<!-- LEGENDARY SELECTOR -->
 							<div class="form-group">
-								<label for="legendary-selection">Legendary:</label>
-								<select class="form-control" id="legendary-selection"
-									ng-options="legendary.id as legendary.name for legendary in availableLegendaries"
-									ng-model="selectedLegendary"></select>
+								<label class="col-xs-3 col-sm-2 control-label" for="legendary-selection">Legendary</label>
+								<div class="col-xs-9 col-sm-10">
+									<select class="form-control" id="legendary-selection"
+										ng-options="legendary.id as legendary.name for legendary in availableLegendaries"
+										ng-model="selectedLegendary"></select>
+								</div>
 							</div>
 							
 							<!-- BUY/SELL -->
 							<div class="form-group">
-								<label for="buy-selection">Trading Post:</label>
-								<select class="form-control" id="buy-selection"
-									ng-model="buyImmediately"
-									convert-to-boolean>
-									<option value="true">Buy now</option>
-									<option value="false">Place order</option>
-								</select>
+								<label class="col-xs-3 col-sm-2 control-label" for="buy-selection">Trading Post</label>
+								<div class="col-xs-9 col-sm-10">
+									<select class="form-control" id="buy-selection"
+										ng-model="buyImmediately"
+										convert-to-boolean>
+										<option value="true">Buy now</option>
+										<option value="false">Place order</option>
+									</select>
+								</div>
 							</div>
 							
 							<!-- BANK/MATERIAL ACCESS -->
 							<div class="form-group">
-								<label for="api-key">API key:</label>
-								<input class="form-control" id="api-key" type="text" ng-model="apiKeyTemp">
-								<p class="help-block" ng-if="apiKey">
-									<span>currently used key: {{ apiKey }}</span>
-									<span class="text-danger" ng-if="!!bankContentErrors && !!bankContentErrors.accessError"><br>access error to inventory/characters with given key: {{ bankContentErrors.accessError }}</span>
-									<span class="text-danger" ng-if="!!bankContentErrors && bankContentErrors.inventories"><br>given key has no 'inventories' scope (no data can be loaded)</span>
-									<span class="text-warning" ng-if="!!bankContentErrors && !bankContentErrors.inventories && bankContentErrors.characters"><br>given key has no 'characters' scope (character inventories cannot be loaded)</span>
-								</p>
-								<button class="btn btn-default" role="button" ng-click="apiKey = apiKeyTemp">Load bank contents</button>
+								<label class="col-xs-3 col-sm-2 control-label" for="api-key">API key</label>
+								<div class="col-xs-9 col-sm-10">
+									<input class="form-control" id="api-key" type="text" ng-model="apiKeyTemp">
+									<button class="btn btn-default" role="button" ng-click="apiKey = apiKeyTemp">Load bank contents</button>
 								</div>
+							</div>
 
 						</fieldset>
 					</form>
+					<p class="help-block" ng-if="apiKey">
+						<span>currently used key: {{ apiKey }}</span>
+						<span class="text-danger" ng-if="!!bankContentErrors && !!bankContentErrors.accessError"><br>access error to inventory/characters with given key: {{ bankContentErrors.accessError }}</span>
+						<span class="text-danger" ng-if="!!bankContentErrors && bankContentErrors.inventories"><br>given key has no 'inventories' scope (no data can be loaded)</span>
+						<span class="text-warning" ng-if="!!bankContentErrors && !bankContentErrors.inventories && bankContentErrors.characters"><br>given key has no 'characters' scope (character inventories cannot be loaded)</span>
+					</p>
 				</div>
 			</div>
 			
-			<!--<div class="row results-row">
-				<div class="col-xs-12">
-					<form ng-if="!!costTree">
-						<legend>Costs</legend>-->
-						<!-- FULL COSTS -->
-						<!--<div class="full-costs">
-							<costs item-tree="costTree"></costs>
-						</div>
-					</form>
-				</div>
-			</div>-->
-						
 			<div class="row results-row">
 				<div class="col-xs-12">
 					<form ng-if="!!costTree">
