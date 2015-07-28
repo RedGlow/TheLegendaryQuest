@@ -18,6 +18,8 @@
 		<script src="program/now.js"></script>
 		<script src="program/price.js"></script>
 		<script src="program/program.js"></script>
+		<script src="program/cost_item.js"></script>
+		<script src="program/site_links.js"></script>
 		<script src="program/running_requests.js"></script>
 		<!-- /build -->
 		<!-- build:css app.min.css -->
@@ -43,6 +45,28 @@
 					<img ng-src="{{item.icon}}" alt="{{item.name}}">
 					<div><span ng-if="amount > 1">{{amount}} x </span>{{ item.name }}</div>
 				</div>
+			</script>
+			
+			<!-- COST ITEM TEMPLATE -->
+			<script type="text/ng-template" id="cost-item.html">
+				<span class="cost-item-amount" ng-if="amount > 1">{{ amount }} x</span>
+				<img class="cost-item-img" ng-src="{{item.icon}}">
+				<span class="cost-item-name">{{ item.name }}</span>
+			</script>
+			
+			<!-- SITE LINKS TEMPLATE -->
+			<script type="text/ng-template" id="site-links.html">
+				<a ng-if="!!gw2WikiLink" ng-href="{{gw2WikiLink}}" target="_blank">
+					Wiki
+				</a>
+				&mdash;
+				<a ng-if="!!gw2SpidyLink" ng-href="{{gw2SpidyLink}}" target="_blank">
+					GW2Spidy
+				</a>
+				&mdash;
+				<a ng-if="!!gw2ShiniesLink" ng-href="{{gw2ShiniesLink}}" target="_blank">
+					GW2Shinies
+				</a>
 			</script>
 			
 			<!-- ITEM TABLE TEMPLATE -->
@@ -79,16 +103,16 @@
 									</div>
 									<div class="col-xs-12 item-row"
 										ng-if="itemTree.totalCosts.length != 1 || itemTree.totalCosts[0].currencyId != 'copper' || itemTree.totalCosts[0].amount != itemTree.tradingPostCost">
-										<div class="row">
-											<div class="single-cost"
-												ng-repeat="cost in itemTree.totalCosts"
-												ng-class="{'col-xs-3 col-md-2': cost.currencyId === 'copper', 'col-md-1 col-xs-2': cost.currencyId === 'karma', 'col-xs-2 col-md-1': cost.currencyId !== 'copper' && cost.currencyId !== 'karma'}">
-												<span ng-if="!!cost.itemId">{{cost.amount}} x {{cost.itemId}}</span>
-												<price ng-if="cost.currencyId === 'copper'" value="cost.amount"></price>
-												<span ng-if="!!cost.currencyId && cost.currencyId !== 'copper'"
-													class="currency" ng-class="cost.currencyId">{{ cost.amount }}</span>
-											</div>
+										<div class="single-cost"
+											ng-repeat="cost in itemTree.totalCosts">
+											<cost-item ng-if="!!cost.itemId && !(itemTree.totalCosts.length === 1 && cost.itemId === itemTree.itemId)" amount="cost.amount" item-id="cost.itemId"></cost-item>
+											<price ng-if="cost.currencyId === 'copper'" value="cost.amount"></price>
+											<span ng-if="!!cost.currencyId && cost.currencyId !== 'copper'"
+												class="currency" ng-class="cost.currencyId">{{ cost.amount }}</span>
 										</div>
+									</div>
+									<div class="col-xs-12">
+										<site-links item-id="itemTree.itemId"></site-links>
 									</div>
 								</div>
 							</div>

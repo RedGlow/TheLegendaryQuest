@@ -1,6 +1,8 @@
 angular.module('legendarySearch.itemTable', [
 	'supplyCrateApp.gw2api',
-	'legendarySearch.recipeCompanion'
+	'legendarySearch.recipeCompanion',
+	'legendarySearch.costItem',
+	'legendarySearch.siteLinks'
 ])
 
 .directive('itemTable', [

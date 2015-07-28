@@ -171,10 +171,14 @@ h1 {
 
 /* ITEMS AND ITEM TABLES */
 
+.cost-item-img {
+	width: 1.5em;
+}
+
 .item-data {
 	margin-top: 10px;
 	margin-bottom: 10px;
-	background: linear-gradient(to left, #eee, #fff);
+	background: linear-gradient(to left, #eeeeee, #fafafa);
 	background-color: #eee;
 }
 
@@ -205,6 +209,7 @@ h1 {
 .item-data .amount {
     position: relative;
     height: 1.3em;
+	top: 0.3em;
     border-radius: 4px;
     background-color: white;
     vertical-align: top;
@@ -228,7 +233,12 @@ h1 {
 }
 
 .item-data .trading-post {
+}
 
+.item-data .single-cost {
+	margin-right: 1em;
+	display: inline;
+}
 
 .item {
 	display: block;
