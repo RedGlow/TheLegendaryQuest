@@ -192,7 +192,7 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 								// just mark that you have to acquire it somehow
 								totalCosts = [{
 									itemId: itemId,
-									amount: 1
+									amount: remainingNeededAmount
 								}];
 							}
 						}
