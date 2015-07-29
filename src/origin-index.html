@@ -25,6 +25,7 @@
 		<script src="../node_modules/angular/angular.min.js"></script>
 		<script src="../node_modules/angular-animate/angular-animate.min.js"></script>
 		<script src="../node_modules/ngstorage/ngStorage.min.js"></script>
+		<script src="../node_modules/bootstrap/js/modal.js"></script>
 		<script src="program/recipe_companion.js"></script>
 		<script src="program/bank.js"></script>
 		<script src="program/convert_to_boolean.js"></script>
@@ -242,21 +243,53 @@
 							
 							<!-- BANK/MATERIAL ACCESS -->
 							<div class="form-group">
-								<label class="col-xs-3 col-sm-2 control-label" for="api-key">API key</label>
+								<label class="col-xs-3 col-sm-2 control-label" for="api-key">API key
+									<button data-toggle="modal" data-target="#apiKeyHelpModal" class="btn btn-link helper-btn">(?)</button>
+								</label>
+								<div class="modal fade" id="apiKeyHelpModal" tabindex="-1" role="dialog">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+												<h4 class="modal-title" id="myModalLabel">API keys</h4>
+											</div>
+											<div class="modal-body">
+												<p>An <strong>API key</strong> is a way to allow an external program (like this website) to securely access some data from your
+												Guild Wars 2 account.</p>
+												<p>In order to produce an API key for this website, follow these steps:</p>
+												<ol>
+													<li>Login on the ArenaNet account website (https://account.arena.net/login - for security reasons there is no link on this website sending you directly to the login page)</li>
+													<li>Go to the "Applications" tab</li>
+													<li>Click "New key"</li>
+													<li>Name the key however you want, and make sure "inventories" and "characters" are checked</li>
+													<li>Click "Create API key"</li>
+												</ol>
+												<p>Once you complete once these steps, you don't need to repeat them. Just copy the generated API key into
+												this box once, and it will be saved in your browser. Should you change your browser or delete the cache, just
+												go to the account applications page and copy-paste the key you generated once more.</p>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+											</div>
+										</div>
+									</div>
+									<div class="help-block" id="helpBlock">
+										<p>
+										Currently used key: {{ !!apiKey ? apiKey : "none" }}.
+										<span class="text-danger" ng-if="!!bankContentErrors && !!bankContentErrors.accessError"><br>access error to inventory/characters with given key: {{ bankContentErrors.accessError }}</span>
+										<span class="text-danger" ng-if="!!bankContentErrors && bankContentErrors.inventories"><br>given key has no 'inventories' scope (no data can be loaded)</span>
+										<span class="text-warning" ng-if="!!bankContentErrors && !bankContentErrors.inventories && bankContentErrors.characters"><br>given key has no 'characters' scope (character inventories cannot be loaded)</span>
+										</p>
+									</div>
+								</div>
 								<div class="col-xs-9 col-sm-10">
-									<input class="form-control" id="api-key" type="text" ng-model="apiKeyTemp">
+									<input class="form-control" id="api-key" type="text" aria-describedby="helpBlock" ng-model="apiKeyTemp">
 									<button class="btn btn-default" role="button" ng-click="apiKey = apiKeyTemp">Load bank contents</button>
 								</div>
 							</div>
 
 						</fieldset>
 					</form>
-					<p class="help-block" ng-if="apiKey">
-						<span>currently used key: {{ apiKey }}</span>
-						<span class="text-danger" ng-if="!!bankContentErrors && !!bankContentErrors.accessError"><br>access error to inventory/characters with given key: {{ bankContentErrors.accessError }}</span>
-						<span class="text-danger" ng-if="!!bankContentErrors && bankContentErrors.inventories"><br>given key has no 'inventories' scope (no data can be loaded)</span>
-						<span class="text-warning" ng-if="!!bankContentErrors && !bankContentErrors.inventories && bankContentErrors.characters"><br>given key has no 'characters' scope (character inventories cannot be loaded)</span>
-					</p>
 				</div>
 			</div>
 			
