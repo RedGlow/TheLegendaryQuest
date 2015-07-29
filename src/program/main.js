@@ -7,10 +7,8 @@ angular.module('legendarySearch.main', [
 	'legendarySearch.recursiveRecipeComputer',
 	'legendarySearch.runningRequests',
 	'supplyCrateApp.price',
-	'legendarySearch.item',
 	'legendarySearch.itemTable',
-	'legendarySearch.convertToBoolean',
-	'legendarySearch.costs'
+	'legendarySearch.convertToBoolean'
 ])
 
 .controller('Main', [

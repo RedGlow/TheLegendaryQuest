@@ -29,10 +29,8 @@
 		<script src="program/recipe_companion.js"></script>
 		<script src="program/bank.js"></script>
 		<script src="program/convert_to_boolean.js"></script>
-		<script src="program/costs.js"></script>
 		<script src="program/recursive_recipe_computer.js"></script>
 		<script src="program/gw2api.js"></script>
-		<script src="program/item.js"></script>
 		<script src="program/item_table.js"></script>
 		<script src="program/main.js"></script>
 		<script src="program/now.js"></script>
@@ -59,14 +57,6 @@
 				<span class="currency copper">{{copper}}</span></span>
 			</script>
 
-			<!-- ITEM TEMPLATE -->
-			<script type="text/ng-template" id="item.html">
-				<div class="item">
-					<img ng-src="{{item.icon}}" alt="{{item.name}}">
-					<div><span ng-if="amount > 1">{{amount}} x </span>{{ item.name }}</div>
-				</div>
-			</script>
-			
 			<!-- COST ITEM TEMPLATE -->
 			<script type="text/ng-template" id="cost-item.html">
 				<span class="cost-item-amount" ng-if="amount > 1">{{ amount }} x</span>
@@ -162,39 +152,6 @@
 									class="currency" ng-class="element.currencyId">{{ element.unitaryRecipeAmount }}</span>
 							</div>
 						</div>
-					</div>
-				</div>
-			</script>
-			
-			<!-- COSTS TEMPLATE -->
-			<script type="text/ng-template" id="costs-directive.html">
-				<div id="costs">
-					<div ng-if="!!unbuyableItemCosts">
-						<p>Unbuyable items to obtain:</p>
-						<ul class="items">
-							<li ng-repeat="(itemId, amount) in unbuyableItemCosts">
-								<item item-id="itemId" amount="amount"></item>
-							</li>
-						</ul>
-					</div>
-					<div ng-if="!!buyableItemCosts">
-						<p>Buyable items to obtain (on TP: <price value="totalCost"></price>):</p>
-						<ul class="items">
-							<li ng-repeat="(itemId, amount) in buyableItemCosts">
-								<item item-id="itemId" amount="amount"></item>
-							</li>
-						</ul>
-					</div>
-					<div ng-if="!!currencyCosts">
-						<p>Extra currencies needed:</p>
-						<ul class="currencies">
-							<li ng-repeat="(currencyId, amount) in currencyCosts">
-								<price ng-if="currencyId == 'copper'"
-									value="amount"></price>
-								<span ng-if="currencyId != 'copper'"
-									class="currency" ng-class="currencyId">{{ amount }}</span>
-							</li>
-						</ul>
 					</div>
 				</div>
 			</script>
