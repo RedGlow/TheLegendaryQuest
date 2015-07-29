@@ -58,17 +58,19 @@
 			
 			<!-- SITE LINKS TEMPLATE -->
 			<script type="text/ng-template" id="site-links.html">
-				<a ng-if="!!gw2WikiLink" ng-href="{{gw2WikiLink}}" target="_blank">
-					Wiki
-				</a>
-				&mdash;
-				<a ng-if="!!gw2SpidyLink" ng-href="{{gw2SpidyLink}}" target="_blank">
-					GW2Spidy
-				</a>
-				&mdash;
-				<a ng-if="!!gw2ShiniesLink" ng-href="{{gw2ShiniesLink}}" target="_blank">
-					GW2Shinies
-				</a>
+				<div class="site-links">
+					<a ng-if="!!gw2WikiLink" ng-href="{{gw2WikiLink}}" target="_blank">
+						Wiki
+					</a>
+					<span class="hidden-sm hidden-xs">&mdash;</span>
+					<a ng-if="!!gw2SpidyLink" ng-href="{{gw2SpidyLink}}" target="_blank">
+						GW2Spidy
+					</a>
+					<span class="hidden-sm hidden-xs">&mdash;</span>
+					<a ng-if="!!gw2ShiniesLink" ng-href="{{gw2ShiniesLink}}" target="_blank">
+						GW2Shinies
+					</a>
+				</div>
 			</script>
 			
 			<!-- ITEM TABLE TEMPLATE -->
@@ -83,38 +85,40 @@
 								<div class="row">
 									<div class="col-xs-12 item-row">
 										<div class="row">
-											<div class="name col-xs-4">
+											<div class="name col-sm-4 col-xs-6">
 												<span ng-if="itemTree.unitaryRecipeAmount > 1">{{itemTree.unitaryRecipeAmount}} x</span>
 												<span class="name">{{item.name}}</span>
 											</div>
-											<div class="trading-post col-sm-4 col-xs-5" ng-class="{invisible: !itemTree.tradingPostCost}">
+											<div class="trading-post col-sm-4 col-xs-6" ng-class="{invisible: !itemTree.tradingPostCost}">
 												<span class="hidden-xs">Trading post:</span>
 												<span class="visible-xs-inline">TP:</span>
 												<price value="itemTree.tradingPostCost"></price>
 											</div>
-											<div class="col-sm-4 col-xs-3" ng-if="showPercentage">
-												<div class="amount">
-													<div class="percentage-bar" ng-style="{width: itemTree.roundedPercentage + '%'}"></div>
-													<div class="percentage-text">
-													{{itemTree.ownedAmount}} / {{itemTree.ownedAmount + itemTree.remainingNeededAmount}}
-													({{itemTree.roundedPercentage}}%)
-													</div>
-												</div>
+											<div class="col-sm-4 col-xs-12" ng-if="showPercentage">
+												<site-links item-id="itemTree.itemId"></site-links>
 											</div>
 										</div>
 									</div>
 									<div class="col-xs-12 item-row"
-										ng-if="itemTree.totalCosts.length != 1 || itemTree.totalCosts[0].currencyId != 'copper' || itemTree.totalCosts[0].amount != itemTree.tradingPostCost">
+										ng-switch on="itemTree.totalCosts.length != 1 || itemTree.totalCosts[0].currencyId != 'copper' || itemTree.totalCosts[0].amount != itemTree.tradingPostCost">
 										<div class="single-cost"
+											ng-switch-when="true"
 											ng-repeat="cost in itemTree.totalCosts">
 											<cost-item ng-if="!!cost.itemId && !(itemTree.totalCosts.length === 1 && cost.itemId === itemTree.itemId)" amount="cost.amount" item-id="cost.itemId"></cost-item>
 											<price ng-if="cost.currencyId === 'copper'" value="cost.amount"></price>
 											<span ng-if="!!cost.currencyId && cost.currencyId !== 'copper'"
 												class="currency" ng-class="cost.currencyId">{{ cost.amount }}</span>
 										</div>
+										<div ng-switch-default>&nbsp;</div>
 									</div>
 									<div class="col-xs-12">
-										<site-links item-id="itemTree.itemId"></site-links>
+										<div class="amount">
+											<div class="percentage-bar" ng-style="{width: itemTree.roundedPercentage + '%'}"></div>
+											<div class="percentage-text">
+											{{itemTree.ownedAmount}} / {{itemTree.ownedAmount + itemTree.remainingNeededAmount}}
+											({{itemTree.roundedPercentage}}%)
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
