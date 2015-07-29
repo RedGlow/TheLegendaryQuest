@@ -39,6 +39,7 @@ module.exports = function(grunt) {
 						'node_modules/jquery/dist/jquery.min.js',
 						'node_modules/angular/angular.min.js',
 						'node_modules/angular-animate/angular-animate.min.js',
+						'node_modules/ngstorage/ngStorage.min.js',
 						'node_modules/bootstrap/js/modal.js',
 						'src/program/*.js'
 					]
