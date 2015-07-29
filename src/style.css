@@ -7,10 +7,6 @@ body {
 	background-repeat: no-repeat;
 }
 
-.subtitle {
-	font-weight: bold;
-}
-
 footer {
 	margin-top: 5em;
 }
@@ -81,7 +77,25 @@ h1 {
 }
 
 .running-requests {
+	position: fixed;
 	text-align: right;
+	z-index: 1;
+}
+
+@media (min-width: 768px) {
+  .running-requests {
+    width: 720px;
+  }
+}
+@media (min-width: 992px) {
+  .running-requests {
+    width: 940px;
+  }
+}
+@media (min-width: 1200px) {
+  .running-requests {
+    width: 1140px;
+  }
 }
 
 /**

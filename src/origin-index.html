@@ -173,14 +173,14 @@
 				</div>
 			</script>
 			
+			<div class="running-requests" ng-if="numRunningRequests > 0">
+				<p><img src="img/loading.gif"> <span class="text">loading... ({{ numRunningRequests }} requests running)</span></p>
+			</div>
+
 			<div class="row header-row">
-				<header class="col-sm-9 col-xs-12">
-					<h1 class="text-primary">The legendary quest</h1>
-					<p class="subtitle">A tool to plan the road to your legendary</p>
+				<header class="col-xs-12">
+					<h1 class="text-primary">The legendary quest<br><small>A tool to plan the road to your legendary</small></h1>
 				</header>
-				<div class="col-sm-3 col-xs-12">
-					<p class="running-requests" ng-if="numRunningRequests > 0">Running requests: {{ numRunningRequests }}</p>
-				</div>
 			</div>
 			
 			<div class="row input-row">
