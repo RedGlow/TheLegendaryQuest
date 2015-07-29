@@ -1,4 +1,5 @@
 angular.module('legendarySearch.main', [
+	'ngStorage',
 	'legendarySearch',
 	'supplyCrateApp.gw2api',
 	'legendarySearch.bank',
@@ -13,8 +14,8 @@ angular.module('legendarySearch.main', [
 ])
 
 .controller('Main', [
-	        "$scope", "$q", "GW2API", "Bank", "RecursiveRecipeComputer", "RunningRequests", "RecipeCompanion",
-	function($scope,   $q,   GW2API,   Bank,   RecursiveRecipeComputer,   RunningRequests,   RecipeCompanion) {
+	        "$scope", "$q", "$localStorage", "GW2API", "Bank", "RecursiveRecipeComputer", "RunningRequests", "RecipeCompanion",
+	function($scope,   $q,   $localStorage,   GW2API,   Bank,   RecursiveRecipeComputer,   RunningRequests,   RecipeCompanion) {
 		// initialize legendary list
 		var availableLegendariesIds = RecipeCompanion.getLegendaryIds();
 		$q.all(jQuery.map(availableLegendariesIds, function(legendaryId) {
@@ -33,11 +34,12 @@ angular.module('legendarySearch.main', [
 		$scope.buyImmediately = true;
 		
 		// bank management
-		$scope.apiKeyTemp = "";
+		$scope.apiKeyTemp = $scope.apiKey = $localStorage.apiKey;
 		$scope.bankContent = {};
 		$scope.$watch('apiKey', function() {
 			$scope.bankContentErrors = null;
 			if(!$scope.apiKey) { return; }
+			$localStorage.apiKey = $scope.apiKey;
 			Bank.getFullContent($scope.apiKey).then(function(data) {
 				$scope.bankContent = data.items;
 				$scope.bankContentErrors = data.errors;

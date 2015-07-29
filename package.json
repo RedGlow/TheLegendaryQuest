@@ -15,6 +15,7 @@
     "grunt-customize-bootstrap": "^0.2.0",
     "grunt-processhtml": "^0.3.8",
     "jquery": "^2.1.4",
-    "load-grunt-tasks": "^3.2.0"
+    "load-grunt-tasks": "^3.2.0",
+    "ngstorage": "^0.3.6"
   }
 }
