@@ -3,6 +3,7 @@
   "version": "0.2.1",
   "devDependencies": {
     "angular": "^1.4.3",
+    "angular-animate": "^1.4.3",
     "bootstrap": "^3.3.5",
     "grunt": "^0.4.5",
     "grunt-cli": "^0.1.13",

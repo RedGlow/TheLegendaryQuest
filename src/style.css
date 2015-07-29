@@ -272,6 +272,11 @@ h1 {
 	background: #eee;
 }
 
+.recipe-container {
+	height: 0;
+	overflow: hidden;
+}
+
 .recipe {
 	white-space: nowrap;
 }

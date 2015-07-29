@@ -1,4 +1,5 @@
 angular.module('legendarySearch.itemTable', [
+	'ngAnimate',
 	'supplyCrateApp.gw2api',
 	'legendarySearch.recipeCompanion',
 	'legendarySearch.costItem',
@@ -38,5 +39,23 @@ angular.module('legendarySearch.itemTable', [
 		};
 	}
 ])
+
+.animation('.recipe-container', function() {
+	return {
+		addClass: function(element, className, done) {
+			element.animate({
+				height: 0
+			}, done);
+		},
+		removeClass: function(element, className, done) {
+			element.animate({
+				height: element.find('.recipe').height()
+			}, function() {
+				element.css('height', 'auto');
+				if(!!done) { done(); }
+			});
+		}
+	};
+})
 
 ;

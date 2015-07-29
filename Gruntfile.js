@@ -38,6 +38,7 @@ module.exports = function(grunt) {
 					'app.min.js': [
 						'node_modules/jquery/dist/jquery.min.js',
 						'node_modules/angular/angular.min.js',
+						'node_modules/angular-animate/angular-animate.min.js',
 						'src/program/*.js'
 					]
 				}
