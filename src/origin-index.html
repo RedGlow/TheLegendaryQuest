@@ -231,6 +231,12 @@
 											</div>
 										</div>
 									</div>
+								</div>
+								<div class="col-xs-9 col-sm-10">
+									<input class="form-control" id="api-key" type="text" aria-describedby="helpBlock" ng-model="apiKeyTemp">
+									<button class="btn btn-default" role="button" ng-click="apiKey = apiKeyTemp">Load bank contents</button>
+								</div>
+								<div class="col-xs-9 col-sm-10 col-xs-offset-3 col-sm-offset-2">
 									<div class="help-block" id="helpBlock">
 										<p>
 										Currently used key: {{ !!apiKey ? apiKey : "none" }}.
@@ -239,10 +245,6 @@
 										<span class="text-warning" ng-if="!!bankContentErrors && !bankContentErrors.inventories && bankContentErrors.characters"><br>given key has no 'characters' scope (character inventories cannot be loaded)</span>
 										</p>
 									</div>
-								</div>
-								<div class="col-xs-9 col-sm-10">
-									<input class="form-control" id="api-key" type="text" aria-describedby="helpBlock" ng-model="apiKeyTemp">
-									<button class="btn btn-default" role="button" ng-click="apiKey = apiKeyTemp">Load bank contents</button>
 								</div>
 							</div>
 
