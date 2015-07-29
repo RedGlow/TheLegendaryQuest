@@ -236,6 +236,12 @@
 				<div class="col-xs-12">
 					<form ng-if="!!costTree">
 						<legend>Crafting tree</legend>
+						<span class="help-block">Note well: once you insert your API key, the costs displayed are the
+						<em>remaining</em> costs, after
+						the content of your bank, material storage and characters inventories are taken into consideration.
+						For some costs (currencies: copper, spirit shards, dungeon tokens, ...) there is no way at the moment
+						to obtain any information about how many you already have, and so the full cost is always
+						displayed.</span>
 						<!-- MAIN ITEM TABLE -->
 						<div class="results">
 							<item-table
