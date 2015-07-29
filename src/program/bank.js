@@ -35,23 +35,19 @@ angular.module('legendarySearch.bank', [
 					"characters": false
 				};
 				// check capabilities of the token
-				RunningRequests.startRequest();
-				return $http
+				return RunningRequests.wrap($http
 					.get("https://api.guildwars2.com/v2/tokeninfo?access_token=" + apiKey)
 					.then(function(response) {
-						RunningRequests.endRequest();
 						var tokenInfo = response.data;
 						var promises = [];
 						// add inventories
 						if(jQuery.inArray("inventories", tokenInfo.permissions) != -1) {
-							RunningRequests.startRequest();
-							var bankContent = $http
+							var bankContent = RunningRequests.wrap($http
 								.get("https://api.guildwars2.com/v2/account/bank?access_token=" + apiKey)
-								.then(addResults)["finally"](RunningRequests.finallyEndRequest);
-								RunningRequests.startRequest();
-							var materialContent = $http
+								.then(addResults));
+							var materialContent = RunningRequests.wrap($http
 								.get("https://api.guildwars2.com/v2/account/materials?access_token=" + apiKey)
-								.then(addResults)["finally"](RunningRequests.finallyEndRequest);
+								.then(addResults));
 							promises.push(bankContent);
 							promises.push(materialContent);
 						} else {
@@ -60,17 +56,15 @@ angular.module('legendarySearch.bank', [
 						// add characters inventory
 						if(jQuery.inArray("characters", tokenInfo.permissions) != -1 &&
 							jQuery.inArray("inventories", tokenInfo.permissions) != -1) {
-							RunningRequests.startRequest();
-							var charactersBagsPromise = $http
-								.get("https://api.guildwars2.com/v2/characters?access_token=" + apiKey)["finally"](RunningRequests.finallyEndRequest)
+							var charactersBagsPromise = RunningRequests.wrap($http
+								.get("https://api.guildwars2.com/v2/characters?access_token=" + apiKey)
 								.then(function(response) {
 									var characters = response.data;
 									return $q.all(jQuery.map(characters, function(character) {
-										RunningRequests.startRequest();
-										return $http
-											.get("https://api.guildwars2.com/v2/characters/" + character + "/inventory?access_token=" + apiKey)["finally"](RunningRequests.finallyEndRequest);
+										return RunningRequests.wrap($http
+											.get("https://api.guildwars2.com/v2/characters/" + character + "/inventory?access_token=" + apiKey));
 									}));
-								}, RunningRequests.failEndRequest).then(function(characterContents) {
+								})).then(function(characterContents) {
 									jQuery.each(characterContents, function(i, response) {
 										var characterContent = response.data;
 										jQuery.each(characterContent.bags, function(j, characterBag) {
@@ -85,7 +79,7 @@ angular.module('legendarySearch.bank', [
 							errors.characters = true;
 						}
 						return $q.all(promises);
-					})["finally"](RunningRequests.finallyEndRequest)
+					}))
 					.then(function() {
 						return {
 							items: idToAmount,

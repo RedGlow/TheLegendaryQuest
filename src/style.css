@@ -77,25 +77,47 @@ h1 {
 }
 
 .running-requests {
-	position: fixed;
 	text-align: right;
+	position: fixed;
 	z-index: 1;
+	width: 100%;
+	margin-top: 20px;
+}
+
+.running-requests .content {
+	margin-right: 30px;
+}
+
+.running-requests .content .text {
+	display: none;
+}
+
+h1 {
+	padding-right: 40px;
 }
 
 @media (min-width: 768px) {
-  .running-requests {
-    width: 720px;
-  }
+	.running-requests {
+		text-align: right;
+		width: 750px;
+		margin-bottom: 0;
+	}
+	.running-requests .content .text {
+		display: inline;
+	}
+	h1 {
+		padding-right: 0;
+	}
 }
 @media (min-width: 992px) {
-  .running-requests {
-    width: 940px;
-  }
+	.running-requests {
+		width: 970px;
+	}
 }
 @media (min-width: 1200px) {
-  .running-requests {
-    width: 1140px;
-  }
+	.running-requests {
+		width: 1170px;
+	}
 }
 
 /**

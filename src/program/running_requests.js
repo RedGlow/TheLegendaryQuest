@@ -10,14 +10,9 @@ angular.module('legendarySearch.runningRequests', [
 			get: function() {
 				return GW2API.getNumRunningRequests() + extra;
 			},
-			startRequest: function() {
+			wrap: function(promise) {
 				extra++;
-			},
-			endRequest: function() {
-				extra--;
-			},
-			finallyEndRequest: function(reason) {
-				extra--;
+				return promise['finally'](function() { extra--; });
 			}
 		};
 }])

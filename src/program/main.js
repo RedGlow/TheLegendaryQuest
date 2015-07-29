@@ -75,11 +75,7 @@ angular.module('legendarySearch.main', [
 		$scope.$watch('buyImmediately', reloadTree);
 		
 		// num running requests
-		$scope.$watch(function() {
-			return RunningRequests.get();
-		}, function(newValue) {
-			$scope.numRunningRequests = newValue;
-		});
+		$scope.runningRequests = RunningRequests.get;
 	}
 ])
 
