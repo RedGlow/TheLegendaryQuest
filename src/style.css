@@ -7,10 +7,6 @@ body {
 	background-repeat: no-repeat;
 }
 
-.subtitle {
-	font-weight: bold;
-}
-
 footer {
 	margin-top: 5em;
 }
@@ -82,11 +78,64 @@ h1 {
 
 .running-requests {
 	text-align: right;
+	position: fixed;
+	z-index: 1;
+	width: 100%;
+	margin-top: 20px;
+}
+
+.running-requests .content {
+	margin-right: 30px;
+}
+
+.running-requests .content .text {
+	display: none;
+}
+
+h1 {
+	padding-right: 40px;
+}
+
+@media (min-width: 768px) {
+	.running-requests {
+		text-align: right;
+		width: 750px;
+		margin-bottom: 0;
+	}
+	.running-requests .content .text {
+		display: inline;
+	}
+	h1 {
+		padding-right: 0;
+	}
+}
+@media (min-width: 992px) {
+	.running-requests {
+		width: 970px;
+	}
+}
+@media (min-width: 1200px) {
+	.running-requests {
+		width: 1170px;
+	}
+}
+
+/**
+ * FORM
+ */
+ 
+.helper-btn {
+	padding-left: 0;
+	padding-right: 0;
 }
 
 /**
  * PRICES
  */
+ 
+.copper-value {
+	white-space: nowrap;
+}
 
 .currency {
 	padding-right: 16px;
@@ -167,26 +216,116 @@ h1 {
 
 /* ITEMS AND ITEM TABLES */
 
-.item img {
-	width: 64px;
-	height: 64px;
+.cost-item-img {
+	width: 1.5em;
+}
+
+.item-data {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background: linear-gradient(to left, #eeeeee, #fafafa);
+	background-color: #eee;
+}
+
+.item-data:hover {
+	background: #eee;
+}
+
+.item-data .img-col {
+	padding-right: 0;
+}
+
+.recipe-container .item-data .img-col {
+	padding-left: 0;
+}
+
+.item-data .img {
+	cursor: pointer;
+	width: 100%;
+	max-width: 64px;
+}
+
+.item-data .recipe-amount {
+    width: 2.1em;
+    display: inline-block;
+}
+
+.item-data .name {
+	font-weight: bold;
+}
+
+@media (min-width: 768px) {
+	.item-data .site-links {
+		text-align: right;
+	}
+}
+
+.item-data .amount {
+    position: relative;
+    height: 1.3em;
+	top: 0.15em;
+    border-radius: 4px;
+    background-color: white;
+    vertical-align: top;
+	width: 100%;
+	margin-bottom: 0.45em;
+}
+
+.item-data .amount .percentage-bar {
+    position: absolute;
+    height: 100%;
+    background-color: #eee;
+	background: linear-gradient(to bottom, #eee, #ccc);
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+}
+
+.item-data .amount .percentage-text {
+    position: absolute;
+    margin-left: 3px;
+}
+
+.item-data .single-cost {
+}
+
+.item-data .trading-post {
+}
+
+.item-data .single-cost {
+	margin-right: 1em;
+	display: inline;
 }
 
 .item {
-	display: inline-block;
-	border: 1px solid #999;
-	margin: 10px;
+	display: block;
+	margin: 10px 0;
 	padding: 5px;
-	text-align: center;
+	background: linear-gradient(to right, #eee, #fff);
+	background-color: #eee;
+}
+
+.item img {
+	width: 64px;
+	height: 64px;
+	cursor: pointer;
+}
+
+.item:hover {
+	background: #eee;
+}
+
+.recipe-container {
+	height: 0;
+	overflow: hidden;
 }
 
 .recipe {
 	white-space: nowrap;
 }
 
-.recipe-element {
-	display: inline-block;
+li.recipe-element {
 	vertical-align: top;
+	list-style: none;
 }
 
 .expansion-arrow {

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link rel="apple-touch-icon" sizes="57x57" href="img/apple-icon-57x57.png">
+		<link rel="apple-touch-icon" sizes="60x60" href="img/apple-icon-60x60.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="img/apple-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="img/apple-icon-76x76.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="img/apple-icon-114x114.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="img/apple-icon-120x120.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="img/apple-icon-144x144.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="img/apple-icon-152x152.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="img/apple-icon-180x180.png">
+		<link rel="icon" type="image/png" sizes="192x192"  href="img/android-icon-192x192.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="96x96" href="img/favicon-96x96.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+		<link rel="manifest" href="img/manifest.json">
+		<meta name="msapplication-TileColor" content="#000000">
+		<meta name="msapplication-TileImage" content="img/ms-icon-144x144.png">
+		<meta name="theme-color" content="#dc241f">
+		<title>The legendary quest</title>
+		<!-- build:js app.min.js -->
+		<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+		<script src="../node_modules/angular/angular.min.js"></script>
+		<script src="../node_modules/angular-animate/angular-animate.min.js"></script>
+		<script src="../node_modules/ngstorage/ngStorage.min.js"></script>
+		<script src="../node_modules/bootstrap/js/modal.js"></script>
+		<script src="program/recipe_companion.js"></script>
+		<script src="program/bank.js"></script>
+		<script src="program/convert_to_boolean.js"></script>
+		<script src="program/recursive_recipe_computer.js"></script>
+		<script src="program/gw2api.js"></script>
+		<script src="program/item_table.js"></script>
+		<script src="program/main.js"></script>
+		<script src="program/now.js"></script>
+		<script src="program/price.js"></script>
+		<script src="program/program.js"></script>
+		<script src="program/cost_item.js"></script>
+		<script src="program/site_links.js"></script>
+		<script src="program/running_requests.js"></script>
+		<!-- /build -->
+		<!-- build:css app.min.css -->
+		<link rel="stylesheet" href="../build/bootstrap.css">
+		<link rel="stylesheet" href="style.css" />
+		<!-- /build -->
+		</head>
+	<body>
+		<section ng-app="legendarySearch.main"
+			ng-controller="Main"
+			class="container">
+			
+			<!-- PRICE TEMPLATE -->
+			<script type="text/ng-template" id="price-directive.html">
+				<span class="value-{{value}} copper-value"><span class="currency gold" ng-if="hasGold">{{gold}}</span>
+				<span class="currency silver" ng-if="hasSilver">{{silver}}</span>
+				<span class="currency copper">{{copper}}</span></span>
+			</script>
+
+			<!-- COST ITEM TEMPLATE -->
+			<script type="text/ng-template" id="cost-item.html">
+				<span class="cost-item-amount" ng-if="amount > 1">{{ amount }} x</span>
+				<img class="cost-item-img" ng-src="{{item.icon}}">
+				<span class="cost-item-name">{{ item.name }}</span>
+			</script>
+			
+			<!-- SITE LINKS TEMPLATE -->
+			<script type="text/ng-template" id="site-links.html">
+				<div class="site-links">
+					<a ng-if="!!gw2WikiLink" ng-href="{{gw2WikiLink}}" target="_blank">
+						Wiki
+					</a>
+					<span class="hidden-sm hidden-xs">&mdash;</span>
+					<a ng-if="!!gw2SpidyLink" ng-href="{{gw2SpidyLink}}" target="_blank">
+						GW2Spidy
+					</a>
+					<span class="hidden-sm hidden-xs">&mdash;</span>
+					<a ng-if="!!gw2ShiniesLink" ng-href="{{gw2ShiniesLink}}" target="_blank">
+						GW2Shinies
+					</a>
+				</div>
+			</script>
+			
+			<!-- ITEM TABLE TEMPLATE -->
+			<script type="text/ng-template" id="item-table-directive.html">
+				<div class="item-table row">
+					<div class="item-data col-xs-12">
+						<div class="row">
+							<div class="col-xs-1 img-col">
+								<img class="img img-rounded" ng-src="{{item.icon}}" alt="{{item.name}}" ng-click="toggle($event)">
+							</div>
+							<div class="details col-xs-11">
+								<div class="row">
+									<div class="col-xs-12 item-row">
+										<div class="row">
+											<div class="name col-sm-4 col-xs-6">
+												<span ng-if="itemTree.unitaryRecipeAmount > 1">{{itemTree.unitaryRecipeAmount}} x</span>
+												<span class="name">{{item.name}}</span>
+											</div>
+											<div class="trading-post col-sm-4 col-xs-6" ng-class="{invisible: !itemTree.tradingPostCost}">
+												<span class="hidden-xs">Trading post:</span>
+												<span class="visible-xs-inline">TP:</span>
+												<price value="itemTree.tradingPostCost"></price>
+											</div>
+											<div class="col-sm-4 col-xs-12" ng-if="showPercentage">
+												<site-links item-id="itemTree.itemId"></site-links>
+											</div>
+										</div>
+									</div>
+									<div class="col-xs-12 item-row"
+										ng-switch on="itemTree.totalCosts.length != 1 || itemTree.totalCosts[0].currencyId != 'copper' || itemTree.totalCosts[0].amount != itemTree.tradingPostCost">
+										<div class="single-cost"
+											ng-switch-when="true"
+											ng-repeat="cost in itemTree.totalCosts">
+											<cost-item ng-if="!!cost.itemId && !(itemTree.totalCosts.length === 1 && cost.itemId === itemTree.itemId)" amount="cost.amount" item-id="cost.itemId"></cost-item>
+											<price ng-if="cost.currencyId === 'copper'" value="cost.amount"></price>
+											<span ng-if="!!cost.currencyId && cost.currencyId !== 'copper'"
+												class="currency" ng-class="cost.currencyId">{{ cost.amount }}</span>
+										</div>
+										<div ng-switch-default>&nbsp;</div>
+									</div>
+									<div class="col-xs-12">
+										<div class="amount">
+											<div class="percentage-bar" ng-style="{width: itemTree.roundedPercentage + '%'}"></div>
+											<div class="percentage-text">
+											{{itemTree.ownedAmount}} / {{itemTree.ownedAmount + itemTree.remainingNeededAmount}}
+											({{itemTree.roundedPercentage}}%)
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="recipe-container col-xs-11 col-xs-offset-1"
+						ng-class="{'hidden-block': !open}">
+						<div class="recipe"
+							ng-if="itemTree.remainingNeededAmount > 0">
+							<div class="recipe-element"
+								ng-repeat="element in itemTree.ingredients">
+								<!-- item case -->
+								<item-table
+									ng-if="!!element.itemId"
+									item-tree="element"
+									buy-immediately="buyImmediately"
+									show-percentage="showPercentage"></item-table>
+								<!-- currency case: copper -->
+								<price ng-if="!!element.currencyId && element.currencyId == 'copper'"
+									value="element.unitaryRecipeAmount"></price>
+								<!-- currency case: other -->
+								<span ng-if="!!element.currencyId && element.currencyId != 'copper'"
+									class="currency" ng-class="element.currencyId">{{ element.unitaryRecipeAmount }}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</script>
+			
+			<div class="running-requests" ng-class="{'invisible': runningRequests() <= 0}">
+				<p class="content">
+					<img src="img/loading.gif">
+					<span class="text">loading... ({{ runningRequests() }} requests running)</span>
+				</p>
+			</div>
+
+			<div class="row header-row">
+				<header class="col-xs-12">
+					<h1 class="text-primary">The legendary quest<br><small>A tool to plan the road to your legendary</small></h1>
+				</header>
+			</div>
+			
+			<div class="row input-row">
+				<div class="col-xs-12">
+					<form class="form-horizontal">
+						<fieldset>
+							<legend>Select your legendary and bank access</legend>
+
+							<!-- LEGENDARY SELECTOR -->
+							<div class="form-group">
+								<label class="col-xs-3 col-sm-2 control-label" for="legendary-selection">Legendary</label>
+								<div class="col-xs-9 col-sm-10">
+									<select class="form-control" id="legendary-selection"
+										ng-options="legendary.id as legendary.name for legendary in availableLegendaries"
+										ng-model="selectedLegendary"></select>
+								</div>
+							</div>
+							
+							<!-- BUY/SELL -->
+							<div class="form-group">
+								<label class="col-xs-3 col-sm-2 control-label" for="buy-selection">Trading Post</label>
+								<div class="col-xs-9 col-sm-10">
+									<select class="form-control" id="buy-selection"
+										ng-model="buyImmediately"
+										convert-to-boolean>
+										<option value="true">Buy now</option>
+										<option value="false">Place order</option>
+									</select>
+								</div>
+							</div>
+							
+							<!-- BANK/MATERIAL ACCESS -->
+							<div class="form-group">
+								<label class="col-xs-3 col-sm-2 control-label" for="api-key">API key
+									<button data-toggle="modal" data-target="#apiKeyHelpModal" class="btn btn-link helper-btn">(?)</button>
+								</label>
+								<div class="modal fade" id="apiKeyHelpModal" tabindex="-1" role="dialog">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+												<h4 class="modal-title" id="myModalLabel">API keys</h4>
+											</div>
+											<div class="modal-body">
+												<p>An <strong>API key</strong> is a way to allow an external program (like this website) to securely access some data from your
+												Guild Wars 2 account.</p>
+												<p>In order to produce an API key for this website, follow these steps:</p>
+												<ol>
+													<li>Login on the ArenaNet account website (https://account.arena.net/login - for security reasons there is no link on this website sending you directly to the login page)</li>
+													<li>Go to the "Applications" tab</li>
+													<li>Click "New key"</li>
+													<li>Name the key however you want, and make sure "inventories" and "characters" are checked</li>
+													<li>Click "Create API key"</li>
+												</ol>
+												<p>These steps needs to done just once. Copy the generated API key into
+												the API key box, and it will be saved in your browser. Should you change your browser or delete the cache, just
+												go to the account applications page and copy-paste the key you generated once more, without generating a
+												new one.</p>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-9 col-sm-10">
+									<input class="form-control" id="api-key" type="text" aria-describedby="helpBlock" ng-model="apiKeyTemp">
+									<button class="btn btn-default" role="button" ng-click="apiKey = apiKeyTemp">Load bank contents</button>
+								</div>
+								<div class="col-xs-9 col-sm-10 col-xs-offset-3 col-sm-offset-2">
+									<div class="help-block" id="helpBlock">
+										<p>
+										Currently used key: {{ !!apiKey ? apiKey : "none" }}.
+										<span class="text-danger" ng-if="!!bankContentErrors && !!bankContentErrors.accessError"><br>access error to inventory/characters with given key: {{ bankContentErrors.accessError }}</span>
+										<span class="text-danger" ng-if="!!bankContentErrors && bankContentErrors.inventories"><br>given key has no 'inventories' scope (no data can be loaded)</span>
+										<span class="text-warning" ng-if="!!bankContentErrors && !bankContentErrors.inventories && bankContentErrors.characters"><br>given key has no 'characters' scope (character inventories cannot be loaded)</span>
+										</p>
+									</div>
+								</div>
+							</div>
+
+						</fieldset>
+					</form>
+				</div>
+			</div>
+			
+			<div class="row results-row">
+				<div class="col-xs-12">
+					<form ng-if="!!costTree">
+						<legend>Crafting tree</legend>
+						<span class="help-block">Note well: once you insert your API key, the costs displayed are the
+						<em>remaining</em> costs, after
+						the content of your bank, material storage and characters inventories are taken into consideration.
+						For some costs (currencies: copper, spirit shards, dungeon tokens, ...) there is no way at the moment
+						to obtain any information about how many you already have, and so the full cost is always
+						displayed.</span>
+						<!-- MAIN ITEM TABLE -->
+						<div class="results">
+							<item-table
+								buy-immediately="buyImmediately"
+								item-tree="costTree"
+								show-percentage="showPercentage"></item-table>
+						</div>
+					</form>
+				</div>
+			</div>
+			
+			<footer>
+				<p>
+					<a href="http://www.guildwars.com/">Guild Wars</a>,
+					<a href="http://www.guildwars2.com/">Guild Wars 2</a>,
+					<a href="https://heartofthorns.guildwars2.com/">Guild Wars 2: Heart of Thorns</a>,
+					<a href="https://www.arena.net/">ArenaNet</a>,
+					<a href="http://us.ncsoft.com/">NCSOFT</a>,
+					the Interlocking NC Logo, and all associated logos and designs are trademarks or registered trademarks of NCSOFT Corporation.
+					All other trademarks are the property of their respective owners</p>
+			</footer>
+		</section>
+	</body>
+</html>
