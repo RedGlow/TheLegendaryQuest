@@ -98,7 +98,7 @@ angular.module('legendarySearch.main', [
 		$scope.openedDetails = false;
 		$scope.toggleDetails = function() {
 			$scope.openedDetails = !$scope.openedDetails;
-		}
+		};
 	}
 ])
 

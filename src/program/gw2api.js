@@ -154,12 +154,13 @@ angular.module('supplyCrateApp.gw2api', [
                         delete request.queued[queueId];
 					}
                 }, function(err) {
+					var i, queueId, queueRow, j;
 					if(!!err.data && !!err.data.text && err.data.text == "all ids provided are invalid") {
 						// all values are invalid
 						var now = Now.value();
-						for(var i = 0; i < queueIds.length; i++) {
-							var queueId = queueIds[i];
-							var queueRow = request.queued[queueId];
+						for(i = 0; i < queueIds.length; i++) {
+							queueId = queueIds[i];
+							queueRow = request.queued[queueId];
 							var returnValue = {
 								"text": "all ids provided are invalid"
 							};
@@ -168,7 +169,7 @@ angular.module('supplyCrateApp.gw2api', [
 								value: returnValue,
 								isRejection: true
 							};
-							for(var j = 0; j < queueRow.length; j++) {
+							for(j = 0; j < queueRow.length; j++) {
 								queueRow[j].reject(returnValue);
 								numRunningRequests--;
 							}
@@ -177,10 +178,10 @@ angular.module('supplyCrateApp.gw2api', [
 					} else {
 						// this is another kind of error (HTTP level, 500, ...):
 						// return the same error, but without caching it
-						for(var i = 0; i < queueIds.length; i++) {
-							var queueId = queueIds[i];
-							var queueRow = request.queued[queueId];
-							for(var j = 0; j < queueRow.length; j++) {
+						for(i = 0; i < queueIds.length; i++) {
+							queueId = queueIds[i];
+							queueRow = request.queued[queueId];
+							for(j = 0; j < queueRow.length; j++) {
 								queueRow[j].reject(err);
 								numRunningRequests--;
 							}
