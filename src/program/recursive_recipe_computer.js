@@ -107,7 +107,13 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 					var tradingPostCostPromise = GW2API
 						.getListing(itemId)
 						.then(function(result) { return result; },
-							function(error) { return {id: itemId, buys: [], sells: []}; });
+							function(error) {
+								if(!!error.text && error.text == "all ids provided are invalid") {
+									return {id: itemId, buys: [], sells: []};
+								} else {
+									return $q.reject(error);
+								}
+							});
 					// run them
 					return $q.all([recipePromise, tradingPostCostPromise]).then(function(results) {
 						var recipeResult = results[0],

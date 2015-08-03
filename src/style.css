@@ -343,3 +343,9 @@ a.expansion-arrow {
 .results-row {
 	overflow-x: auto;
 }
+
+/* ERROR DIALOG */
+
+.bug-button {
+	margin-right: 0.5em;
+}

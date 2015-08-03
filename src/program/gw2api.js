@@ -128,13 +128,13 @@ angular.module('supplyCrateApp.gw2api', [
 							numRunningRequests--;
                         }
                         delete request.queued[id];
-						for(var k = 0; k < ids.length; k++) {
+						for(var k = 0; k < queueIds.length; k++) {
 							queueId = queueIds[k];
 							if(queueId == id) {
+								queueIds.splice(k, 1);
 								break;
 							}
 						}
-						queueIds.splice(k, 1);
                     }
 					for(i = 0; i < queueIds.length; i++) {
 						queueId = queueIds[i];
@@ -154,24 +154,38 @@ angular.module('supplyCrateApp.gw2api', [
                         delete request.queued[queueId];
 					}
                 }, function(err) {
-					// all values are invalid
-                    var now = Now.value();
-					for(var i = 0; i < queueIds.length; i++) {
-						var queueId = queueIds[i];
-						var queueRow = request.queued[queueId];
-						var returnValue = {
-							"text": "all ids provided are invalid"
-						};
-						request.cache[queueId] = {
-							timestamp: now,
-							value: returnValue,
-							isRejection: true
-						};
-                        for(var j = 0; j < queueRow.length; j++) {
-                            queueRow[j].reject(returnValue);
-							numRunningRequests--;
-                        }
-                        delete request.queued[queueId];
+					if(!!err.data && !!err.data.text && err.data.text == "all ids provided are invalid") {
+						// all values are invalid
+						var now = Now.value();
+						for(var i = 0; i < queueIds.length; i++) {
+							var queueId = queueIds[i];
+							var queueRow = request.queued[queueId];
+							var returnValue = {
+								"text": "all ids provided are invalid"
+							};
+							request.cache[queueId] = {
+								timestamp: now,
+								value: returnValue,
+								isRejection: true
+							};
+							for(var j = 0; j < queueRow.length; j++) {
+								queueRow[j].reject(returnValue);
+								numRunningRequests--;
+							}
+							delete request.queued[queueId];
+						}
+					} else {
+						// this is another kind of error (HTTP level, 500, ...):
+						// return the same error, but without caching it
+						for(var i = 0; i < queueIds.length; i++) {
+							var queueId = queueIds[i];
+							var queueRow = request.queued[queueId];
+							for(var j = 0; j < queueRow.length; j++) {
+								queueRow[j].reject(err);
+								numRunningRequests--;
+							}
+							delete request.queued[queueId];
+						}
 					}
 				});
         }
