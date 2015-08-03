@@ -235,14 +235,34 @@ h1 {
 	padding-right: 0;
 }
 
-.recipe-container .item-data .img-col {
+.item-data .img-col .arrow {
+	color: white;
+	position: absolute;
+	bottom: 0;
+	right: 2px;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.item-data .img-col {
 	padding-left: 0;
+}
+
+.item-data .img-container {
+	position: relative;
+	max-width: 64px;
+	font-size: 2vw;
+}
+
+@media (min-width: 768px) {
+	.item-data  .img-container {
+		font-size: 14px;
+	}
 }
 
 .item-data .img {
 	cursor: pointer;
 	width: 100%;
-	max-width: 64px;
 }
 
 .item-data .recipe-amount {

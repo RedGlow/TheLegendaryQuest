@@ -88,7 +88,15 @@
 					<div class="item-data col-xs-12">
 						<div class="row">
 							<div class="col-xs-1 img-col">
-								<img class="img img-rounded" ng-src="{{item.icon}}" alt="{{item.name}}" ng-click="toggle($event)">
+								<div class="img-container">
+									<span class="arrow"
+										ng-if="!!itemTree.ingredients && itemTree.ingredients.length > 0"
+										ng-click="toggle($event)">
+										<span class="glyphicon"
+											ng-class="{'glyphicon-minus-sign': open, 'glyphicon-plus-sign': !open}"></span>
+									</span>
+									<img class="img img-rounded" ng-src="{{item.icon}}" alt="{{item.name}}" ng-click="toggle($event)">
+								</div>
 							</div>
 							<div class="details col-xs-11">
 								<div class="row">
