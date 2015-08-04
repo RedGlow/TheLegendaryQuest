@@ -6,7 +6,7 @@ and about the costs, giving you both a list of the items still needed and a brea
 different currencies you need to get them.
 
 ## How to use it
-You can directly head to [the website](redglow.github.io/TheLegendaryQuest/) in order to use it.
+You can directly head to [the website](http://redglow.github.io/TheLegendaryQuest/) in order to use it.
 
 There you can choose your legendary, whether you want trading post costs to be computed as "buy now" or "buy order",
 and optionally put an API key in order to access your bank content, and take it into consideration
