@@ -1,5 +1,6 @@
 angular.module('legendarySearch.main', [
 	'ngStorage',
+	'ui.bootstrap',
 	'legendarySearch',
 	'supplyCrateApp.gw2api',
 	'legendarySearch.bank',
@@ -12,8 +13,23 @@ angular.module('legendarySearch.main', [
 ])
 
 .controller('Main', [
-	        "$scope", "$q", "$localStorage", "GW2API", "Bank", "RecursiveRecipeComputer", "RunningRequests", "RecipeCompanion",
-	function($scope,   $q,   $localStorage,   GW2API,   Bank,   RecursiveRecipeComputer,   RunningRequests,   RecipeCompanion) {
+	        "$scope", "$q", "$localStorage", "$modal", "GW2API", "Bank", "RecursiveRecipeComputer", "RunningRequests", "RecipeCompanion",
+	function($scope,   $q,   $localStorage,   $modal,   GW2API,   Bank,   RecursiveRecipeComputer,   RunningRequests,   RecipeCompanion) {
+		// error function
+		function errorFunction(error) {
+			return $modal.open({
+				templateUrl: 'error-dialog.html',
+				controller: 'ErrorDialogController',
+				resolve: {
+					error: function() { return error; }
+				}
+			}).result.then(function() {
+				return $q.reject(error);
+			}, function() {
+				return $q.reject(error);
+			});
+		}
+		
 		// initialize legendary list
 		var availableLegendariesIds = RecipeCompanion.getLegendaryIds();
 		$q.all(jQuery.map(availableLegendariesIds, function(legendaryId) {
@@ -25,18 +41,26 @@ angular.module('legendarySearch.main', [
 				return l1.name.localeCompare(l2.name);
 			});
 			$scope.availableLegendaries = availableLegendaries;
-		});
+		}, errorFunction);
 		$scope.selectedLegendary = null;
 		
 		// initialize TP management
 		$scope.buyImmediately = true;
 		
+		// show remaining costs
+		$scope.showOnlyRemainingCosts = true;
+		
 		// bank management
 		$scope.apiKeyTemp = $scope.apiKey = $localStorage.apiKey;
 		$scope.bankContent = {};
+		$scope.hasBankContents = false;
 		$scope.$watch('apiKey', function() {
 			$scope.bankContentErrors = null;
-			if(!$scope.apiKey) { return; }
+			if(!$scope.apiKey) {
+				$scope.bankContent = {};
+				$scope.hasBankContents = false;
+				return;
+			}
 			$localStorage.apiKey = $scope.apiKey;
 			Bank.getFullContent($scope.apiKey).then(function(data) {
 				$scope.bankContent = data.items;
@@ -48,10 +72,11 @@ angular.module('legendarySearch.main', [
 				$scope.bankContentErrors = {
 					accessError: response.data.text
 				};
+			})
+			.then(function() {
+				$scope.hasBankContents = !!$scope.bankContent && !jQuery.isEmptyObject($scope.bankContent);
+				console.debug("BC:", $scope.hasBankContents);
 			});
-		});
-		$scope.$watch('bankContent', function() {
-			$scope.showPercentage = !!$scope.bankContent && !jQuery.isEmptyObject($scope.bankContent);
 		});
 		
 		// load cost tree
@@ -60,20 +85,42 @@ angular.module('legendarySearch.main', [
 				return;
 			}
 			RecursiveRecipeComputer
-				.getRecipeTree($scope.selectedLegendary, $scope.bankContent || {}, $scope.buyImmediately)
+				.getRecipeTree($scope.selectedLegendary,
+					$scope.showOnlyRemainingCosts ? ($scope.bankContent || {}) : {},
+					$scope.buyImmediately)
 				.then(function(data) {
 					console.debug(data);
 					$scope.costTree = data;
-				}, function(error) {
-					alert("Cost tree error:", error);
-				});
+				}, errorFunction);
 		}
 		$scope.$watch('bankContent', reloadTree);
+		$scope.$watch('showOnlyRemainingCosts', reloadTree);
 		$scope.$watch('selectedLegendary', reloadTree);
 		$scope.$watch('buyImmediately', reloadTree);
+		$scope.$watch('showPercentage', reloadTree);
 		
 		// num running requests
 		$scope.runningRequests = RunningRequests.get;
+		
+		// show percentage
+		function computeShowPercentage() {
+			$scope.showPercentage = $scope.showOnlyRemainingCosts &&
+				!!$scope.bankContent &&
+				!jQuery.isEmptyObject($scope.bankContent);
+		}
+		$scope.$watch('bankContent', computeShowPercentage);
+		$scope.$watch('showOnlyRemainingCosts', computeShowPercentage);
+	}
+])
+
+.controller('ErrorDialogController', [
+	        "$scope", "error",
+	function($scope,   error) {
+		$scope.error = error;
+		$scope.openedDetails = false;
+		$scope.toggleDetails = function() {
+			$scope.openedDetails = !$scope.openedDetails;
+		};
 	}
 ])
 

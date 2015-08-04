@@ -25,7 +25,9 @@
 		<script src="../node_modules/angular/angular.min.js"></script>
 		<script src="../node_modules/angular-animate/angular-animate.min.js"></script>
 		<script src="../node_modules/ngstorage/ngStorage.min.js"></script>
+		<script src="../node_modules/angular-ui-bootstrap/ui-bootstrap-tpls.min.js"></script>
 		<script src="../node_modules/bootstrap/js/modal.js"></script>
+		<script src="program/jquery.closestchild.js"></script>
 		<script src="program/recipe_companion.js"></script>
 		<script src="program/bank.js"></script>
 		<script src="program/convert_to_boolean.js"></script>
@@ -87,7 +89,15 @@
 					<div class="item-data col-xs-12">
 						<div class="row">
 							<div class="col-xs-1 img-col">
-								<img class="img img-rounded" ng-src="{{item.icon}}" alt="{{item.name}}" ng-click="toggle($event)">
+								<div class="img-container">
+									<span class="arrow"
+										ng-if="!!itemTree.ingredients && itemTree.ingredients.length > 0"
+										ng-click="toggle($event)">
+										<span class="glyphicon"
+											ng-class="{'glyphicon-minus-sign': open, 'glyphicon-plus-sign': !open}"></span>
+									</span>
+									<img class="img img-rounded" ng-src="{{item.icon}}" alt="{{item.name}}" ng-click="toggle($event)">
+								</div>
 							</div>
 							<div class="details col-xs-11">
 								<div class="row">
@@ -102,7 +112,7 @@
 												<span class="visible-xs-inline">TP:</span>
 												<price value="itemTree.tradingPostCost"></price>
 											</div>
-											<div class="col-sm-4 col-xs-12" ng-if="showPercentage">
+											<div class="col-sm-4 col-xs-12">
 												<site-links item-id="itemTree.itemId"></site-links>
 											</div>
 										</div>
@@ -120,7 +130,7 @@
 										<div ng-switch-default>&nbsp;</div>
 									</div>
 									<div class="col-xs-12">
-										<div class="amount">
+										<div class="amount" ng-class="{'invisible': !showPercentage}">
 											<div class="percentage-bar" ng-style="{width: itemTree.roundedPercentage + '%'}"></div>
 											<div class="percentage-text">
 											{{itemTree.ownedAmount}} / {{itemTree.ownedAmount + itemTree.remainingNeededAmount}}
@@ -132,8 +142,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="recipe-container col-xs-11 col-xs-offset-1"
-						ng-class="{'hidden-block': !open}">
+					<div class="recipe-container col-xs-11 col-xs-offset-1">
 						<div class="recipe"
 							ng-if="itemTree.remainingNeededAmount > 0">
 							<div class="recipe-element"
@@ -143,7 +152,9 @@
 									ng-if="!!element.itemId"
 									item-tree="element"
 									buy-immediately="buyImmediately"
-									show-percentage="showPercentage"></item-table>
+									show-percentage="showPercentage"
+									visible="open"
+									visibility-level="childVisibilityLevel"></item-table>
 								<!-- currency case: copper -->
 								<price ng-if="!!element.currencyId && element.currencyId == 'copper'"
 									value="element.unitaryRecipeAmount"></price>
@@ -156,6 +167,38 @@
 				</div>
 			</script>
 			
+			<!-- ERROR DIALOG TEMPLATE -->
+			<script type="text/ng-template" id="error-dialog.html">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="$dismiss()"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Error</h4>
+				</div>
+				<div class="modal-body">
+					<p>An error was encountered.</p>
+					<p>Try reloading the page or launch the request again.</p>
+					<p>If the problem persists, please <a href="https://github.com/RedGlow/TheLegendaryQuest/issues/new"
+					target="_blank">open
+					a bug report</a> and possibly <a href="mailto:mattia.belletti@gmail.com?subject=API key for bug #&lt;INSERT BUG NUMBER&gt;">send me an email with your API
+					key and a reference to the bug you opened</a> at <em>mattia.belletti@gmail.com</em>.</p>
+					<p>
+						<button class="btn btn-default" role="button" ng-click="toggleDetails()">
+							<span class="bug-button glyphicon" ng-class="{'glyphicon-folder-close': openedDetails, 'glyphicon-folder-open': !openedDetails}"></span>
+							<span ng-if="!openedDetails">Open details</span>
+							<span ng-if="openedDetails">Close details</span>
+						</button>
+					</p>
+					<pre ng-if="openedDetails">
+Status: {{ error.status }}
+Status text: {{ error.statusText }}
+Config: {{ error.config | json }}
+Data: {{ error.data | json }}
+					</pre>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="$dismiss()">Close</button>
+				</div>
+			</script>
+								
 			<div class="running-requests" ng-class="{'invisible': runningRequests() <= 0}">
 				<p class="content">
 					<img src="img/loading.gif">
@@ -198,11 +241,14 @@
 								</div>
 							</div>
 							
-							<!-- BANK/MATERIAL ACCESS -->
+							<!-- BANK/MATERIAL API key -->
 							<div class="form-group">
 								<label class="col-xs-3 col-sm-2 control-label" for="api-key">API key
 									<button data-toggle="modal" data-target="#apiKeyHelpModal" class="btn btn-link helper-btn">(?)</button>
 								</label>
+								<div class="col-xs-9 col-sm-10">
+									<input class="form-control" id="api-key" type="text" aria-describedby="helpBlock" ng-model="apiKeyTemp">
+								</div>
 								<div class="modal fade" id="apiKeyHelpModal" tabindex="-1" role="dialog">
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">
@@ -215,15 +261,17 @@
 												Guild Wars 2 account.</p>
 												<p>In order to produce an API key for this website, follow these steps:</p>
 												<ol>
-													<li>Login on the ArenaNet account website (https://account.arena.net/login - for security reasons there is no link on this website sending you directly to the login page)</li>
-													<li>Go to the "Applications" tab</li>
-													<li>Click "New key"</li>
-													<li>Name the key however you want, and make sure "inventories" and "characters" are checked</li>
-													<li>Click "Create API key"</li>
+													<li>Login on the ArenaNet account website (<strong>https://account.arena.net/login</strong> - for security reasons there is no link on this website sending you directly to the login page)</li>
+													<li>Go to the &ldquo;<strong>Applications</strong>&rdquo; tab</li>
+													<li>Click &ldquo;<strong>New key</strong>&rdquo;</li>
+													<li>Name the key however you want, and make sure <strong>&ldquo;inventories&rdquo; and &ldquo;characters&rdquo;</strong> are checked</li>
+													<li>Click &ldquo;<strong>Create API key</strong>&rdquo;</li>
 												</ol>
-												<p>These steps needs to done just once. Copy the generated API key into
-												the API key box, and it will be saved in your browser. Should you change your browser or delete the cache, just
-												go to the account applications page and copy-paste the key you generated once more, without generating a
+												<p>These steps need to be performed just once.</p>
+												<p>Once you have the API key, copy it into
+												the API key box, click the button, and it will be saved in your browser.</p>
+												<p>Should you change your browser or delete the cache, just
+												go to the applications page and copy-paste the key you generated once more, without generating a
 												new one.</p>
 											</div>
 											<div class="modal-footer">
@@ -232,11 +280,13 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-xs-9 col-sm-10">
-									<input class="form-control" id="api-key" type="text" aria-describedby="helpBlock" ng-model="apiKeyTemp">
+							</div>
+							
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-xs-offset-3 col-sm-10 col-xs-9">
 									<button class="btn btn-default" role="button" ng-click="apiKey = apiKeyTemp">Load bank contents</button>
 								</div>
-								<div class="col-xs-9 col-sm-10 col-xs-offset-3 col-sm-offset-2">
+								<div class="col-sm-offset-2 col-xs-offset-3 col-sm-10 col-xs-10">
 									<div class="help-block" id="helpBlock">
 										<p>
 										Currently used key: {{ !!apiKey ? apiKey : "none" }}.
@@ -244,6 +294,13 @@
 										<span class="text-danger" ng-if="!!bankContentErrors && bankContentErrors.inventories"><br>given key has no 'inventories' scope (no data can be loaded)</span>
 										<span class="text-warning" ng-if="!!bankContentErrors && !bankContentErrors.inventories && bankContentErrors.characters"><br>given key has no 'characters' scope (character inventories cannot be loaded)</span>
 										</p>
+									</div>
+								</div>
+								<div class="col-sm-offset-2 col-xs-offset-3 col-xs-9 col-sm-10">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" ng-model="showOnlyRemainingCosts" ng-disabled="!hasBankContents"> Show only remaining costs
+										</label>
 									</div>
 								</div>
 							</div>
@@ -268,7 +325,8 @@
 							<item-table
 								buy-immediately="buyImmediately"
 								item-tree="costTree"
-								show-percentage="showPercentage"></item-table>
+								show-percentage="showPercentage"
+								visible="true"></item-table>
 						</div>
 					</form>
 				</div>
@@ -276,13 +334,18 @@
 			
 			<footer>
 				<p>
-					<a href="http://www.guildwars.com/">Guild Wars</a>,
-					<a href="http://www.guildwars2.com/">Guild Wars 2</a>,
-					<a href="https://heartofthorns.guildwars2.com/">Guild Wars 2: Heart of Thorns</a>,
-					<a href="https://www.arena.net/">ArenaNet</a>,
-					<a href="http://us.ncsoft.com/">NCSOFT</a>,
+					This program is brought to you by <a target="_blank" href="https://github.com/RedGlow">RedGlow</a>
+					(<a target="_blank" href="http://wiki.guildwars2.com/wiki/User:RedGlow">RedGlow.2715</a> in game,
+					<a target="_blank" href="https://www.reddit.com/user/RedGlow82/">RedGlow82</a> on reddit).
+				</p>
+				<p>
+					<a target="_blank" href="http://www.guildwars.com/">Guild Wars</a>,
+					<a target="_blank" href="http://www.guildwars2.com/">Guild Wars 2</a>,
+					<a target="_blank" href="https://heartofthorns.guildwars2.com/">Guild Wars 2: Heart of Thorns</a>,
+					<a target="_blank" href="https://www.arena.net/">ArenaNet</a>,
+					<a target="_blank" href="http://us.ncsoft.com/">NCSOFT</a>,
 					the Interlocking NC Logo, and all associated logos and designs are trademarks or registered trademarks of NCSOFT Corporation.
-					All other trademarks are the property of their respective owners</p>
+					All other trademarks are the property of their respective owners.</p>
 			</footer>
 		</section>
 	</body>
