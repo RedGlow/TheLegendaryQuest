@@ -39,6 +39,22 @@ In order to setup a functional development environment, the following steps are 
 
 ## Changelog
 
+### [0.3.0]
+
+* Complete rework of the UX regarding the crafting tree; it now includes the crafting cost, the trading post cost,
+   a percentage completion bar, links to the wiki, gw2spidy and gw2shinies, and it uses a vertical expansion
+   ([#1](https://github.com/RedGlow/TheLegendaryQuest/issues/1), [#6](https://github.com/RedGlow/TheLegendaryQuest/issues/6),
+   [#9](https://github.com/RedGlow/TheLegendaryQuest/issues/9), [#11](https://github.com/RedGlow/TheLegendaryQuest/issues/11),
+   [#18](https://github.com/RedGlow/TheLegendaryQuest/issues/18))
+* Added a feedback wheel while loading the contents ([#2](https://github.com/RedGlow/TheLegendaryQuest/issues/2))
+* The API key is now saved in the browser and automatically loaded upon opening ([#10](https://github.com/RedGlow/TheLegendaryQuest/issues/10))
+* Added an explanation about what an API key is and how it is created ([#12](https://github.com/RedGlow/TheLegendaryQuest/issues/12))
+* Added a favicon ([#14](https://github.com/RedGlow/TheLegendaryQuest/issues/14))
+* Fixed a missing recipe ([#19](https://github.com/RedGlow/TheLegendaryQuest/issues/19))
+* Fractional costs are no longer displayed ([#21](https://github.com/RedGlow/TheLegendaryQuest/issues/21))
+* Improved error reporting when ANet API breaks ([#22](https://github.com/RedGlow/TheLegendaryQuest/issues/22))
+* Possibility to see the crafting tree without considering any bank content ([#23](https://github.com/RedGlow/TheLegendaryQuest/issues/23))
+
 ### [0.2.1](https://www.reddit.com/r/Guildwars2/comments/3efvdt/the_legendary_quest_v_020/)
 
 * Fixed a bug which prevented the correct computation of materials in the character inventories if a bag slot had no bag in it.
