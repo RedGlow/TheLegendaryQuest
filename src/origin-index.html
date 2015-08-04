@@ -27,6 +27,7 @@
 		<script src="../node_modules/ngstorage/ngStorage.min.js"></script>
 		<script src="../node_modules/angular-ui-bootstrap/ui-bootstrap-tpls.min.js"></script>
 		<script src="../node_modules/bootstrap/js/modal.js"></script>
+		<script src="program/jquery.closestchild.js"></script>
 		<script src="program/recipe_companion.js"></script>
 		<script src="program/bank.js"></script>
 		<script src="program/convert_to_boolean.js"></script>
@@ -129,7 +130,7 @@
 										<div ng-switch-default>&nbsp;</div>
 									</div>
 									<div class="col-xs-12">
-										<div class="amount">
+										<div class="amount" ng-class="{'invisible': !showPercentage}">
 											<div class="percentage-bar" ng-style="{width: itemTree.roundedPercentage + '%'}"></div>
 											<div class="percentage-text">
 											{{itemTree.ownedAmount}} / {{itemTree.ownedAmount + itemTree.remainingNeededAmount}}
@@ -141,8 +142,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="recipe-container col-xs-11 col-xs-offset-1"
-						ng-class="{'hidden-block': !open}">
+					<div class="recipe-container col-xs-11 col-xs-offset-1">
 						<div class="recipe"
 							ng-if="itemTree.remainingNeededAmount > 0">
 							<div class="recipe-element"
@@ -152,7 +152,9 @@
 									ng-if="!!element.itemId"
 									item-tree="element"
 									buy-immediately="buyImmediately"
-									show-percentage="showPercentage"></item-table>
+									show-percentage="showPercentage"
+									visible="open"
+									visibility-level="childVisibilityLevel"></item-table>
 								<!-- currency case: copper -->
 								<price ng-if="!!element.currencyId && element.currencyId == 'copper'"
 									value="element.unitaryRecipeAmount"></price>
@@ -239,11 +241,14 @@ Data: {{ error.data | json }}
 								</div>
 							</div>
 							
-							<!-- BANK/MATERIAL ACCESS -->
+							<!-- BANK/MATERIAL API key -->
 							<div class="form-group">
 								<label class="col-xs-3 col-sm-2 control-label" for="api-key">API key
 									<button data-toggle="modal" data-target="#apiKeyHelpModal" class="btn btn-link helper-btn">(?)</button>
 								</label>
+								<div class="col-xs-9 col-sm-10">
+									<input class="form-control" id="api-key" type="text" aria-describedby="helpBlock" ng-model="apiKeyTemp">
+								</div>
 								<div class="modal fade" id="apiKeyHelpModal" tabindex="-1" role="dialog">
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">
@@ -275,11 +280,13 @@ Data: {{ error.data | json }}
 										</div>
 									</div>
 								</div>
-								<div class="col-xs-9 col-sm-10">
-									<input class="form-control" id="api-key" type="text" aria-describedby="helpBlock" ng-model="apiKeyTemp">
+							</div>
+							
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-xs-offset-3 col-sm-10 col-xs-9">
 									<button class="btn btn-default" role="button" ng-click="apiKey = apiKeyTemp">Load bank contents</button>
 								</div>
-								<div class="col-xs-9 col-sm-10 col-xs-offset-3 col-sm-offset-2">
+								<div class="col-sm-offset-2 col-xs-offset-3 col-sm-10 col-xs-10">
 									<div class="help-block" id="helpBlock">
 										<p>
 										Currently used key: {{ !!apiKey ? apiKey : "none" }}.
@@ -287,6 +294,13 @@ Data: {{ error.data | json }}
 										<span class="text-danger" ng-if="!!bankContentErrors && bankContentErrors.inventories"><br>given key has no 'inventories' scope (no data can be loaded)</span>
 										<span class="text-warning" ng-if="!!bankContentErrors && !bankContentErrors.inventories && bankContentErrors.characters"><br>given key has no 'characters' scope (character inventories cannot be loaded)</span>
 										</p>
+									</div>
+								</div>
+								<div class="col-sm-offset-2 col-xs-offset-3 col-xs-9 col-sm-10">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" ng-model="showOnlyRemainingCosts"> Show only remaining costs
+										</label>
 									</div>
 								</div>
 							</div>
@@ -311,7 +325,8 @@ Data: {{ error.data | json }}
 							<item-table
 								buy-immediately="buyImmediately"
 								item-tree="costTree"
-								show-percentage="showPercentage"></item-table>
+								show-percentage="showPercentage"
+								visible="true"></item-table>
 						</div>
 					</form>
 				</div>

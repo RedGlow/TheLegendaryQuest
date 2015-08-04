@@ -47,6 +47,9 @@ angular.module('legendarySearch.main', [
 		// initialize TP management
 		$scope.buyImmediately = true;
 		
+		// show remaining costs
+		$scope.showOnlyRemainingCosts = true;
+		
 		// bank management
 		$scope.apiKeyTemp = $scope.apiKey = $localStorage.apiKey;
 		$scope.bankContent = {};
@@ -66,9 +69,6 @@ angular.module('legendarySearch.main', [
 				};
 			});
 		});
-		$scope.$watch('bankContent', function() {
-			$scope.showPercentage = !!$scope.bankContent && !jQuery.isEmptyObject($scope.bankContent);
-		});
 		
 		// load cost tree
 		function reloadTree() {
@@ -76,18 +76,31 @@ angular.module('legendarySearch.main', [
 				return;
 			}
 			RecursiveRecipeComputer
-				.getRecipeTree($scope.selectedLegendary, $scope.bankContent || {}, $scope.buyImmediately)
+				.getRecipeTree($scope.selectedLegendary,
+					$scope.showOnlyRemainingCosts ? ($scope.bankContent || {}) : {},
+					$scope.buyImmediately)
 				.then(function(data) {
 					console.debug(data);
 					$scope.costTree = data;
 				}, errorFunction);
 		}
 		$scope.$watch('bankContent', reloadTree);
+		$scope.$watch('showOnlyRemainingCosts', reloadTree);
 		$scope.$watch('selectedLegendary', reloadTree);
 		$scope.$watch('buyImmediately', reloadTree);
+		$scope.$watch('showPercentage', reloadTree);
 		
 		// num running requests
 		$scope.runningRequests = RunningRequests.get;
+		
+		// show percentage
+		function computeShowPercentage() {
+			$scope.showPercentage = $scope.showOnlyRemainingCosts &&
+				!!$scope.bankContent &&
+				!jQuery.isEmptyObject($scope.bankContent);
+		}
+		$scope.$watch('bankContent', computeShowPercentage);
+		$scope.$watch('showOnlyRemainingCosts', computeShowPercentage);
 	}
 ])
 
