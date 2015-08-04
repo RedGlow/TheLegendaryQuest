@@ -33,7 +33,7 @@ In order to setup a functional development environment, the following steps are 
 * Run `npm install` (this installs grunt and the various libraries needed)
 * Run `./node_modules/.bin/grunt develop` (for *unix systems) or `.\node_modules\.bin\grunt develop` (for windows systems)
 * Now run a webserver that serves the contents of the development directory;  I use the super-easy [Mongoose](https://code.google.com/p/mongoose/)
-* Go to `<http root address>/origin-index.html`
+* Go to `<http root address>/src/origin-index.html`
 * Start making changes and improvements
 * When you're happy with that, produce a pull request and send it to my repository, so that it can be integrated!
 
