@@ -299,7 +299,7 @@ Data: {{ error.data | json }}
 								<div class="col-sm-offset-2 col-xs-offset-3 col-xs-9 col-sm-10">
 									<div class="checkbox">
 										<label>
-											<input type="checkbox" ng-model="showOnlyRemainingCosts"> Show only remaining costs
+											<input type="checkbox" ng-model="showOnlyRemainingCosts" ng-disabled="!hasBankContents"> Show only remaining costs
 										</label>
 									</div>
 								</div>

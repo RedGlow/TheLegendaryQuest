@@ -53,9 +53,14 @@ angular.module('legendarySearch.main', [
 		// bank management
 		$scope.apiKeyTemp = $scope.apiKey = $localStorage.apiKey;
 		$scope.bankContent = {};
+		$scope.hasBankContents = false;
 		$scope.$watch('apiKey', function() {
 			$scope.bankContentErrors = null;
-			if(!$scope.apiKey) { return; }
+			if(!$scope.apiKey) {
+				$scope.bankContent = {};
+				$scope.hasBankContents = false;
+				return;
+			}
 			$localStorage.apiKey = $scope.apiKey;
 			Bank.getFullContent($scope.apiKey).then(function(data) {
 				$scope.bankContent = data.items;
@@ -67,6 +72,10 @@ angular.module('legendarySearch.main', [
 				$scope.bankContentErrors = {
 					accessError: response.data.text
 				};
+			})
+			.then(function() {
+				$scope.hasBankContents = !!$scope.bankContent && !jQuery.isEmptyObject($scope.bankContent);
+				console.debug("BC:", $scope.hasBankContents);
 			});
 		});
 		
