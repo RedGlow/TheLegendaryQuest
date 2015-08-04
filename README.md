@@ -1,5 +1,5 @@
 # The Legendary Quest
-The Legendary Quest is a tool to plan your legendary weapon in [Guild Wars 2](www.guildwars2.com).
+The Legendary Quest is a tool to plan your legendary weapon in [Guild Wars 2](http://www.guildwars2.com).
 
 It provides information both about the crafting process, in the form of a crafting tree,
 and about the costs, giving you both a list of the items still needed and a breakdown of the
