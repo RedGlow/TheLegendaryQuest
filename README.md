@@ -39,7 +39,7 @@ In order to setup a functional development environment, the following steps are 
 
 ## Changelog
 
-### [0.3.0]
+### [0.3.0](https://www.reddit.com/r/Guildwars2/comments/3fr694/the_legendary_quest_v_030/)
 
 * Complete rework of the UX regarding the crafting tree; it now includes the crafting cost, the trading post cost,
    a percentage completion bar, links to the wiki, gw2spidy and gw2shinies, and it uses a vertical expansion
