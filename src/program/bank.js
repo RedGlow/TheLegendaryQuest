@@ -21,13 +21,16 @@ angular.module('legendarySearch.bank', [
 			getFullContent: function(apiKey) {
 				var idToAmount = {};
 				function addResults(response) {
+					if(!response) { return; }
 					var data = !!response.data ? response.data : response;
 					jQuery.each(data, function(i, entry) {
 						if(entry === null) { return; }
+						if(!entry.id) { return; }
 						if(!idToAmount[entry.id]) {
 							idToAmount[entry.id] = 0;
 						}
-						idToAmount[entry.id] += entry.count;
+						var count = entry.count === undefined ? 1 : entry.count;
+						idToAmount[entry.id] += count;
 					});
 				}
 				var errors = {
@@ -62,11 +65,12 @@ angular.module('legendarySearch.bank', [
 									var characters = response.data;
 									return $q.all(jQuery.map(characters, function(character) {
 										return RunningRequests.wrap($http
-											.get("https://api.guildwars2.com/v2/characters/" + character + "/inventory?access_token=" + apiKey));
+											.get("https://api.guildwars2.com/v2/characters/" + character + "?access_token=" + apiKey));
 									}));
 								})).then(function(characterContents) {
 									jQuery.each(characterContents, function(i, response) {
 										var characterContent = response.data;
+										addResults(characterContent.equipment);
 										jQuery.each(characterContent.bags, function(j, characterBag) {
 											if(!!characterBag) {
 												addResults(characterBag.inventory);
