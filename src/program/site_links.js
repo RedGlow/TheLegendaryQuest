@@ -1,5 +1,5 @@
 angular.module('legendarySearch.siteLinks', [
-	'supplyCrateApp.gw2api'
+	'redglow.gw2api'
 ])
 
 .directive('siteLinks',

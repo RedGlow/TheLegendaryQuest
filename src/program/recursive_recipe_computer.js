@@ -1,5 +1,5 @@
 angular.module('legendarySearch.recursiveRecipeComputer', [
-	'supplyCrateApp.gw2api',
+	'redglow.gw2api',
 	'legendarySearch.recipeCompanion'
 ])
 
@@ -108,7 +108,7 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 						.getListing(itemId)
 						.then(function(result) { return result; },
 							function(error) {
-								if(!!error.text && error.text == "all ids provided are invalid") {
+								if(!!error.text && error.text == "no such id") {
 									return {id: itemId, buys: [], sells: []};
 								} else {
 									return $q.reject(error);

@@ -4,6 +4,7 @@
   "devDependencies": {
     "angular": "^1.4.3",
     "angular-animate": "^1.4.3",
+    "angular-gw2-api": "^0.1.5",
     "angular-ui-bootstrap": "^0.13.2",
     "bootstrap": "^3.3.5",
     "grunt": "^0.4.5",

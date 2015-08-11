@@ -2,19 +2,18 @@ angular.module('legendarySearch.main', [
 	'ngStorage',
 	'ui.bootstrap',
 	'legendarySearch',
-	'supplyCrateApp.gw2api',
+	'redglow.gw2api',
 	'legendarySearch.bank',
 	'legendarySearch.recipeCompanion',
 	'legendarySearch.recursiveRecipeComputer',
-	'legendarySearch.runningRequests',
 	'supplyCrateApp.price',
 	'legendarySearch.itemTable',
 	'legendarySearch.convertToBoolean'
 ])
 
 .controller('Main', [
-	        "$scope", "$q", "$localStorage", "$modal", "GW2API", "Bank", "RecursiveRecipeComputer", "RunningRequests", "RecipeCompanion",
-	function($scope,   $q,   $localStorage,   $modal,   GW2API,   Bank,   RecursiveRecipeComputer,   RunningRequests,   RecipeCompanion) {
+	        "$scope", "$q", "$localStorage", "$modal", "GW2API", "Bank", "RecursiveRecipeComputer", "RecipeCompanion",
+	function($scope,   $q,   $localStorage,   $modal,   GW2API,   Bank,   RecursiveRecipeComputer,   RecipeCompanion) {
 		// error function
 		function errorFunction(error) {
 			return $modal.open({
@@ -100,7 +99,7 @@ angular.module('legendarySearch.main', [
 		$scope.$watch('showPercentage', reloadTree);
 		
 		// num running requests
-		$scope.runningRequests = RunningRequests.get;
+		$scope.runningRequests = GW2API.getNumRunningRequests;
 		
 		// show percentage
 		function computeShowPercentage() {

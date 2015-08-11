@@ -1,5 +1,5 @@
 angular.module('legendarySearch', [
-	'supplyCrateApp.gw2api'
+	'redglow.gw2api'
 ])
 
 .config(['GW2APIProvider', function(GW2APIProvider) {

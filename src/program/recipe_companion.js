@@ -1,5 +1,5 @@
 angular.module('legendarySearch.recipeCompanion', [
-	'supplyCrateApp.gw2api'
+	'redglow.gw2api'
 ])
 
 /**
@@ -515,9 +515,8 @@ angular.module('legendarySearch.recipeCompanion', [
 				if(!!cache[id]) {
 					return $q.when(cache[id]);
 				}
-				var url = "https://api.guildwars2.com/v2/recipes/search?output=" + id;
-				return $http.get(url).then(function(response) {
-					cache[id] = response.data;
+				return GW2API.getRecipeIdsByOutput(id).then(function(recipes) {
+					cache[id] = recipes;
 					return cache[id];
 				});
 			}

@@ -1,5 +1,5 @@
 angular.module('legendarySearch.costItem', [
-	'supplyCrateApp.gw2api'
+	'redglow.gw2api'
 ])
 
 .directive('costItem',

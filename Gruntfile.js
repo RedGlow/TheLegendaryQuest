@@ -1,3 +1,4 @@
+
 module.exports = function(grunt) {
 	require('load-grunt-tasks')(grunt);
 
@@ -40,6 +41,7 @@ module.exports = function(grunt) {
 						'node_modules/angular/angular.min.js',
 						'node_modules/angular-animate/angular-animate.min.js',
 						'node_modules/ngstorage/ngStorage.min.js',
+						'node_modules/angular-gw2-api/build/gw2api.min.js',
 						'node_modules/angular-ui-bootstrap/ui-bootstrap-tpls.min.js',
 						'node_modules/bootstrap/js/modal.js',
 						'src/program/*.js'

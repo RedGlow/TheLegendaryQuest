@@ -1,6 +1,6 @@
 angular.module('legendarySearch.itemTable', [
 	'ngAnimate',
-	'supplyCrateApp.gw2api',
+	'redglow.gw2api',
 	'legendarySearch.recipeCompanion',
 	'legendarySearch.costItem',
 	'legendarySearch.siteLinks'
