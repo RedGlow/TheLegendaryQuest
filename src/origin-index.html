@@ -228,7 +228,10 @@ Data: {{ error.data | json }}
 							
 							<!-- BUY/SELL -->
 							<div class="form-group">
-								<label class="col-xs-3 col-sm-2 control-label" for="buy-selection">Trading Post</label>
+								<label class="col-xs-3 col-sm-2 control-label" for="buy-selection">
+									<span class="hidden-sm hidden-xs">Trading Post Costs</span>
+									<span class="visible-sm-inline visible-xs-inline"><abbr title="Trading Post">TP</abbr> Costs</span>
+								</label>
 								<div class="col-xs-9 col-sm-10">
 									<select class="form-control" id="buy-selection"
 										ng-model="buyImmediately"
