@@ -526,6 +526,7 @@ angular.module('legendarySearch.recipeCompanion', [
 			if(!!recipe) {
 				return $q.when({
 					ingredients: recipe,
+					crafter: null
 				});
 			} else {
 				return apiGetRecipeFromOutputId(itemId)
