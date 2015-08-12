@@ -32,7 +32,7 @@ angular.module('legendarySearch.disciplinesTable', [
 					});
 				});
 				// watch the item tree
-				$scope.$watch('itemTree', function() {
+				$scope.$watch('itemTree.crafters', function() {
 					if(!$scope.itemTree) {
 						neededCrafters = null;
 						return;
@@ -41,9 +41,14 @@ angular.module('legendarySearch.disciplinesTable', [
 				});
 				// watch the data we need in order to compute a result
 				$scope.$watch(function() {
-					return !!neededCrafters && !!characters;
-				}, function(valid) {
-					if(!valid) {
+					return neededCrafters;
+				}, update, true);
+				$scope.$watch(function() {
+					return characters;
+				}, update, true);
+				// updater function
+				function update() {
+					if(!neededCrafters || !characters) {
 						return;
 					}
 					// get the best character for each profession
@@ -109,7 +114,7 @@ angular.module('legendarySearch.disciplinesTable', [
 					});
 					console.debug("craftProblems:", craftProblems);
 					$scope.craftProblems = craftProblems;
-				});
+				}
 			}
 		};
 	}
