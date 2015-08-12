@@ -1,0 +1,26 @@
+<table class="table table-striped table-hover">
+	<thead>
+		<tr>
+			<th>Item</th>
+			<th>Required discipline</th>
+			<th>Required level</th>
+			<th>Character</th>
+			<th>Current level</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="craftProblem in craftProblems"
+			ng-class="craftProblem.level">
+			<td><cost-item amount="1" item-id="craftProblem.itemId"></cost-item></td>
+			<td>
+				<div ng-repeat="discipline in craftProblem.disciplines">
+					{{ discipline }}
+				</div>
+			</td>
+			<td>{{craftProblem.rating}}</td>
+			<td class="nocharacter" colspan="2" ng-if="!craftProblem.characterName">(no character found)</td>
+			<td ng-if="!!craftProblem.characterName">{{ craftProblem.characterName }}</td>
+			<td ng-if="!!craftProblem.characterName">{{ craftProblem.characterRating }}</td>
+		</tr>
+	</tbody>
+</table>

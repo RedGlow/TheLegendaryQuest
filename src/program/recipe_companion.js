@@ -524,7 +524,9 @@ angular.module('legendarySearch.recipeCompanion', [
 			var recipe = mysticForgeRecipes[itemId];
 			// get out api recipes, if we have no other recipe
 			if(!!recipe) {
-				return $q.when(recipe);
+				return $q.when({
+					ingredients: recipe,
+				});
 			} else {
 				return apiGetRecipeFromOutputId(itemId)
 					.then(function(recipeIds) {
@@ -548,13 +550,19 @@ angular.module('legendarySearch.recipeCompanion', [
 								});
 							}
 						}
-						return jQuery.map(ingredients, function(entry) {
-							return {
-								type: 'item',
-								id: entry.item_id,
-								amount: entry.count
-							};
-						});
+						return {
+							ingredients: jQuery.map(ingredients, function(entry) {
+									return {
+										type: 'item',
+										id: entry.item_id,
+										amount: entry.count
+									};
+								}),
+							crafter: {
+								disciplines: recipe.disciplines,
+								rating: recipe.min_rating
+							}
+						};
 					});
 			}
 		}

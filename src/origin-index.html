@@ -39,6 +39,7 @@
 		<script src="program/program.js"></script>
 		<script src="program/cost_item.js"></script>
 		<script src="program/site_links.js"></script>
+		<script src="program/disciplines_table.js"></script>
 		<!-- /build -->
 		<!-- build:css app.min.css -->
 		<link rel="stylesheet" href="../build/bootstrap.css">
@@ -181,6 +182,17 @@
 								show-percentage="showPercentage"
 								visible="true"></item-table>
 						</div>
+					</form>
+				</div>
+			</div>
+			
+			<div class="row results-row">
+				<div class="col-xs-12">
+					<form ng-if="!!costTree">
+						<legend>Required disciplines</legend>
+						<disciplines-table
+							item-tree="costTree"
+							api-key="apiKey"></disciplines-table>
 					</form>
 				</div>
 			</div>
