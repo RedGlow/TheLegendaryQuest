@@ -16,9 +16,10 @@ without waiting for node creation/insertion.
 the actual changes in model are always made at the end of the animations to avoid stuttering.
 */
 .directive('itemTable', [
-	        "$templateCache", "$compile", "$timeout", "GW2API",
-	function($templateCache,   $compile,   $timeout,   GW2API) {
+	        "$http", "$q", "$templateCache", "$compile", "$timeout", "GW2API",
+	function($http,   $q,   $templateCache,   $compile,   $timeout,   GW2API) {
 		var content = null;
+		var itemTableUrl = 'program/item_table.html';
 		return {
 			restrict: 'E',
 			scope: {
@@ -48,8 +49,21 @@ the actual changes in model are always made at the end of the animations to avoi
 			},
 			link: function(scope, element, attrs) {
 				// get template for lazy binding
+				var contentPromise;
 				if(content === null) {
-					content = $templateCache.get('item-table-directive.html');
+					content = $templateCache.get(itemTableUrl);
+					if(!content) {
+						contentPromise = $http
+							.get(itemTableUrl)
+							.then(function(response) {
+								content = response.data;
+								return content;
+							});
+					} else {
+						contentPromise = $q.when(content);
+					}
+				} else {
+					contentPromise = $q.when(content);
 				}
 				// manage open/closed recipe
 				scope.open = false;
@@ -75,15 +89,17 @@ the actual changes in model are always made at the end of the animations to avoi
 				};
 				// manage compilation when we are visible or children of visible nodes
 				var compiled = false;
-				scope.$watch('visibilityLevel', function() {
-					if(scope.visibilityLevel !== 0 && !scope.visibilityLevel) {
-						return;
-					}
-					if(scope.visibilityLevel > 0 && !compiled) {
-						element.append(content);
-						$compile(element.contents())(scope.$new());
-						compiled = true;
-					}
+				contentPromise.then(function(content) {
+					scope.$watch('visibilityLevel', function() {
+						if(scope.visibilityLevel !== 0 && !scope.visibilityLevel) {
+							return;
+						}
+						if(scope.visibilityLevel > 0 && !compiled) {
+							element.append(content);
+							$compile(element.contents())(scope.$new());
+							compiled = true;
+						}
+					});
 				});
 			}
 		};

@@ -17,7 +17,7 @@ angular.module('legendarySearch.main', [
 		// error function
 		function errorFunction(error) {
 			return $modal.open({
-				templateUrl: 'error-dialog.html',
+				templateUrl: 'program/main_error_dialog.html',
 				controller: 'ErrorDialogController',
 				resolve: {
 					error: function() { return error; }

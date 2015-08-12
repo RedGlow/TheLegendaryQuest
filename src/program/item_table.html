@@ -1,0 +1,80 @@
+<div class="item-table row">
+	<div class="item-data col-xs-12">
+		<div class="row">
+			<div class="col-xs-1 img-col">
+				<div class="img-container">
+					<span class="arrow"
+						ng-if="!!itemTree.ingredients && itemTree.ingredients.length > 0"
+						ng-click="toggle($event)">
+						<span class="glyphicon"
+							ng-class="{'glyphicon-minus-sign': open, 'glyphicon-plus-sign': !open}"></span>
+					</span>
+					<img class="img img-rounded" ng-src="{{item.icon}}" alt="{{item.name}}" ng-click="toggle($event)">
+				</div>
+			</div>
+			<div class="details col-xs-11">
+				<div class="row">
+					<div class="col-xs-12 item-row">
+						<div class="row">
+							<div class="name col-sm-4 col-xs-6">
+								<span ng-if="itemTree.unitaryRecipeAmount > 1">{{itemTree.unitaryRecipeAmount}} x</span>
+								<span class="name">{{item.name}}</span>
+							</div>
+							<div class="trading-post col-sm-4 col-xs-6" ng-class="{invisible: !itemTree.tradingPostCost}">
+								<span class="hidden-xs">Trading post:</span>
+								<span class="visible-xs-inline">TP:</span>
+								<price value="itemTree.tradingPostCost"></price>
+							</div>
+							<div class="col-sm-4 col-xs-12">
+								<site-links item-id="itemTree.itemId"></site-links>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 item-row"
+						ng-switch on="itemTree.totalCosts.length != 1 || itemTree.totalCosts[0].currencyId != 'copper' || itemTree.totalCosts[0].amount != itemTree.tradingPostCost">
+						<div class="single-cost"
+							ng-switch-when="true"
+							ng-repeat="cost in itemTree.totalCosts">
+							<cost-item ng-if="!!cost.itemId && !(itemTree.totalCosts.length === 1 && cost.itemId === itemTree.itemId)" amount="cost.amount" item-id="cost.itemId"></cost-item>
+							<price ng-if="cost.currencyId === 'copper'" value="cost.amount"></price>
+							<span ng-if="!!cost.currencyId && cost.currencyId !== 'copper'"
+								class="currency" ng-class="cost.currencyId">{{ cost.amount }}</span>
+						</div>
+						<div ng-switch-default>&nbsp;</div>
+					</div>
+					<div class="col-xs-12">
+						<div class="amount" ng-class="{'invisible': !showPercentage}">
+							<div class="percentage-bar" ng-style="{width: itemTree.roundedPercentage + '%'}"></div>
+							<div class="percentage-text">
+							{{itemTree.ownedAmount}} / {{itemTree.ownedAmount + itemTree.remainingNeededAmount}}
+							({{itemTree.roundedPercentage}}%)
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="recipe-container col-xs-11 col-xs-offset-1">
+		<div class="recipe"
+			ng-if="itemTree.remainingNeededAmount > 0">
+			<div class="recipe-element"
+				ng-repeat="element in itemTree.ingredients">
+				<!-- item case -->
+				<item-table
+					ng-if="!!element.itemId"
+					item-tree="element"
+					buy-immediately="buyImmediately"
+					show-percentage="showPercentage"
+					visible="open"
+					visibility-level="childVisibilityLevel"></item-table>
+				<!-- currency case: copper -->
+				<price ng-if="!!element.currencyId && element.currencyId == 'copper'"
+					value="element.unitaryRecipeAmount"></price>
+				<!-- currency case: other -->
+				<span ng-if="!!element.currencyId && element.currencyId != 'copper'"
+					class="currency" ng-class="element.currencyId">{{ element.unitaryRecipeAmount }}</span>
+			</div>
+		</div>
+	</div>
+</div>

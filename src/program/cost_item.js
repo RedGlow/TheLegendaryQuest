@@ -6,7 +6,7 @@ angular.module('legendarySearch.costItem', [
 	function() {
 		return {
 			restrict: 'E',
-			templateUrl: 'cost-item.html',
+			templateUrl: 'program/cost_item.html',
 			scope: {
 				amount: '=',
 				itemId: '='

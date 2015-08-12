@@ -6,7 +6,7 @@ angular.module('legendarySearch.siteLinks', [
 	function() {
 		return {
 			restrict: 'E',
-			templateUrl: 'site-links.html',
+			templateUrl: 'program/site_links.html',
 			scope: {
 				itemId: '='
 			},
