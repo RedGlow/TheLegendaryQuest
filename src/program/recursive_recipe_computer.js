@@ -180,11 +180,29 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 							jQuery.each(totalCostsItemMap, function(itemId, amount) {
 								totalCosts.push({itemId: itemId, amount: amount});
 							});
-							// percentage
-							var remainingPercentage = 1 - percentage;
-							jQuery.each(ingredientsResults, function(i, ingredient) {
-								percentage += ingredient.percentage * remainingPercentage / ingredientsResults.length;
-							});
+							// check if it's *actually* convenient to use the recipe
+							if(totalCosts.length == 1 &&
+								!!totalCosts[0].currencyId &&
+								totalCosts[0].currencyId === 'copper' &&
+								!!tradingPostCostResult &&
+								totalCosts[0].amount > tradingPostCostResult * remainingNeededAmount) {
+								console.debug("More convenient to buy", itemId,
+									"for", tradingPostCostResult, "*", remainingNeededAmount,
+									"=", tradingPostCostResult * remainingNeededAmount,
+									"rather than using the recipe", ingredientsResults,
+									"for", totalCosts[0].amount, "copper");
+								ingredientsResults = null;
+								totalCosts = [{
+									currencyId: 'copper',
+									amount: tradingPostCostResult * remainingNeededAmount
+								}];
+							} else {
+								// percentage
+								var remainingPercentage = 1 - percentage;
+								jQuery.each(ingredientsResults, function(i, ingredient) {
+									percentage += ingredient.percentage * remainingPercentage / ingredientsResults.length;
+								});
+							}
 						} else {
 							// total costs
 							if(tradingPostCostResult !== null) {
