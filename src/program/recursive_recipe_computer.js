@@ -95,7 +95,9 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 							tradingPostCost: null,
 							ingredients: [],
 							totalCosts: [],
-							percentage: 1
+							percentage: 1,
+							crafters: [],
+							recipeItemIds: []
 						}));
 					}
 					// get the recipe promise for this element
@@ -127,9 +129,11 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 						}
 						// analyze the recipe
 						var ingredientsPromises,
-							crafter;
+							crafter,
+							recipeItemId;
 						if(recipeResult !== null) {
 							crafter = recipeResult.crafter;
+							recipeItemId = recipeResult.recipeItemId;
 							ingredientsPromises = $q.all(jQuery.map(recipeResult.ingredients, function(ingredient) {
 								var iid = ingredient.id,
 									iamount = ingredient.amount || 1,
@@ -149,24 +153,30 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 											currencyId: ingredient.id
 										}],
 										percentage: 0, // TODO: wait for wallet api
-										crafters: []
+										crafters: [],
+										recipeItemIds: []
 									}));
 								}
 							}));
 						} else {
 							crafter = null;
+							recipeItemId = null;
 							ingredientsPromises = $q.when(null);
 						}
 						// return the analysis result
-						return $q.all([ingredientsPromises, $q.when(tradingPostCost), $q.when(crafter)]);
+						return $q.all([ingredientsPromises, $q.when(tradingPostCost), $q.when(crafter), $q.when(recipeItemId)]);
 					}).then(function(results) {
 						var ingredientsResults = results[0],
 							tradingPostCostResult = results[1],
-							crafters = [];
+							crafters = [],
+							recipeItemIds = [];
 						if(!!results[2]) {
 							var crafter = results[2];
 							crafter.itemId = itemId;
 							crafters.push(crafter);
+						}
+						if(!!results[3]) {
+							recipeItemIds.push(results[3]);
 						}
 						// compute the summed up total costs and completion percentage
 						var totalCosts = [];
@@ -177,6 +187,7 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 								totalCostsItemMap = {};
 							jQuery.each(ingredientsResults, function(i, ingredient) {
 								Array.prototype.push.apply(crafters, ingredient.crafters);
+								Array.prototype.push.apply(recipeItemIds, ingredient.recipeItemIds);
 								jQuery.each(ingredient.totalCosts, function(j, cost) {
 									if(!!cost.currencyId) {
 										add(totalCostsCurrencyMap, cost.currencyId, cost.amount);
@@ -241,6 +252,7 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 							ingredients: ingredientsResults,
 							totalCosts: totalCosts,
 							crafters: crafters,
+							recipeItemIds: recipeItemIds,
 							percentage: percentage
 						});
 					});

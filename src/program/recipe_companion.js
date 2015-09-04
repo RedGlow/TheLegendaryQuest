@@ -1046,17 +1046,18 @@ angular.module('legendarySearch.recipeCompanion', [
 					})
 					.then(function(recipe) {
 						var ingredients = recipe.ingredients;
+						var recipeItemId = null;
 						if(jQuery.inArray("LearnedFromItem", recipe.flags || []) != -1) {
-							var recipeItemId = recipeItemIds[recipe.output_item_id];
+							recipeItemId = recipeItemIds[recipe.output_item_id];
 							if(!recipeItemId) {
 								return $q.reject("No recipe item id registered for output item id = " + recipe.output_item_id);
-							} else {
+							} /*else {
 								ingredients = ingredients.slice(0);
 								ingredients.push({
 									item_id: recipeItemId,
 									count: 1
 								});
-							}
+							}*/
 						}
 						return {
 							ingredients: jQuery.map(ingredients, function(entry) {
@@ -1069,7 +1070,8 @@ angular.module('legendarySearch.recipeCompanion', [
 							crafter: {
 								disciplines: recipe.disciplines,
 								rating: recipe.min_rating
-							}
+							},
+							recipeItemId: recipeItemId
 						};
 					});
 			}
