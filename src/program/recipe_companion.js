@@ -937,15 +937,8 @@ angular.module('legendarySearch.recipeCompanion', [
 
 	/* recipe item ids not present in the API for some reason */
 	var brokenItems = {
-		9616: "Gift of Ice",
-		9622: "Unicorn Statue",
-		9623: "Gift of History",
-		9624: "Gift of Music",
-		9628: "Gift of Entertainment",
 		9630: "Gift of Weather",
-		9632: "Gift of Color",
-		9634: "Wolf Statue",
-		9635: "Shark Statue",
+		9635: "Shark Statue"
 	};
 	
 	/* object used to create the replacement for the broken recipe items */
