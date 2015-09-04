@@ -71,11 +71,30 @@
 
 							<!-- LEGENDARY SELECTOR -->
 							<div class="form-group">
-								<label class="col-xs-3 col-sm-2 control-label" for="legendary-selection">Legendary</label>
-								<div class="col-xs-9 col-sm-10">
+								<label class="col-xs-3 col-sm-2 col-md-2 control-label" for="legendary-selection">Legendary</label>
+								<div class="col-xs-9 col-sm-4 col-md-3">
+									<select class="form-control" ng-model="currentFamily">
+										<option label="Legendaries" value="legendary">Legendary</option>
+										<option label="Named exotics" value="namedexotics">Named exotics</option>
+										<option label="Others" value="others">Others</option>
+									</select>
+								</div>
+								<div class="col-xs-9 col-xs-offset-3 col-sm-offset-0 col-sm-6 col-md-7" ng-class="{hidden: currentFamily !== 'legendary'}">
 									<select class="form-control" id="legendary-selection"
 										ng-options="legendary.id as legendary.name for legendary in availableLegendaries"
-										ng-model="selectedLegendary"></select>
+										ng-model="selectedItemId"></select>
+								</div>
+								<div class="col-xs-9 col-xs-offset-3 col-sm-offset-0 col-sm-6 col-md-7" ng-class="{hidden: currentFamily !== 'namedexotics'}">
+									<select class="form-control" id="namedexotics-selection"
+										ng-options="namedExotic.id as namedExotic.name for namedExotic in namedExotics"
+										ng-model="selectedItemId"
+										></select>
+								</div>
+								<div class="col-xs-9 col-xs-offset-3 col-sm-offset-0 col-sm-6 col-md-7" ng-class="{hidden: currentFamily !== 'others'}">
+									<select class="form-control" id="others-selection"
+										ng-options="other.id as other.name for other in others"
+										ng-model="selectedItemId"
+										></select>
 								</div>
 							</div>
 							

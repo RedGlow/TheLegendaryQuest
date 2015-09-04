@@ -159,6 +159,16 @@ h1 {
     background-image: url('http://www.gw2spidy.com/assets/img/Karma.png');
 }
 
+.currency.geode {
+	padding-right: 20px;
+    background-image: url('http://wiki.guildwars2.com/images/thumb/4/43/Geode.png/20px-Geode.png');
+}
+
+.currency.pristine_fractal_relic {
+	padding-right: 20px;
+    background-image: url('http://wiki.guildwars2.com/images/thumb/e/e2/Pristine_Fractal_Relic.png/20px-Pristine_Fractal_Relic.png');
+}
+
 .currency.deadly_bloom {
     background-image: url('http://wiki.guildwars2.com/images/thumb/b/b6/Deadly_Bloom.png/20px-Deadly_Bloom.png');
 	padding-right: 20px;
@@ -305,6 +315,10 @@ h1 {
 	font-weight: bold;
 }
 
+.item-data .site-links {
+	white-space: normal;
+}
+
 @media (min-width: 768px) {
 	.item-data .site-links {
 		text-align: right;
@@ -336,15 +350,13 @@ h1 {
     margin-left: 3px;
 }
 
-.item-data .single-cost {
-}
-
 .item-data .trading-post {
 }
 
 .item-data .single-cost {
 	margin-right: 1em;
 	display: inline;
+	white-space: normal;
 }
 
 .recipe-container {

@@ -196,6 +196,9 @@ angular.module('legendarySearch.recipeCompanion', [
 			{ type: 'item', id: 19676, amount: 100},
 			{ type: 'item', id: 24618}
 		],
+		19663: [ // bottle of elonian wine
+			{ type: 'currency', id: 'copper', amount: 254 }
+		],
 		19664: [ // gift of Ascalon
 			{type: 'currency', id: 'ascalonian_tear', amount: 500}
 		],
@@ -258,6 +261,9 @@ angular.module('legendarySearch.recipeCompanion', [
 		],
 		20797: [ // bloodstone shard
 			{type: 'currency', id: 'spirit_shard', amount: 200}
+		],
+		20852: [ // eldritch scroll
+			{type: 'currency', id: 'spirit_shard', amount: 50}
 		],
 		30684: [ // frostfang
 			{type: 'item', id: 29166},
@@ -384,6 +390,448 @@ angular.module('legendarySearch.recipeCompanion', [
 			{type: 'item', id: 19648},
 			{type: 'item', id: 19626},
 			{type: 'item', id: 19674},
+		],
+		31034: [ // reaver of the mists
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 50},
+			{type: 'item', id: 24330, amount: 20},
+			{type: 'item', id: 19721, amount: 250},
+		],
+		31045: [ // the anomaly
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 100},
+			{type: 'item', id: 19721, amount: 250},
+			{type: 'item', id: 20797, amount: 1},
+		],
+		31051: [ // spirit links
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 70},
+			{type: 'item', id: 19685, amount: 10},
+			{type: 'item', id: 19721, amount: 250},
+		],
+		31052: [ // vision of the mists
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 100},
+			{type: 'item', id: 12840, amount: 250},
+			{type: 'item', id: 19721, amount: 250},
+		],
+		31053: [ // volcanus
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 100},
+			{type: 'item', id: 24315, amount: 250},
+			{type: 'item', id: 19634, amount: 1},
+		],
+		31054: [ // illusion
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 50},
+			{type: 'item', id: 19721, amount: 250},
+			{type: 'item', id: 12899, amount: 250},
+		],
+		31055: [ // titans' vengeance
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 50},
+			{type: 'item', id: 24315, amount: 50},
+			{type: 'item', id: 24325, amount: 50},
+		],
+		31056: [ // eye of rodgort
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 100},
+			{type: 'item', id: 24295, amount: 250},
+			{type: 'item', id: 31081, amount: 1},
+		],
+		31057: [ // immobulus
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 30},
+			{type: 'item', id: 24277, amount: 250},
+			{type: 'item', id: 24370, amount: 250},
+		],
+		31058: [ // Abyssal Scepter
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 100},
+			{type: 'item', id: 12976, amount: 250},
+			{type: 'item', id: 19721, amount: 250},
+		],
+		31059: [ // cragstone
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 100},
+			{type: 'item', id: 24310, amount: 250},
+			{type: 'item', id: 19925, amount: 50},
+		],
+		31060: [ // wall of the mists
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 50},
+			{type: 'item', id: 12912, amount: 250},
+			{type: 'item', id: 24370, amount: 30},
+		],
+		31062: [ // eidolon
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 100},
+			{type: 'item', id: 12912, amount: 250},
+			{type: 'item', id: 19632, amount: 1},
+		],
+		31064: [ // firebringer
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 30},
+			{type: 'item', id: 12870, amount: 250},
+			{type: 'item', id: 24315, amount: 50},
+		],
+		31068: [ // infinite light
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 100},
+			{type: 'item', id: 24305, amount: 250},
+			{type: 'item', id: 12870, amount: 250},
+		],
+		31069: [ // whisperblade
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 100},
+			{type: 'item', id: 12870, amount: 250},
+			{type: 'item', id: 19721, amount: 250},
+		],
+		31070: [ // wings of dwayna
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19632, amount: 1},
+			{type: 'item', id: 19976, amount: 100},
+			{type: 'item', id: 24571, amount: 20},
+		],
+		31071: [ // azureflame
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19632, amount: 1},
+			{type: 'item', id: 19976, amount: 100},
+			{type: 'item', id: 12941, amount: 250},
+		],
+		31072: [ // wintersbite
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19624, amount: 1},
+			{type: 'item', id: 19976, amount: 100},
+			{type: 'item', id: 12941, amount: 250},
+		],
+		31073: [ // feathers of dwayna
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19632, amount: 1},
+			{type: 'item', id: 19976, amount: 100},
+			{type: 'item', id: 24572, amount: 20},
+		],
+		31074: [ // aether
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19632, amount: 1},
+			{type: 'item', id: 19976, amount: 100},
+			{type: 'item', id: 12947, amount: 250},
+		],
+		31075: [ // wintersbark
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19624, amount: 1},
+			{type: 'item', id: 19976, amount: 100},
+			{type: 'item', id: 12947, amount: 250},
+		],
+		31076: [ // ilya
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 50},
+			{type: 'item', id: 12959, amount: 250},
+			{type: 'item', id: 19721, amount: 250},
+		],
+		31077: [ // Foefire's Essence
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19632, amount: 1},
+			{type: 'item', id: 19976, amount: 70},
+			{type: 'item', id: 12840, amount: 250},
+		],
+		31078: [ // Foefire's Power
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19632, amount: 1},
+			{type: 'item', id: 19976, amount: 100},
+			{type: 'item', id: 12864, amount: 250},
+		],
+		31079: [ // mjölnir
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 100},
+			{type: 'item', id: 24305, amount: 250},
+			{type: 'item', id: 19639, amount: 1},
+		],
+		31080: [ // lyss
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 50},
+			{type: 'item', id: 12924, amount: 250},
+			{type: 'item', id: 19721, amount: 250},
+		],
+		31081: [ // lidless eye
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 50},
+			{type: 'item', id: 24295, amount: 250},
+			{type: 'item', id: 24370, amount: 10},
+		],
+		31088: [ // ignus fatuus
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 50},
+			{type: 'item', id: 19721, amount: 250},
+			{type: 'item', id: 12998, amount: 250},
+		],
+		31103: [ // mirage
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 100},
+			{type: 'item', id: 13004, amount: 250},
+			{type: 'item', id: 19721, amount: 250},
+		],
+		36051: [ // arachnophobia
+			{type: 'item', id: 36058, amount: 1},
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 100},
+			{type: 'item', id: 36053, amount: 20},
+		],
+		36056: [ // the mad moon
+			{type: 'item', id: 36069, amount: 1},
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 100},
+			{type: 'item', id: 36053, amount: 20},
+		],
+		36057: [ // recipe: gift of spiders
+			{type: 'item', id: 19663, amount: 40},
+			{type: 'item', id: 47909, amount: 10},
+			{type: 'item', id: 24277, amount: 10},
+			{type: 'item', id: 48805, amount: 10},
+		],
+		36067: [ // recipe: superior sigil of the night
+			{type: 'item', id: 36060, amount: 25},
+			{type: 'item', id: 36061, amount: 25},
+			{type: 'item', id: 36059, amount: 25},
+			{type: 'item', id: 36041, amount: 250}
+		],
+		36068: [ // recipe: gift of the moon
+			{type: 'item', id: 19663, amount: 40},
+			{type: 'item', id: 47909, amount: 10},
+			{type: 'item', id: 24277, amount: 10},
+			{type: 'item', id: 48807, amount: 10},
+		],
+		36070: [ // the crossing
+			{type: 'item', id: 36072, amount: 1},
+			{type: 'item', id: 20852, amount: 1},
+			{type: 'item', id: 19976, amount: 100},
+			{type: 'item', id: 36053, amount: 20},
+		],
+		36071: [ // recipe: gift of souls
+			{type: 'item', id: 19663, amount: 40},
+			{type: 'item', id: 47909, amount: 10},
+			{type: 'item', id: 24277, amount: 10},
+			{type: 'item', id: 48806, amount: 10},
+		],
+		43772: [ // charged quartz crystal
+			{type: 'item', id: 43773, amount: 25}
+		],
+		46732: [ // dragonite ingot
+			{type: 'item', id: 46733, amount: 100},
+			{type: 'item', id: 19925, amount: 2},
+			{type: 'item', id: 46747, amount: 10}
+		],
+		46734: [ // empyreal star
+			{type: 'item', id: 46735, amount: 100},
+			{type: 'item', id: 19925, amount: 2},
+			{type: 'item', id: 46747, amount: 10}
+		],
+		46747: [ // thermocatalytic reagent
+			{type: 'currency', id: 'copper', amount: 179}
+		],
+		46752: [ // augur's stone
+			{type: 'currency', id: 'spirit_shard', amount: 20}
+		],
+		47909: [ // candy corn cob
+			{type: 'item', id: 36041, amount: 1000},
+		],
+		49523: [ // lesser vision crystal
+			{type: 'item', id: 46730, amount: 2},
+			{type: 'item', id: 46732, amount: 2},
+			{type: 'item', id: 46734, amount: 2},
+			{type: 'item', id: 46752, amount: 1},
+		],
+		49425: [ // +2 agony infusion
+			{type: 'item', id: 49424, amount: 2},
+			{type: 'item', id: 46747},
+		],
+		49426: [ // +3 agony infusion
+			{type: 'item', id: 49425, amount: 2},
+			{type: 'item', id: 46747},
+		],
+		49427: [ // +4 agony infusion
+			{type: 'item', id: 49426, amount: 2},
+			{type: 'item', id: 46747},
+		],
+		49428: [ // +5 agony infusion
+			{type: 'item', id: 49427, amount: 2},
+			{type: 'item', id: 46747},
+		],
+		66890: [ // cultivated shoot
+			{type: 'item', id: 66979},
+			{type: 'item', id: 66989},
+		],
+		66902: [ // brick of clay
+			{type: 'currency', id: 'geode', amount: 12}
+		],
+		66905: [ // recipe: clay pot
+			{type: 'currency', id: 'copper', amount: 736},
+			{type: 'currency', id: 'geode', amount: 44}
+		],
+		66906: [ // recipe: plate of meaty plant food
+			{type: 'currency', id: 'copper', amount: 736},
+			{type: 'currency', id: 'geode', amount: 44}
+		],
+		66907: [ // recipe: plate of piquant plant food
+			{type: 'currency', id: 'copper', amount: 736},
+			{type: 'currency', id: 'geode', amount: 44}
+		],
+		66908: [ // mysterious seedling
+			{type: 'item', id: 66909},
+			{type: 'item', id: 66912},
+		],
+		66910: [ // pet seed
+			{type: 'item', id: 66890},
+			{type: 'item', id: 66995},
+		],
+		66911: [ // mysterious sprout
+			{type: 'item', id: 66908},
+			{type: 'item', id: 66916},
+		],
+		66912: [ // ley line infused clay pot
+			{type: 'item', id: 66913},
+			{type: 'item', id: 66933, amount: 20},
+			{type: 'item', id: 46731, amount: 100},
+			{type: 'item', id: 66914}
+		],
+		66914: [ // polarized ley line infused stone
+			{type: 'item', id: 66915},
+		],
+		66916: [ 
+			{type: 'item', id: 19729, amount: 100},
+			{type: 'item', id: 66917, amount: 7},
+			{type: 'item', id: 46731, amount: 100},
+			{type: 'item', id: 66919, amount: 1},
+		],
+		66919: [ // purified vial of sacred glacial water
+			{type: 'item', id: 66918},
+		],
+		66920: [ // package of phantasmally infused plant food
+			{type: 'item', id: 19729, amount: 100},
+			{type: 'item', id: 66923, amount: 7},
+			{type: 'item', id: 46731, amount: 100},
+			{type: 'item', id: 66921, amount: 1},
+		],
+		66921: [ // weirded phantasmal residue
+			{type: 'item', id: 66922, amount: 1},
+		],
+		66924: [ // mysterious vine
+			{type: 'item', id: 66911},
+			{type: 'item', id: 66920},
+		],
+		66978: [ // recipe: grow lamp
+			{type: 'currency', id: 'geode', amount: 60}
+		],
+		66979: [ // cultivated sprout
+			{type: 'item', id: 66980},
+			{type: 'item', id: 66987},
+		],
+		66980: [ // cultivated seedling
+			{type: 'item', id: 66981},
+			{type: 'item', id: 66984},
+		],
+		66981: [ // cultivated seed
+			{type: 'item', id: 66911},
+			{type: 'item', id: 66920},
+		],
+		66982: [ // cultivated vine
+			{type: 'item', id: 66890},
+			{type: 'item', id: 66995},
+		],
+		66983: [ // resonating chaos orb
+			{type: 'item', id: 66985}
+		],
+		66984: [ // chaos infused clay pot
+			{type: 'item', id: 66913, amount: 1},
+			{type: 'item', id: 66933, amount: 20},
+			{type: 'item', id: 46731, amount: 100},
+			{type: 'item', id: 66983, amount: 1},
+		],
+		66986: [ // pile of crackling ley line dust
+			{type: 'item', id: 66988, amount: 1},
+		],
+		66987: [ // package of ley line dusted plant food
+			{type: 'item', id: 19729, amount: 100},
+			{type: 'item', id: 66917, amount: 7},
+			{type: 'item', id: 46731, amount: 100},
+			{type: 'item', id: 66986, amount: 1},
+		],
+		66989: [ // package of oasis soaked plant food
+			{type: 'item', id: 19729, amount: 100},
+			{type: 'item', id: 66923, amount: 7},
+			{type: 'item', id: 46731, amount: 100},
+			{type: 'item', id: 66991, amount: 1},
+		],
+		66991: [ // vial of mending oasis water
+			{type: 'item', id: 66990, amount: 1},
+		],
+		66994: [ // germinated foxfire cluster
+			{type: 'item', id: 66992, amount: 1},
+		],
+		66995: [ // attuned grow lamp
+			{type: 'item', id: 66993, amount: 1},
+			{type: 'item', id: 46730, amount: 3},
+			{type: 'item', id: 45178, amount: 4},
+			{type: 'item', id: 44941, amount: 1},
+		],
+		67010: [ // package of elementally charged plant food
+			{type: 'item', id: 19729, amount: 100},
+			{type: 'item', id: 46731, amount: 100},
+			{type: 'item', id: 66917, amount: 7},
+			{type: 'item', id: 67009},
+		],
+		67012: [ // package of rhand blessed plant food
+			{type: 'item', id: 19729, amount: 100},
+			{type: 'item', id: 46731, amount: 100},
+			{type: 'item', id: 66923, amount: 7},
+			{type: 'item', id: 67011},
+		],
+		67014: [ // powerful grow lamp
+			{type: 'item', id: 66993},
+			{type: 'item', id: 46730, amount: 3},
+			{type: 'item', id: 45178, amount: 4},
+			{type: 'item', id: 67013},
+		],
+		67015: [ // heat stone
+			{type: 'item', id: 49523},
+			{type: 'item', id: 24315, amount: 10},
+			{type: 'item', id: 24310, amount: 10},
+			{type: 'item', id: 46747, amount: 15},
+		],
+		67016: [ // destroyer heated stone
+			{type: 'item', id: 67015},
+			{type: 'item', id: 46730, amount: 3},
+			{type: 'item', id: 49428},
+			{type: 'item', id: 67017},
+		],
+		67000: [ // pet sprout
+			{type: 'item', id: 67010},
+			{type: 'item', id: 67003},
+		],
+		67003: [ // pet seedling
+			{type: 'item', id: 67008},
+			{type: 'item', id: 66910},
+		],
+		67004: [ // mawdrey
+			{type: 'item', id: 67016},
+			{type: 'item', id: 67006},
+		],
+		67005: [ // pet shoot
+			{type: 'item', id: 67012},
+			{type: 'item', id: 67000},
+		],
+		67006: [ // pet plantling
+			{type: 'item', id: 67014},
+			{type: 'item', id: 67005},
+		],
+		67007: [ // mists stone
+			{type: 'currency', id: 'pristine_fractal_relic', amount: 5}
+		],
+		67008: [ // mists infused clay pot
+			{type: 'item', id: 66913},
+			{type: 'item', id: 66933, amount: 20},
+			{type: 'item', id: 46731, amount: 100},
+			{type: 'item', id: 67007},
 		]
 	};
 	
@@ -408,7 +856,15 @@ angular.module('legendarySearch.recipeCompanion', [
 		19640: 9634,
 		19641: 9635,
 		19642: 9636,
-		19643: 9637
+		19643: 9637,
+		36053: 36067,
+		36058: 36057,
+		36069: 36068,
+		36072: 36071,
+		66923: 66907,
+		66913: 66905,
+		66917: 66906,
+		66993: 66978
 	};
 	
 	var legendaryIds = [
@@ -433,6 +889,50 @@ angular.module('legendarySearch.recipeCompanion', [
 		30703,
 		30704,
 		30689
+	];
+	
+	var namedExoticIds = [
+		31034,
+		31045,
+		31051,
+		31052,
+		31053,
+		31054,
+		31055,
+		31056,
+		31057,
+		31058,
+		31059,
+		31060,
+		31062,
+		31064,
+		31068,
+		31069,
+		31070,
+		31071,
+		31072,
+		31073,
+		31074,
+		31075,
+		31076,
+		31077,
+		31078,
+		31079,
+		31080,
+		31081,
+		31088,
+		31103,
+		36051,
+		36056,
+		36070
+	];
+	
+	var othersIds = [
+		19626,
+		19674,
+		66924,
+		66982,
+		67004
 	];
 
 	/* recipe item ids not present in the API for some reason */
@@ -486,6 +986,20 @@ angular.module('legendarySearch.recipeCompanion', [
 		 */
 		getLegendaryIds: function() {
 			return legendaryIds;
+		},
+		/**
+		 * Get the item ids of the crafted named exotic weapons.
+		 * @returns {[int]} - The ids of all the crafted named exotic weapons.
+		 */
+		getNamedExoticsIds: function() {
+			return namedExoticIds;
+		},
+		/**
+		 * Get the item ids of the other weapons and items.
+		 * @returns {[int]} - The ids of all the other weapons and items.
+		 */
+		getOthersIds: function() {
+			return othersIds;
 		},
 		/**
 		 * Get an item, even when the GW2 API is broken in respect to recipe items.

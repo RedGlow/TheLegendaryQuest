@@ -31,18 +31,34 @@ angular.module('legendarySearch.main', [
 		}
 		
 		// initialize legendary list
+		function mapItemIdsToItems(itemIds) {
+			return $q.all(jQuery.map(itemIds, function(itemId) {
+				return GW2API.getItem(itemId).then(function(item) {
+					return {name: item.name, id: item.id};
+				});
+			})).then(function(items) {
+				items.sort(function(l1, l2) {
+					return l1.name.localeCompare(l2.name);
+				});
+				return items;
+			}, errorFunction);
+		}
 		var availableLegendariesIds = RecipeCompanion.getLegendaryIds();
-		$q.all(jQuery.map(availableLegendariesIds, function(legendaryId) {
-			return GW2API.getItem(legendaryId).then(function(legendary) {
-				return {name: legendary.name, id: legendary.id};
-			});
-		})).then(function(availableLegendaries) {
-			availableLegendaries.sort(function(l1, l2) {
-				return l1.name.localeCompare(l2.name);
-			});
+		mapItemIdsToItems(availableLegendariesIds).then(function(availableLegendaries) {
 			$scope.availableLegendaries = availableLegendaries;
-		}, errorFunction);
-		$scope.selectedLegendary = null;
+		});
+		var namedExoticsIds = RecipeCompanion.getNamedExoticsIds();
+		mapItemIdsToItems(namedExoticsIds).then(function(namedExotics) {
+			$scope.namedExotics = namedExotics;
+		});
+		var othersIds = RecipeCompanion.getOthersIds();
+		mapItemIdsToItems(othersIds).then(function(others) {
+			$scope.others = others;
+		});
+		$scope.currentFamily = 'legendary';
+		$scope.$watch('currentFamily', function() {
+			$scope.selectedItemId = null;
+		});
 		
 		// initialize TP management
 		$scope.buyImmediately = true;
@@ -81,11 +97,15 @@ angular.module('legendarySearch.main', [
 		
 		// load cost tree
 		function reloadTree() {
-			if(!$scope.selectedLegendary || $scope.buyImmediately === null) {
+			if(!$scope.selectedItemId) {
+				$scope.costTree = null;
+				return;
+			}
+			if($scope.buyImmediately === null) {
 				return;
 			}
 			RecursiveRecipeComputer
-				.getRecipeTree($scope.selectedLegendary,
+				.getRecipeTree($scope.selectedItemId,
 					$scope.showOnlyRemainingCosts ? ($scope.bankContent || {}) : {},
 					$scope.buyImmediately)
 				.then(function(data) {
@@ -95,7 +115,9 @@ angular.module('legendarySearch.main', [
 		}
 		$scope.$watch('bankContent', reloadTree);
 		$scope.$watch('showOnlyRemainingCosts', reloadTree);
-		$scope.$watch('selectedLegendary', reloadTree);
+		$scope.$watch('selectedItemId', function() {
+			reloadTree();
+		});
 		$scope.$watch('buyImmediately', reloadTree);
 		$scope.$watch('showPercentage', reloadTree);
 		
