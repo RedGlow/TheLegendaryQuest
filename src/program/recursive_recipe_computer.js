@@ -50,6 +50,16 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 				// we don't need anything more for this node, so skip it
 				node.tradingPostCost = null;
 			}
+			var consideredCraftingItemIds = [];
+			for(var i = 0; i < node.crafters.length; i++) {
+				var itemId = node.crafters[i].itemId;
+				if(consideredCraftingItemIds.indexOf(itemId) == -1) {
+					consideredCraftingItemIds.push(itemId);
+				} else {
+					node.crafters.splice(i, 1);
+					i--;
+				}
+			}
 			node.roundedPercentage = Math.round(node.percentage * 100);
 			return node;
 		}
