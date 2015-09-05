@@ -80,7 +80,7 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 			getRecipeTree: function(rootItemId, bankContent, buyImmediately) {
 				// local bankContent copy
 				bankContent = jQuery.extend({}, bankContent);
-				function getRecipe(itemId, unitaryRecipeAmount, remainingNeededAmount) {
+				function getRecipe(itemId, unitaryRecipeAmount, remainingNeededAmount, isRootNode) {
 					// check what we can get from the bank
 					var ownedAmount = Math.min(remainingNeededAmount, get(bankContent, itemId));
 					bankContent[itemId] -= ownedAmount;
@@ -139,7 +139,7 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 									iamount = ingredient.amount || 1,
 									iRemainingNeededAmount = iamount * remainingNeededAmount;
 								if(ingredient.type === 'item') {
-									return getRecipe(parseInt(iid), iamount, iRemainingNeededAmount);
+									return getRecipe(parseInt(iid), iamount, iRemainingNeededAmount, false);
 								} else {
 									return $q.when(perfectNode({
 										currencyId: ingredient.id,
@@ -166,17 +166,43 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 						// return the analysis result
 						return $q.all([ingredientsPromises, $q.when(tradingPostCost), $q.when(crafter), $q.when(recipeItemId)]);
 					}).then(function(results) {
+						// sum all recipe item ids
+						var recipeItemIds = [];
+						if(!!results[3]) {
+							recipeItemIds.push(results[3]);
+						}
+						var ingredientsResults = results[0];
+						if(!!ingredientsResults) {
+							jQuery.each(ingredientsResults, function(i, ingredient) {
+								Array.prototype.push.apply(recipeItemIds, ingredient.recipeItemIds);
+							});
+						}
+						recipeItemIds = recipeItemIds.filter(function(value, index, arr) {
+							return arr.indexOf(value) == index;
+						});
+						results[3] = recipeItemIds;
+						// add recipe item ids to the recipe, if root node
+						if(isRootNode) {
+							return $q.all(jQuery.map(recipeItemIds, function(recipeItemId) {
+								return getRecipe(recipeItemId, 1, 1);
+							})).then(function(recipeNodes) {
+								console.debug("Extending", results[0], "with", recipeNodes);
+								Array.prototype.push.apply(results[0], recipeNodes);
+								return results;
+							});
+						} else {
+							// not the root node: return the result directly
+							return results;
+						}
+					}).then(function(results) {
 						var ingredientsResults = results[0],
 							tradingPostCostResult = results[1],
 							crafters = [],
-							recipeItemIds = [];
+							recipeItemIds = results[3];
 						if(!!results[2]) {
 							var crafter = results[2];
 							crafter.itemId = itemId;
 							crafters.push(crafter);
-						}
-						if(!!results[3]) {
-							recipeItemIds.push(results[3]);
 						}
 						// compute the summed up total costs and completion percentage
 						var totalCosts = [];
@@ -187,7 +213,6 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 								totalCostsItemMap = {};
 							jQuery.each(ingredientsResults, function(i, ingredient) {
 								Array.prototype.push.apply(crafters, ingredient.crafters);
-								Array.prototype.push.apply(recipeItemIds, ingredient.recipeItemIds);
 								jQuery.each(ingredient.totalCosts, function(j, cost) {
 									if(!!cost.currencyId) {
 										add(totalCostsCurrencyMap, cost.currencyId, cost.amount);
@@ -258,7 +283,17 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 					});
 				}
 				// get the base node, declaring we want one and still need one.
-				return getRecipe(rootItemId, 1, 1);
+				return getRecipe(rootItemId, 1, 1, true);
+				// add the recipe to the ingredients of the root
+				/*.then(function(rootNode) {
+					return $q.all(jQuery.map(rootNode.recipeItemIds, function(recipeItemId) {
+						return getRecipe(recipeItemId, 1, 1);
+					})).then(function(recipeIngredients) {
+						console.debug("Extending root node ingredients", rootNode.ingredients, "with recipe ingredients", recipeIngredients);
+						Array.prototype.push.apply(rootNode.ingredients, recipeIngredients);
+						return rootNode;
+					});
+				});*/
 			}
 		};
 	}
