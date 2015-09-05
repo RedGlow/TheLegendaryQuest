@@ -590,10 +590,10 @@ angular.module('legendarySearch.recipeCompanion', [
 			{type: 'item', id: 48805, amount: 10},
 		],
 		36067: [ // recipe: superior sigil of the night
-			{type: 'item', id: 36060, amount: 25},
-			{type: 'item', id: 36061, amount: 25},
-			{type: 'item', id: 36059, amount: 25},
-			{type: 'item', id: 36041, amount: 250}
+			{type: 'item', id: 36060, amount: 25*12},
+			{type: 'item', id: 36061, amount: 25*12},
+			{type: 'item', id: 36059, amount: 25*12},
+			{type: 'item', id: 36041, amount: 250*12}
 		],
 		36068: [ // recipe: gift of the moon
 			{type: 'item', id: 19663, amount: 40},
