@@ -110,7 +110,11 @@ angular.module('legendarySearch.disciplinesTable', [
 					});
 					var levelsList = ['success', 'warning', 'danger'];
 					craftProblems.sort(function(a, b) {
-						return levelsList.indexOf(b.level) - levelsList.indexOf(a.level);
+						var result = levelsList.indexOf(b.level) - levelsList.indexOf(a.level);
+						if(result == 0) {
+							result = b.itemId - a.itemId;
+						}
+						return result;
 					});
 					console.debug("craftProblems:", craftProblems);
 					$scope.craftProblems = craftProblems;
