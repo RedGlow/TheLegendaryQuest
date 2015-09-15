@@ -27,9 +27,14 @@ the actual changes in model are always made at the end of the animations to avoi
 				buyImmediately: '=',
 				showPercentage: '=',
 				visible: '=',
-				visibilityLevel: '='
+				visibilityLevel: '=',
+				ownedCoin: '=',
+				child: '=?'
 			},
 			controller: function($scope, RecipeCompanion) {
+				$scope.formatCurrencyClass = function(input) {
+					return input.toLowerCase().replace(/ /g, "_");
+				};
 				$scope.$watch('itemTree.itemId', function() {
 					if(!$scope.itemTree.itemId) { return; }
 					RecipeCompanion.getSynthesizedItem(parseInt($scope.itemTree.itemId)).then(function(item) {

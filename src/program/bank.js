@@ -1,12 +1,13 @@
 angular.module('legendarySearch.bank', [
+	'redglow.gw2api'
 ])
 
 /**
  * A service to access bank (and inventories) contents.
  */
 .service('Bank', [
-	        "$q", "$http", "GW2API",
-	function($q,   $http,   GW2API) {
+	        "$q", "GW2API",
+	function($q,   GW2API) {
 		return {
 			/**
 			 * Get the contents of bank and character inventories.

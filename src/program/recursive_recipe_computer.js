@@ -33,7 +33,7 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 				function getValue(c) {
 					if(!!c.itemId) {
 						return [1, c.itemId];
-					} else if(c.currencyId !== 'copper') {
+					} else if(c.currencyId !== 'Coin') {
 						return [2, c.currencyId];
 					} else {
 						return [3];
@@ -87,9 +87,10 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 			 *   (the quantity); percentage: a number (between 0 and 1) representing how much of this node
 			 *   has been completed, also considering the ingredients.
 			 */
-			getRecipeTree: function(rootItemId, bankContent, buyImmediately) {
+			getRecipeTree: function(rootItemId, bankContent, currenciesContent, buyImmediately) {
 				// local bankContent copy
 				bankContent = jQuery.extend({}, bankContent);
+				currenciesContent = jQuery.extend({}, currenciesContent);
 				function getRecipe(itemId, unitaryRecipeAmount, remainingNeededAmount, isRootNode) {
 					// check what we can get from the bank
 					var ownedAmount = Math.min(remainingNeededAmount, get(bankContent, itemId));
@@ -151,18 +152,25 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 								if(ingredient.type === 'item') {
 									return getRecipe(parseInt(iid), iamount, iRemainingNeededAmount, false);
 								} else {
+									var ownedAmount = Math.min(iRemainingNeededAmount, get(currenciesContent, ingredient.id));
+									if(ingredient.id == 'Coin') {
+										ownedAmount = 0; // special case
+									}
+									var percentage = ownedAmount / iRemainingNeededAmount;
+									currenciesContent[itemId] -= ownedAmount;
+									iRemainingNeededAmount -= ownedAmount;
 									return $q.when(perfectNode({
 										currencyId: ingredient.id,
 										unitaryRecipeAmount: iamount,
 										remainingNeededAmount: iRemainingNeededAmount,
-										ownedAmount: 0, // TODO: wait for wallet api
+										ownedAmount: ownedAmount,
 										tradingPostCost: null,
 										ingredients: [],
 										totalCosts: [{
 											amount: iRemainingNeededAmount,
 											currencyId: ingredient.id
 										}],
-										percentage: 0, // TODO: wait for wallet api
+										percentage: percentage,
 										crafters: [],
 										recipeItemIds: []
 									}));
@@ -240,17 +248,17 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 							// check if it's *actually* convenient to use the recipe
 							if(totalCosts.length == 1 &&
 								!!totalCosts[0].currencyId &&
-								totalCosts[0].currencyId === 'copper' &&
+								totalCosts[0].currencyId === 'Coin' &&
 								!!tradingPostCostResult &&
 								totalCosts[0].amount > tradingPostCostResult * remainingNeededAmount) {
 								console.debug("More convenient to buy", itemId,
 									"for", tradingPostCostResult, "*", remainingNeededAmount,
 									"=", tradingPostCostResult * remainingNeededAmount,
 									"rather than using the recipe", ingredientsResults,
-									"for", totalCosts[0].amount, "copper");
+									"for", totalCosts[0].amount, "Coin");
 								ingredientsResults = null;
 								totalCosts = [{
-									currencyId: 'copper',
+									currencyId: 'Coin',
 									amount: tradingPostCostResult * remainingNeededAmount
 								}];
 							} else {
@@ -265,7 +273,7 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 							if(tradingPostCostResult !== null) {
 								// no recipe for the element: buy it on the TP
 								totalCosts = [{
-									currencyId: 'copper',
+									currencyId: 'Coin',
 									amount: tradingPostCostResult * remainingNeededAmount
 								}];
 							} else {

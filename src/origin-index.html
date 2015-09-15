@@ -31,6 +31,7 @@
 		<script src="program/jquery.closestchild.js"></script>
 		<script src="program/recipe_companion.js"></script>
 		<script src="program/bank.js"></script>
+		<script src="program/wallet.js"></script>
 		<script src="program/convert_to_boolean.js"></script>
 		<script src="program/recursive_recipe_computer.js"></script>
 		<script src="program/item_table.js"></script>
@@ -166,6 +167,7 @@
 										<span class="text-danger" ng-if="!!bankContentErrors && !!bankContentErrors.accessError"><br>access error to inventory/characters with given key: {{ bankContentErrors.accessError }}</span>
 										<span class="text-danger" ng-if="!!bankContentErrors && bankContentErrors.inventories"><br>given key has no 'inventories' scope (no data can be loaded)</span>
 										<span class="text-warning" ng-if="!!bankContentErrors && !bankContentErrors.inventories && bankContentErrors.characters"><br>given key has no 'characters' scope (character inventories cannot be loaded)</span>
+										<span class="text-warning" ng-if="!!currenciesContentErrors && !!currenciesContentErrors.accessError"><br>access error to wallet with given key: {{ currenciesContentErrors.accessError }}</span>
 										</p>
 									</div>
 								</div>
@@ -198,6 +200,7 @@
 							<item-table
 								buy-immediately="buyImmediately"
 								item-tree="costTree"
+								owned-coin="currenciesContent.Coin"
 								show-percentage="showPercentage"
 								visible="true"></item-table>
 						</div>

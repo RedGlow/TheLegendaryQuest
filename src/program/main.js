@@ -4,6 +4,7 @@ angular.module('legendarySearch.main', [
 	'legendarySearch',
 	'redglow.gw2api',
 	'legendarySearch.bank',
+	'legendarySearch.wallet',
 	'legendarySearch.recipeCompanion',
 	'legendarySearch.recursiveRecipeComputer',
 	'supplyCrateApp.price',
@@ -13,8 +14,8 @@ angular.module('legendarySearch.main', [
 ])
 
 .controller('Main', [
-	        "$scope", "$q", "$localStorage", "$modal", "GW2API", "Bank", "RecursiveRecipeComputer", "RecipeCompanion",
-	function($scope,   $q,   $localStorage,   $modal,   GW2API,   Bank,   RecursiveRecipeComputer,   RecipeCompanion) {
+	        "$scope", "$q", "$localStorage", "$modal", "GW2API", "Bank", "Wallet", "RecursiveRecipeComputer", "RecipeCompanion",
+	function($scope,   $q,   $localStorage,   $modal,   GW2API,   Bank,   Wallet,   RecursiveRecipeComputer,   RecipeCompanion) {
 		// error function
 		function errorFunction(error) {
 			return $modal.open({
@@ -65,9 +66,11 @@ angular.module('legendarySearch.main', [
 		
 		// show remaining costs
 		$scope.showOnlyRemainingCosts = true;
+
+		// api management
+		$scope.apiKeyTemp = $scope.apiKey = $localStorage.apiKey;
 		
 		// bank management
-		$scope.apiKeyTemp = $scope.apiKey = $localStorage.apiKey;
 		$scope.bankContent = {};
 		$scope.hasBankContents = false;
 		$scope.$watch('apiKey', function() {
@@ -95,6 +98,32 @@ angular.module('legendarySearch.main', [
 			});
 		});
 		
+		// currencies management
+		$scope.currenciesContent = {};
+		$scope.hasCurrenciesContents = false;
+		$scope.$watch('apiKey', function() {
+			$scope.currenciesContentErrors = null;
+			if(!$scope.apiKey) {
+				$scope.currenciesContent = {};
+				$scope.hasCurrenciesContents = false;
+				return;
+			}
+			$localStorage.apiKey = $scope.apiKey;
+			Wallet.getFullContent($scope.apiKey).then(function(data) {
+				$scope.currenciesContent = data;
+				console.debug("$scope.currenciesContent =", $scope.currenciesContent);
+			}, function(response) {
+				$scope.currenciesContent = {};
+				$scope.currenciesContentErrors = {
+					accessError: response.data.text
+				};
+			})
+			.then(function() {
+				$scope.hasCurrenciesContents = !!$scope.currenciesContent && !jQuery.isEmptyObject($scope.currenciesContent);
+				console.debug("CC:", $scope.hasCurrenciesContents);
+			});
+		});
+		
 		// load cost tree
 		function reloadTree() {
 			if(!$scope.selectedItemId) {
@@ -107,6 +136,7 @@ angular.module('legendarySearch.main', [
 			RecursiveRecipeComputer
 				.getRecipeTree($scope.selectedItemId,
 					$scope.showOnlyRemainingCosts ? ($scope.bankContent || {}) : {},
+					$scope.showOnlyRemainingCosts ? ($scope.currenciesContent || {}) : {},
 					$scope.buyImmediately)
 				.then(function(data) {
 					console.debug(data);

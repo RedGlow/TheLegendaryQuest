@@ -31,14 +31,17 @@
 						</div>
 					</div>
 					<div class="col-xs-12 item-row"
-						ng-switch on="itemTree.totalCosts.length != 1 || itemTree.totalCosts[0].currencyId != 'copper' || itemTree.totalCosts[0].amount != itemTree.tradingPostCost">
+						ng-switch on="itemTree.totalCosts.length != 1 || itemTree.totalCosts[0].currencyId != 'Coin' || itemTree.totalCosts[0].amount != itemTree.tradingPostCost">
 						<div class="single-cost"
 							ng-switch-when="true"
 							ng-repeat="cost in itemTree.totalCosts">
 							<cost-item ng-if="!!cost.itemId && !(itemTree.totalCosts.length === 1 && cost.itemId === itemTree.itemId)" amount="cost.amount" item-id="cost.itemId"></cost-item>
-							<price ng-if="cost.currencyId === 'copper'" value="cost.amount"></price>
-							<span ng-if="!!cost.currencyId && cost.currencyId !== 'copper'"
-								class="currency" ng-class="cost.currencyId">{{ cost.amount }}</span>
+							<price ng-if="cost.currencyId === 'Coin'" value="cost.amount"></price>
+							<span ng-if="cost.currencyId === 'Coin' && !child">
+								&nbsp;(owned: <price value="ownedCoin"></price>)
+							</span>
+							<span ng-if="!!cost.currencyId && cost.currencyId !== 'Coin' && cost.amount > 0"
+								class="currency" ng-class="formatCurrencyClass(cost.currencyId)">{{ cost.amount }}</span>
 						</div>
 						<div ng-switch-default>&nbsp;</div>
 					</div>
@@ -62,18 +65,20 @@
 				ng-repeat="element in itemTree.ingredients">
 				<!-- item case -->
 				<item-table
+					child="true"
+					owned-coin="ownedCoin"
 					ng-if="!!element.itemId"
 					item-tree="element"
 					buy-immediately="buyImmediately"
 					show-percentage="showPercentage"
 					visible="open"
 					visibility-level="childVisibilityLevel"></item-table>
-				<!-- currency case: copper -->
-				<price ng-if="!!element.currencyId && element.currencyId == 'copper'"
+				<!-- currency case: coin -->
+				<price ng-if="!!element.currencyId && element.currencyId == 'Coin'"
 					value="element.unitaryRecipeAmount"></price>
 				<!-- currency case: other -->
-				<span ng-if="!!element.currencyId && element.currencyId != 'copper'"
-					class="currency" ng-class="element.currencyId">{{ element.unitaryRecipeAmount }}</span>
+				<span ng-if="!!element.currencyId && element.currencyId != 'Coin'"
+					class="currency" ng-class="formatCurrencyClass(element.currencyId)">{{ element.unitaryRecipeAmount }}</span>
 			</div>
 		</div>
 	</div>

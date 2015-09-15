@@ -8,67 +8,67 @@ angular.module('legendarySearch.recipeCompanion', [
 .service('RecipeCompanion', function($q, $http, GW2API) {
 	var mysticForgeRecipes = {
 		9615: [ // recipe: gift of metal
-			{type: 'currency', id: 'copper', amount: 100000}
+			{type: 'currency', id: 'Coin', amount: 100000}
 		],
 		9616: [ // recipe: gift of ice
-			{type: 'currency', id: 'copper', amount: 100000}
+			{type: 'currency', id: 'Coin', amount: 100000}
 		],
 		9617: [ // recipe: gift of wood
-			{type: 'currency', id: 'copper', amount: 100000}
+			{type: 'currency', id: 'Coin', amount: 100000}
 		],
 		9618: [ // recipe: gift of energy
-			{type: 'currency', id: 'copper', amount: 100000}
+			{type: 'currency', id: 'Coin', amount: 100000}
 		],
 		9621: [ // recipe: gift of nature
-			{type: 'currency', id: 'copper', amount: 100000}
+			{type: 'currency', id: 'Coin', amount: 100000}
 		],
 		9622: [ // recipe: unicorn statue
-			{type: 'currency', id: 'copper', amount: 100000}
+			{type: 'currency', id: 'Coin', amount: 100000}
 		],
 		9623: [ // recipe: gift of history
-			{type: 'currency', id: 'copper', amount: 100000}
+			{type: 'currency', id: 'Coin', amount: 100000}
 		],
 		9624: [ // recipe: gift of music
-			{type: 'currency', id: 'copper', amount: 100000}
+			{type: 'currency', id: 'Coin', amount: 100000}
 		],
 		9625: [ // recipe: gift of darkness
-			{type: 'currency', id: 'copper', amount: 100000}
+			{type: 'currency', id: 'Coin', amount: 100000}
 		],
 		9626: [ // recipe: gift of light
-			{type: 'currency', id: 'copper', amount: 100000}
+			{type: 'currency', id: 'Coin', amount: 100000}
 		],
 		9627: [ // recipe: vial of quicksilver
-			{type: 'currency', id: 'copper', amount: 100000}
+			{type: 'currency', id: 'Coin', amount: 100000}
 		],
 		9628: [ // recipe: gift of entertainment
-			{type: 'currency', id: 'copper', amount: 100000}
+			{type: 'currency', id: 'Coin', amount: 100000}
 		],
 		9629: [ // recipe: gift of stealth
-			{type: 'currency', id: 'copper', amount: 100000}
+			{type: 'currency', id: 'Coin', amount: 100000}
 		],
 		9630: [ // recipe: gift of weather
-			{type: 'currency', id: 'copper', amount: 100000}
+			{type: 'currency', id: 'Coin', amount: 100000}
 		],
 		9631: [ // recipe: liquid flame
-			{type: 'currency', id: 'copper', amount: 100000}
+			{type: 'currency', id: 'Coin', amount: 100000}
 		],
 		9632: [ // recipe: gift of color
-			{type: 'currency', id: 'copper', amount: 100000}
+			{type: 'currency', id: 'Coin', amount: 100000}
 		],
 		9633: [ // recipe: gift of lightning
-			{type: 'currency', id: 'copper', amount: 100000}
+			{type: 'currency', id: 'Coin', amount: 100000}
 		],
 		9634: [ // recipe: wolf statue
-			{type: 'currency', id: 'copper', amount: 100000}
+			{type: 'currency', id: 'Coin', amount: 100000}
 		],
 		9635: [ // recipe: shark statue
-			{type: 'currency', id: 'copper', amount: 100000}
+			{type: 'currency', id: 'Coin', amount: 100000}
 		],
 		9636: [ // recipe: eel statue
-			{type: 'currency', id: 'copper', amount: 100000}
+			{type: 'currency', id: 'Coin', amount: 100000}
 		],
 		9637: [ // recipe: gift of water
-			{type: 'currency', id: 'copper', amount: 100000}
+			{type: 'currency', id: 'Coin', amount: 100000}
 		],
 		19625: [ // gift of frostfang
 			{type: 'item', id: 19621, amount: 1},
@@ -197,31 +197,31 @@ angular.module('legendarySearch.recipeCompanion', [
 			{ type: 'item', id: 24618}
 		],
 		19663: [ // bottle of elonian wine
-			{ type: 'currency', id: 'copper', amount: 254 }
+			{ type: 'currency', id: 'Coin', amount: 254 }
 		],
 		19664: [ // gift of Ascalon
-			{type: 'currency', id: 'ascalonian_tear', amount: 500}
+			{type: 'currency', id: 'Ascalonian Tear', amount: 500}
 		],
 		19665: [ // gift of the nobleman
-			{type: 'currency', id: 'seal_of_beetletun', amount: 500}
+			{type: 'currency', id: 'Seal of Beetletun', amount: 500}
 		],
 		19666: [ // gift of the forgeman
-			{type: 'currency', id: 'manifesto_of_the_moletariate', amount: 500}
+			{type: 'currency', id: 'Manifesto of the Moletariate', amount: 500}
 		],
 		19667: [ // gift of thorns
-			{ type: 'currency', id: 'deadly_bloom', amount: 500 }
+			{ type: 'currency', id: 'Deadly Bloom', amount: 500 }
 		],
 		19668: [ // gift of baelfire
-			{ type: 'currency', id: 'flame_legion_charr_carving', amount: 500 }
+			{ type: 'currency', id: 'Flame Legion Charr Carving', amount: 500 }
 		],
 		19669: [ // gift of zhaitan
-			{type: 'currency', id: 'shard_of_zhaitan', amount: 500}
+			{type: 'currency', id: 'Shard of Zhaitan', amount: 500}
 		],
 		19670: [ // gift of sanctuary
-			{type: 'currency', id: 'symbol_of_koda', amount: 500}
+			{type: 'currency', id: 'Symbol of Koda', amount: 500}
 		],
 		19671: [ // gift of knowledge
-			{type: 'currency', id: 'knowledge_crystal', amount: 500}
+			{type: 'currency', id: 'Knowledge Crystal', amount: 500}
 		],
 		19672: [ // gift of might
 			{ type: 'item', id: 24357, amount: 250 },
@@ -242,10 +242,10 @@ angular.module('legendarySearch.recipeCompanion', [
 			{ type: 'item', id: 19678}
 		],
 		19676: [ // icy runestone
-			{type: 'currency', id: 'copper', amount: 10000}
+			{type: 'currency', id: 'Coin', amount: 10000}
 		],
 		19678: [ // gift of battle
-			{type: 'currency', id: 'badge_of_honor', amount: 500}
+			{type: 'currency', id: 'Badge of Honor', amount: 500}
 		],
 		19675: [ // mystic clover
 			{ type: 'item', id: 19925, amount: 3.3},
@@ -254,16 +254,16 @@ angular.module('legendarySearch.recipeCompanion', [
 			{ type: 'item', id: 20796, amount: 6.6},
 		],
 		19925: [ // obsidian shard
-			{type: 'currency', id: 'karma', amount: 2100}
+			{type: 'currency', id: 'Karma', amount: 2100}
 		],
 		20796: [ // philosopher's stone
-			{type: 'currency', id: 'spirit_shard', amount: 0.1}
+			{type: 'currency', id: 'Spirit Shard', amount: 0.1}
 		],
 		20797: [ // bloodstone shard
-			{type: 'currency', id: 'spirit_shard', amount: 200}
+			{type: 'currency', id: 'Spirit Shard', amount: 200}
 		],
 		20852: [ // eldritch scroll
-			{type: 'currency', id: 'spirit_shard', amount: 50}
+			{type: 'currency', id: 'Spirit Shard', amount: 50}
 		],
 		30684: [ // frostfang
 			{type: 'item', id: 29166},
@@ -627,10 +627,10 @@ angular.module('legendarySearch.recipeCompanion', [
 			{type: 'item', id: 46747, amount: 10}
 		],
 		46747: [ // thermocatalytic reagent
-			{type: 'currency', id: 'copper', amount: 179}
+			{type: 'currency', id: 'Coin', amount: 179}
 		],
 		46752: [ // augur's stone
-			{type: 'currency', id: 'spirit_shard', amount: 20}
+			{type: 'currency', id: 'Spirit Shard', amount: 20}
 		],
 		47909: [ // candy corn cob
 			{type: 'item', id: 36041, amount: 1000},
@@ -662,19 +662,19 @@ angular.module('legendarySearch.recipeCompanion', [
 			{type: 'item', id: 66989},
 		],
 		66902: [ // brick of clay
-			{type: 'currency', id: 'geode', amount: 12}
+			{type: 'currency', id: 'Geode', amount: 12}
 		],
 		66905: [ // recipe: clay pot
-			{type: 'currency', id: 'copper', amount: 736},
-			{type: 'currency', id: 'geode', amount: 44}
+			{type: 'currency', id: 'Coin', amount: 736},
+			{type: 'currency', id: 'Geode', amount: 44}
 		],
 		66906: [ // recipe: plate of meaty plant food
-			{type: 'currency', id: 'copper', amount: 736},
-			{type: 'currency', id: 'geode', amount: 44}
+			{type: 'currency', id: 'Coin', amount: 736},
+			{type: 'currency', id: 'Geode', amount: 44}
 		],
 		66907: [ // recipe: plate of piquant plant food
-			{type: 'currency', id: 'copper', amount: 736},
-			{type: 'currency', id: 'geode', amount: 44}
+			{type: 'currency', id: 'Coin', amount: 736},
+			{type: 'currency', id: 'Geode', amount: 44}
 		],
 		66908: [ // mysterious seedling
 			{type: 'item', id: 66909},
@@ -720,7 +720,7 @@ angular.module('legendarySearch.recipeCompanion', [
 			{type: 'item', id: 66920},
 		],
 		66978: [ // recipe: grow lamp
-			{type: 'currency', id: 'geode', amount: 60}
+			{type: 'currency', id: 'Geode', amount: 60}
 		],
 		66979: [ // cultivated sprout
 			{type: 'item', id: 66980},
@@ -825,7 +825,7 @@ angular.module('legendarySearch.recipeCompanion', [
 			{type: 'item', id: 67005},
 		],
 		67007: [ // mists stone
-			{type: 'currency', id: 'pristine_fractal_relic', amount: 5}
+			{type: 'currency', id: 'Pristine Fractal Relic', amount: 5}
 		],
 		67008: [ // mists infused clay pot
 			{type: 'item', id: 66913},
