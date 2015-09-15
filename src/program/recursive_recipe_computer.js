@@ -294,16 +294,6 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 				}
 				// get the base node, declaring we want one and still need one.
 				return getRecipe(rootItemId, 1, 1, true);
-				// add the recipe to the ingredients of the root
-				/*.then(function(rootNode) {
-					return $q.all(jQuery.map(rootNode.recipeItemIds, function(recipeItemId) {
-						return getRecipe(recipeItemId, 1, 1);
-					})).then(function(recipeIngredients) {
-						console.debug("Extending root node ingredients", rootNode.ingredients, "with recipe ingredients", recipeIngredients);
-						Array.prototype.push.apply(rootNode.ingredients, recipeIngredients);
-						return rootNode;
-					});
-				});*/
 			}
 		};
 	}
