@@ -48,28 +48,31 @@ angular.module('legendarySearch.disciplinesTable', [
 				}, update, true);
 				// updater function
 				function update() {
-					if(!neededCrafters || !characters) {
+					if(!neededCrafters) {
+						$scope.craftProblems = null;
 						return;
 					}
 					// get the best character for each profession
 					var professionals = {};
-					jQuery.each(characters, function(i, character) {
-						jQuery.each(character.crafting, function(j, craft) {
-							var discipline = craft.discipline;
-							var myEntry = {
-								rating: Math.max(0, craft.rating),
-								name: character.name
-							};
-							if(myEntry.rating === 0) {
-								return;
-							}
-							if(!professionals[discipline] ||
-								professionals[discipline].rating < myEntry.rating) {
-								professionals[craft.discipline] = myEntry;
-							}
+					if(!!characters) {
+						jQuery.each(characters, function(i, character) {
+							jQuery.each(character.crafting, function(j, craft) {
+								var discipline = craft.discipline;
+								var myEntry = {
+									rating: Math.max(0, craft.rating),
+									name: character.name
+								};
+								if(myEntry.rating === 0) {
+									return;
+								}
+								if(!professionals[discipline] ||
+									professionals[discipline].rating < myEntry.rating) {
+									professionals[craft.discipline] = myEntry;
+								}
+							});
 						});
-					});
-					console.debug("professionals:", professionals);
+						console.debug("professionals:", professionals);
+					}
 					// check for each crafter if we have what is needed
 					var craftProblems = [];
 					jQuery.each(neededCrafters, function(i, neededCrafter) {
@@ -94,7 +97,7 @@ angular.module('legendarySearch.disciplinesTable', [
 								characterName: null,
 								characterDiscipline: null,
 								characterRating: null,
-								level: 'danger'
+								level: !characters ? '' : 'danger'
 							});
 						} else {
 							craftProblems.push({
@@ -104,11 +107,11 @@ angular.module('legendarySearch.disciplinesTable', [
 								characterName: bestMatch.name,
 								characterDiscipline: bestMatch.discipline,
 								characterRating: bestMatch.rating,
-								level: bestMatch.rating < neededCrafter.rating ? 'warning' : 'success'
+								level: !characters ? '' : (bestMatch.rating < neededCrafter.rating ? 'warning' : 'success')
 							});
 						}
 					});
-					var levelsList = ['success', 'warning', 'danger'];
+					var levelsList = ['', 'success', 'warning', 'danger'];
 					craftProblems.sort(function(a, b) {
 						var result = levelsList.indexOf(b.level) - levelsList.indexOf(a.level);
 						if(result == 0) {
@@ -117,6 +120,7 @@ angular.module('legendarySearch.disciplinesTable', [
 						return result;
 					});
 					console.debug("craftProblems:", craftProblems);
+					$scope.hasCharacters = !!characters;
 					$scope.craftProblems = craftProblems;
 				}
 			}

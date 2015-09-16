@@ -37,7 +37,7 @@
 							ng-repeat="cost in itemTree.totalCosts">
 							<cost-item ng-if="!!cost.itemId && !(itemTree.totalCosts.length === 1 && cost.itemId === itemTree.itemId)" amount="cost.amount" item-id="cost.itemId"></cost-item>
 							<price ng-if="cost.currencyId === 'Coin'" value="cost.amount"></price>
-							<span ng-if="cost.currencyId === 'Coin' && !child">
+							<span ng-if="!!ownedCoin && cost.currencyId === 'Coin' && !child">
 								&nbsp;(owned: <price value="ownedCoin"></price>)
 							</span>
 							<span ng-if="!!cost.currencyId && cost.currencyId !== 'Coin' && cost.amount > 0"

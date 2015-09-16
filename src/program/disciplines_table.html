@@ -4,8 +4,8 @@
 			<th>Item</th>
 			<th>Required discipline</th>
 			<th>Required level</th>
-			<th>Character</th>
-			<th>Current level</th>
+			<th ng-if="hasCharacters">Character</th>
+			<th ng-if="hasCharacters">Current level</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -18,7 +18,7 @@
 				</div>
 			</td>
 			<td>{{craftProblem.rating}}</td>
-			<td class="nocharacter" colspan="2" ng-if="!craftProblem.characterName">(no character found)</td>
+			<td ng-if="hasCharacters && !craftProblem.characterName" class="nocharacter" colspan="2" ng-if="!craftProblem.characterName">(no character found)</td>
 			<td ng-if="!!craftProblem.characterName">{{ craftProblem.characterName }}</td>
 			<td ng-if="!!craftProblem.characterName">{{ craftProblem.characterRating }}</td>
 		</tr>
