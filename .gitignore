@@ -54,3 +54,4 @@ index.html
 mongoose*.exe
 app.min.css
 app.min.js
+*.map
