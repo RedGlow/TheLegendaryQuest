@@ -56,19 +56,14 @@ angular.module('legendarySearch.main', [
 		mapItemIdsToItems(othersIds).then(function(others) {
 			$scope.others = others;
 		});
-		$scope.currentFamily = 'legendary';
-		$scope.$watch('currentFamily', function() {
-			$scope.selectedItemId = null;
+		$scope.$watch('currentFamily', function(newValue, oldValue) {
+			if(oldValue != newValue && !!newValue) {
+				$scope.selectedItemId = null;
+			}
 		});
 		
 		// initialize TP management
 		$scope.buyImmediately = true;
-		
-		// show remaining costs
-		$scope.showOnlyRemainingCosts = true;
-
-		// api management
-		$scope.apiKeyTemp = $scope.apiKey = $localStorage.apiKey;
 		
 		// bank management
 		$scope.bankContent = {};
@@ -80,7 +75,6 @@ angular.module('legendarySearch.main', [
 				$scope.hasBankContents = false;
 				return;
 			}
-			$localStorage.apiKey = $scope.apiKey;
 			Bank.getFullContent($scope.apiKey).then(function(data) {
 				$scope.bankContent = data.items;
 				$scope.bankContentErrors = data.errors;
@@ -162,6 +156,25 @@ angular.module('legendarySearch.main', [
 		}
 		$scope.$watch('bankContent', computeShowPercentage);
 		$scope.$watch('showOnlyRemainingCosts', computeShowPercentage);
+
+		// local storage management
+		function bindLocalStorageUpdate(name) {
+			$scope.$watch(name, function() {
+				if(!!$scope[name]) {
+					$localStorage[name] = $scope[name];
+				}
+			});			
+		}
+		$scope.apiKeyTemp = $scope.apiKey = $localStorage.apiKey;
+		bindLocalStorageUpdate('apiKey');
+		$scope.currentFamily = $localStorage.currentFamily || 'legendary';
+		bindLocalStorageUpdate('currentFamily');
+		$scope.selectedItemId = $localStorage.selectedItemId;
+		bindLocalStorageUpdate('selectedItemId');
+		$scope.buyImmediately = $localStorage.buyImmediately || false;
+		bindLocalStorageUpdate('buyImmediately');
+		$scope.showOnlyRemainingCosts = $localStorage.showOnlyRemainingCosts === undefined ? true : $localStorage.showOnlyRemainingCosts;
+		bindLocalStorageUpdate('showOnlyRemainingCosts');
 	}
 ])
 
