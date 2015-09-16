@@ -114,7 +114,7 @@ angular.module('legendarySearch.disciplinesTable', [
 					var levelsList = ['', 'success', 'warning', 'danger'];
 					craftProblems.sort(function(a, b) {
 						var result = levelsList.indexOf(b.level) - levelsList.indexOf(a.level);
-						if(result == 0) {
+						if(result === 0) {
 							result = b.itemId - a.itemId;
 						}
 						return result;
