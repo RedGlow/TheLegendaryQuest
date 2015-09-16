@@ -131,22 +131,18 @@
 												<h4 class="modal-title" id="myModalLabel">API keys</h4>
 											</div>
 											<div class="modal-body">
-												<p>An <strong>API key</strong> is a way to allow an external program (like this website) to securely access some data from your
-												Guild Wars 2 account.</p>
+												<p>An <strong>API key</strong> is a way to allow an external program (like this website) to securely access some data from your Guild Wars 2 account.</p>
 												<p>In order to produce an API key for this website, follow these steps:</p>
 												<ol>
 													<li>Login on the ArenaNet account website (<strong>https://account.arena.net/login</strong> - for security reasons there is no link on this website sending you directly to the login page)</li>
 													<li>Go to the &ldquo;<strong>Applications</strong>&rdquo; tab</li>
 													<li>Click &ldquo;<strong>New key</strong>&rdquo;</li>
-													<li>Name the key however you want, and make sure <strong>&ldquo;inventories&rdquo; and &ldquo;characters&rdquo;</strong> are checked</li>
+													<li>Name the key however you want, and make sure <strong>&ldquo;inventories&rdquo;</strong>, <strong>&ldquo;characters&rdquo;</strong> and <strong>&ldquo;wallet&rdquo;</strong> are checked</li>
 													<li>Click &ldquo;<strong>Create API key</strong>&rdquo;</li>
 												</ol>
 												<p>These steps need to be performed just once.</p>
-												<p>Once you have the API key, copy it into
-												the API key box, click the button, and it will be saved in your browser.</p>
-												<p>Should you change your browser or delete the cache, just
-												go to the applications page and copy-paste the key you generated once more, without generating a
-												new one.</p>
+												<p>Once you have the API key, copy it into the API key box, click the button, and it will be saved in your browser.</p>
+												<p>Should you change your browser or delete the cache, just go to the applications page and copy-paste the key you generated once more, without generating a new one.</p>
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -158,7 +154,7 @@
 							
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-xs-offset-3 col-sm-10 col-xs-9">
-									<button class="btn btn-default" role="button" ng-click="apiKey = apiKeyTemp">Load bank contents</button>
+									<button class="btn btn-default" role="button" ng-click="apiKey = apiKeyTemp">Load account contents</button>
 								</div>
 								<div class="col-sm-offset-2 col-xs-offset-3 col-sm-10 col-xs-10">
 									<div class="help-block" id="helpBlock">
@@ -189,12 +185,8 @@
 				<div class="col-xs-12">
 					<form ng-if="!!costTree">
 						<legend>Crafting tree</legend>
-						<span class="help-block">Note well: once you insert your API key, the costs displayed are the
-						<em>remaining</em> costs, after
-						the content of your bank, material storage and characters inventories are taken into consideration.
-						For some costs (currencies: copper, spirit shards, dungeon tokens, ...) there is no way at the moment
-						to obtain any information about how many you already have, and so the full cost is always
-						displayed.</span>
+						<span class="help-block">Note well: recipes unlock for the various characters are not yet
+						taken into consideration, thus the recipes always include the recipe sheet costs themselves.</span>
 						<!-- MAIN ITEM TABLE -->
 						<div class="results">
 							<item-table
