@@ -119,6 +119,8 @@ angular.module('legendarySearch.main', [
 		});
 		
 		// load cost tree
+		var loadingTree = false,
+			reloadTreeAtReturn = false;
 		function reloadTree() {
 			if(!$scope.selectedItemId) {
 				$scope.costTree = null;
@@ -127,12 +129,23 @@ angular.module('legendarySearch.main', [
 			if($scope.buyImmediately === null) {
 				return;
 			}
+			if(loadingTree) {
+				reloadTreeAtReturn = true;
+				return;
+			}
+			loadingTree = true;
 			RecursiveRecipeComputer
 				.getRecipeTree($scope.selectedItemId,
 					$scope.showOnlyRemainingCosts ? ($scope.bankContent || {}) : {},
 					$scope.showOnlyRemainingCosts ? ($scope.currenciesContent || {}) : {},
 					$scope.buyImmediately)
 				.then(function(data) {
+					loadingTree = false;
+					if(reloadTreeAtReturn) {
+						console.debug("Reload tree.");
+						reloadTreeAtReturn = false;
+						reloadTree();
+					}
 					console.debug(data);
 					$scope.costTree = data;
 				}, errorFunction);
