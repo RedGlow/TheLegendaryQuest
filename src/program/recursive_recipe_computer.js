@@ -157,7 +157,9 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 										ownedAmount = 0; // special case
 									}
 									var percentage = ownedAmount / iRemainingNeededAmount;
-									currenciesContent[itemId] -= ownedAmount;
+									console.debug("CRR: was", ingredient.id, currenciesContent[ingredient.id]);
+									currenciesContent[ingredient.id] -= ownedAmount;
+									console.debug("CRR: is", ingredient.id, currenciesContent[ingredient.id]);
 									iRemainingNeededAmount -= ownedAmount;
 									return $q.when(perfectNode({
 										currencyId: ingredient.id,
