@@ -26,7 +26,7 @@ the actual changes in model are always made at the end of the animations to avoi
 				itemTree: '=',
 				buyImmediately: '=',
 				showPercentage: '=',
-				visible: '=',
+				isVisible: '=',
 				visibilityLevel: '=',
 				ownedCoin: '=',
 				child: '=?'
@@ -46,8 +46,8 @@ the actual changes in model are always made at the end of the animations to avoi
 						$scope.childVisibilityLevel = Math.max(0, $scope.visibilityLevel - 1);
 					}
 				});
-				$scope.$watch('visible', function() {
-					if($scope.visible) {
+				$scope.$watch('isVisible', function() {
+					if($scope.isVisible) {
 						$scope.visibilityLevel = 2;
 					}
 				});
