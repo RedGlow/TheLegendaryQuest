@@ -42,10 +42,10 @@ In order to setup a functional development environment, the following steps are 
 ### [0.3.0](https://www.reddit.com/r/Guildwars2/comments/3fr694/the_legendary_quest_v_030/)
 
 * Complete rework of the UX regarding the crafting tree; it now includes the crafting cost, the trading post cost,
-   a percentage completion bar, links to the wiki, gw2spidy and gw2shinies, and it uses a vertical expansion
-   ([#1](https://github.com/RedGlow/TheLegendaryQuest/issues/1), [#6](https://github.com/RedGlow/TheLegendaryQuest/issues/6),
-   [#9](https://github.com/RedGlow/TheLegendaryQuest/issues/9), [#11](https://github.com/RedGlow/TheLegendaryQuest/issues/11),
-   [#18](https://github.com/RedGlow/TheLegendaryQuest/issues/18))
+  a percentage completion bar, links to the wiki, gw2spidy and gw2shinies, and it uses a vertical expansion
+  ([#1](https://github.com/RedGlow/TheLegendaryQuest/issues/1), [#6](https://github.com/RedGlow/TheLegendaryQuest/issues/6),
+  [#9](https://github.com/RedGlow/TheLegendaryQuest/issues/9), [#11](https://github.com/RedGlow/TheLegendaryQuest/issues/11),
+  [#18](https://github.com/RedGlow/TheLegendaryQuest/issues/18))
 * Added a feedback wheel while loading the contents ([#2](https://github.com/RedGlow/TheLegendaryQuest/issues/2))
 * The API key is now saved in the browser and automatically loaded upon opening ([#10](https://github.com/RedGlow/TheLegendaryQuest/issues/10))
 * Added an explanation about what an API key is and how it is created ([#12](https://github.com/RedGlow/TheLegendaryQuest/issues/12))
