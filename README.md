@@ -39,6 +39,21 @@ In order to setup a functional development environment, the following steps are 
 
 ## Changelog
 
+### [0.4.0]()
+
+* Many named exotic weapons and other items have been included
+* Currencies are now correctly considered (dungeon tokens, gold, spirit shards, ...)
+* Crafting disciplines: now all the crafting disciplines needed for crafting the (missing) items are displayed, alongside with the 
+  characters possessing that discipline nearest to the needed level.
+* All the choices for the input selectors are now remembered, instead of just the one for the weapon.
+* Equipped items are now correctly considered
+* Recipes are now collected and display at the root node, instead of repeating them through all the nodes needing them.
+* The crafting expansion of a node is no longer considered if an item is cheaper to buy than to crafting
+* Some aesthetic and functional animations have been added (they will not be displayed if the browser does not fully
+  support CSS3 animations)
+* API calls are now stored in the web storage, allowing for fewer calls upon closing and reopening the application
+* Various label corrections and renamings
+
 ### [0.3.0](https://www.reddit.com/r/Guildwars2/comments/3fr694/the_legendary_quest_v_030/)
 
 * Complete rework of the UX regarding the crafting tree; it now includes the crafting cost, the trading post cost,

@@ -1,7 +1,7 @@
 
 {
   "name": "the-legendary-quest",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "devDependencies": {
     "angular": "^1.4.3",
     "angular-animate": "^1.4.3",
