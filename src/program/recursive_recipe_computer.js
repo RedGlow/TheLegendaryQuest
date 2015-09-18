@@ -1,5 +1,5 @@
 angular.module('legendarySearch.recursiveRecipeComputer', [
-	'supplyCrateApp.gw2api',
+	'redglow.gw2api',
 	'legendarySearch.recipeCompanion'
 ])
 
@@ -33,7 +33,7 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 				function getValue(c) {
 					if(!!c.itemId) {
 						return [1, c.itemId];
-					} else if(c.currencyId !== 'copper') {
+					} else if(c.currencyId !== 'Coin') {
 						return [2, c.currencyId];
 					} else {
 						return [3];
@@ -49,6 +49,16 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 			if(node.totalCosts.length === 0) {
 				// we don't need anything more for this node, so skip it
 				node.tradingPostCost = null;
+			}
+			var consideredCraftingItemIds = [];
+			for(var i = 0; i < node.crafters.length; i++) {
+				var itemId = node.crafters[i].itemId;
+				if(consideredCraftingItemIds.indexOf(itemId) == -1) {
+					consideredCraftingItemIds.push(itemId);
+				} else {
+					node.crafters.splice(i, 1);
+					i--;
+				}
 			}
 			node.roundedPercentage = Math.round(node.percentage * 100);
 			return node;
@@ -77,10 +87,11 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 			 *   (the quantity); percentage: a number (between 0 and 1) representing how much of this node
 			 *   has been completed, also considering the ingredients.
 			 */
-			getRecipeTree: function(rootItemId, bankContent, buyImmediately) {
+			getRecipeTree: function(rootItemId, bankContent, currenciesContent, buyImmediately) {
 				// local bankContent copy
 				bankContent = jQuery.extend({}, bankContent);
-				function getRecipe(itemId, unitaryRecipeAmount, remainingNeededAmount) {
+				currenciesContent = jQuery.extend({}, currenciesContent);
+				function getRecipe(itemId, unitaryRecipeAmount, remainingNeededAmount, isRootNode) {
 					// check what we can get from the bank
 					var ownedAmount = Math.min(remainingNeededAmount, get(bankContent, itemId));
 					bankContent[itemId] -= ownedAmount;
@@ -95,7 +106,9 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 							tradingPostCost: null,
 							ingredients: [],
 							totalCosts: [],
-							percentage: 1
+							percentage: 1,
+							crafters: [],
+							recipeItemIds: []
 						}));
 					}
 					// get the recipe promise for this element
@@ -108,7 +121,7 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 						.getListing(itemId)
 						.then(function(result) { return result; },
 							function(error) {
-								if(!!error.text && error.text == "all ids provided are invalid") {
+								if(!!error.text && error.text == "no such id") {
 									return {id: itemId, buys: [], sells: []};
 								} else {
 									return $q.reject(error);
@@ -126,38 +139,91 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 							tradingPostCost = listing.buys[0].unit_price;
 						}
 						// analyze the recipe
-						var ingredientsPromises;
+						var ingredientsPromises,
+							crafter,
+							recipeItemId;
 						if(recipeResult !== null) {
-							ingredientsPromises = $q.all(jQuery.map(recipeResult, function(ingredient) {
+							crafter = recipeResult.crafter;
+							recipeItemId = recipeResult.recipeItemId;
+							ingredientsPromises = $q.all(jQuery.map(recipeResult.ingredients, function(ingredient) {
 								var iid = ingredient.id,
 									iamount = ingredient.amount || 1,
 									iRemainingNeededAmount = iamount * remainingNeededAmount;
 								if(ingredient.type === 'item') {
-									return getRecipe(parseInt(iid), iamount, iRemainingNeededAmount);
+									return getRecipe(parseInt(iid), iamount, iRemainingNeededAmount, false);
 								} else {
+									var ownedAmount = Math.min(iRemainingNeededAmount, get(currenciesContent, ingredient.id));
+									if(ingredient.id == 'Coin') {
+										ownedAmount = 0; // special case
+									}
+									var percentage = ownedAmount / iRemainingNeededAmount;
+									console.debug("CRR: was", ingredient.id, currenciesContent[ingredient.id]);
+									currenciesContent[ingredient.id] -= ownedAmount;
+									console.debug("CRR: is", ingredient.id, currenciesContent[ingredient.id]);
+									iRemainingNeededAmount -= ownedAmount;
 									return $q.when(perfectNode({
 										currencyId: ingredient.id,
 										unitaryRecipeAmount: iamount,
 										remainingNeededAmount: iRemainingNeededAmount,
-										ownedAmount: 0, // TODO: wait for wallet api
+										ownedAmount: ownedAmount,
 										tradingPostCost: null,
 										ingredients: [],
 										totalCosts: [{
 											amount: iRemainingNeededAmount,
 											currencyId: ingredient.id
 										}],
-										percentage: 0 // TODO: wait for wallet api
+										percentage: percentage,
+										crafters: [],
+										recipeItemIds: []
 									}));
 								}
 							}));
 						} else {
+							crafter = null;
+							recipeItemId = null;
 							ingredientsPromises = $q.when(null);
 						}
 						// return the analysis result
-						return $q.all([ingredientsPromises, $q.when(tradingPostCost)]);
+						return $q.all([ingredientsPromises, $q.when(tradingPostCost), $q.when(crafter), $q.when(recipeItemId)]);
+					}).then(function(results) {
+						// sum all recipe item ids
+						var recipeItemIds = [];
+						if(!!results[3]) {
+							recipeItemIds.push(results[3]);
+						}
+						var ingredientsResults = results[0];
+						if(!!ingredientsResults) {
+							jQuery.each(ingredientsResults, function(i, ingredient) {
+								Array.prototype.push.apply(recipeItemIds, ingredient.recipeItemIds);
+							});
+						}
+						recipeItemIds = recipeItemIds.filter(function(value, index, arr) {
+							return arr.indexOf(value) == index;
+						});
+						results[3] = recipeItemIds;
+						// add recipe item ids to the recipe, if root node
+						if(isRootNode) {
+							return $q.all(jQuery.map(recipeItemIds, function(recipeItemId) {
+								return getRecipe(recipeItemId, 1, 1);
+							})).then(function(recipeNodes) {
+								console.debug("Extending", results[0], "with", recipeNodes);
+								Array.prototype.push.apply(results[0], recipeNodes);
+								return results;
+							});
+						} else {
+							// not the root node: return the result directly
+							return results;
+						}
 					}).then(function(results) {
 						var ingredientsResults = results[0],
-							tradingPostCostResult = results[1];
+							tradingPostCostResult = results[1],
+							crafters = [],
+							recipeItemIds = results[3];
+						if(!!results[2]) {
+							var crafter = results[2];
+							crafter.itemId = itemId;
+							crafters.push(crafter);
+						}
 						// compute the summed up total costs and completion percentage
 						var totalCosts = [];
 						var percentage = ownedAmount / (ownedAmount + remainingNeededAmount);
@@ -166,6 +232,7 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 							var totalCostsCurrencyMap = {},
 								totalCostsItemMap = {};
 							jQuery.each(ingredientsResults, function(i, ingredient) {
+								Array.prototype.push.apply(crafters, ingredient.crafters);
 								jQuery.each(ingredient.totalCosts, function(j, cost) {
 									if(!!cost.currencyId) {
 										add(totalCostsCurrencyMap, cost.currencyId, cost.amount);
@@ -180,17 +247,35 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 							jQuery.each(totalCostsItemMap, function(itemId, amount) {
 								totalCosts.push({itemId: itemId, amount: amount});
 							});
-							// percentage
-							var remainingPercentage = 1 - percentage;
-							jQuery.each(ingredientsResults, function(i, ingredient) {
-								percentage += ingredient.percentage * remainingPercentage / ingredientsResults.length;
-							});
+							// check if it's *actually* convenient to use the recipe
+							if(totalCosts.length == 1 &&
+								!!totalCosts[0].currencyId &&
+								totalCosts[0].currencyId === 'Coin' &&
+								!!tradingPostCostResult &&
+								totalCosts[0].amount > tradingPostCostResult * remainingNeededAmount) {
+								console.debug("More convenient to buy", itemId,
+									"for", tradingPostCostResult, "*", remainingNeededAmount,
+									"=", tradingPostCostResult * remainingNeededAmount,
+									"rather than using the recipe", ingredientsResults,
+									"for", totalCosts[0].amount, "Coin");
+								ingredientsResults = null;
+								totalCosts = [{
+									currencyId: 'Coin',
+									amount: tradingPostCostResult * remainingNeededAmount
+								}];
+							} else {
+								// percentage
+								var remainingPercentage = 1 - percentage;
+								jQuery.each(ingredientsResults, function(i, ingredient) {
+									percentage += ingredient.percentage * remainingPercentage / ingredientsResults.length;
+								});
+							}
 						} else {
 							// total costs
 							if(tradingPostCostResult !== null) {
 								// no recipe for the element: buy it on the TP
 								totalCosts = [{
-									currencyId: 'copper',
+									currencyId: 'Coin',
 									amount: tradingPostCostResult * remainingNeededAmount
 								}];
 							} else {
@@ -211,12 +296,14 @@ angular.module('legendarySearch.recursiveRecipeComputer', [
 							tradingPostCost: tradingPostCostResult,
 							ingredients: ingredientsResults,
 							totalCosts: totalCosts,
+							crafters: crafters,
+							recipeItemIds: recipeItemIds,
 							percentage: percentage
 						});
 					});
 				}
 				// get the base node, declaring we want one and still need one.
-				return getRecipe(rootItemId, 1, 1);
+				return getRecipe(rootItemId, 1, 1, true);
 			}
 		};
 	}

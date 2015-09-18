@@ -1,3 +1,4 @@
+
 module.exports = function(grunt) {
 	require('load-grunt-tasks')(grunt);
 
@@ -20,6 +21,26 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+		ngtemplates: {
+			build: {
+				src: 'program/*.html',
+				cwd: 'src',
+				dest: 'build/templates.js',
+				options: {
+					module: 'legendarySearch',
+					htmlmin: {
+						collapseBooleanAttributes:      true,
+						collapseWhitespace:             true,
+						removeAttributeQuotes:          true,
+						removeComments:                 true,
+						removeEmptyAttributes:          true,
+						removeRedundantAttributes:      true,
+						removeScriptTypeAttributes:     true,
+						removeStyleLinkTypeAttributes:  true
+					}
+				}
+			}
+		},
 		jshint: {
 			dist: {
 				src: 'src/program/*.js'
@@ -29,6 +50,7 @@ module.exports = function(grunt) {
 			options: {
 				banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
 				mangle: false,
+				sourceMap: true,
 				compress: {
 					drop_console: true
 				}
@@ -40,9 +62,11 @@ module.exports = function(grunt) {
 						'node_modules/angular/angular.min.js',
 						'node_modules/angular-animate/angular-animate.min.js',
 						'node_modules/ngstorage/ngStorage.min.js',
+						'node_modules/angular-gw2-api/build/gw2api.min.js',
 						'node_modules/angular-ui-bootstrap/ui-bootstrap-tpls.min.js',
 						'node_modules/bootstrap/js/modal.js',
-						'src/program/*.js'
+						'src/program/*.js',
+						'build/templates.js'
 					]
 				}
 			}
@@ -104,6 +128,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', [
 		'develop',
 		'jshint',
+		'ngtemplates',
 		'uglify',
 		'cssmin',
 		'copy:dist',

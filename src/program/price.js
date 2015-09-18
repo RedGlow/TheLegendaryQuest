@@ -7,7 +7,7 @@ angular.module('supplyCrateApp.price', [
         scope: {
             value: '='
         },
-        templateUrl: 'price-directive.html',
+        templateUrl: 'program/price.html',
         controller: ['$scope', function($scope) {
             // for some mysterious reason, I must watch manually for when "value" is bound O_o
             $scope.$watch('value', function() {

@@ -1,12 +1,12 @@
 angular.module('legendarySearch.siteLinks', [
-	'supplyCrateApp.gw2api'
+	'redglow.gw2api'
 ])
 
 .directive('siteLinks',
 	function() {
 		return {
 			restrict: 'E',
-			templateUrl: 'site-links.html',
+			templateUrl: 'program/site_links.html',
 			scope: {
 				itemId: '='
 			},

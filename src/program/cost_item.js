@@ -1,12 +1,12 @@
 angular.module('legendarySearch.costItem', [
-	'supplyCrateApp.gw2api'
+	'redglow.gw2api'
 ])
 
 .directive('costItem',
 	function() {
 		return {
 			restrict: 'E',
-			templateUrl: 'cost-item.html',
+			templateUrl: 'program/cost_item.html',
 			scope: {
 				amount: '=',
 				itemId: '='
