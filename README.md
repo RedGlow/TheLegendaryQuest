@@ -53,7 +53,7 @@ In order to setup a functional development environment, the following steps are 
   support CSS3 animations) ([#26](https://github.com/RedGlow/TheLegendaryQuest/issues/26))
 * API calls are now stored in the web storage, allowing for fewer calls upon closing and reopening the application ([#24](https://github.com/RedGlow/TheLegendaryQuest/issues/24))
 * Various label corrections and renamings ([#39](https://github.com/RedGlow/TheLegendaryQuest/issues/39), [#29](https://github.com/RedGlow/TheLegendaryQuest/issues/29))
-* Internal refactoring of code: all hail [angular-gw2-api](www.npmjs.com/package/angular-gw2-api)!
+* Internal refactoring of code: all hail [angular-gw2-api](http://www.npmjs.com/package/angular-gw2-api)!
 
 ### [0.3.0](https://www.reddit.com/r/Guildwars2/comments/3fr694/the_legendary_quest_v_030/)
 
