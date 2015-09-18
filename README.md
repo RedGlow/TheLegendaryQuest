@@ -39,7 +39,7 @@ In order to setup a functional development environment, the following steps are 
 
 ## Changelog
 
-### [0.4.0]()
+### [0.4.0](https://www.reddit.com/r/Guildwars2/comments/3lew32/the_legendary_quest_v_040/)
 
 * Many named exotic weapons and other items have been included ([#20](https://github.com/RedGlow/TheLegendaryQuest/issues/20))
 * Currencies are now correctly considered (dungeon tokens, gold, spirit shards, ...) ([#31](https://github.com/RedGlow/TheLegendaryQuest/issues/31))
