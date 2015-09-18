@@ -41,18 +41,19 @@ In order to setup a functional development environment, the following steps are 
 
 ### [0.4.0]()
 
-* Many named exotic weapons and other items have been included
-* Currencies are now correctly considered (dungeon tokens, gold, spirit shards, ...)
+* Many named exotic weapons and other items have been included ([#20](https://github.com/RedGlow/TheLegendaryQuest/issues/20))
+* Currencies are now correctly considered (dungeon tokens, gold, spirit shards, ...) ([#31](https://github.com/RedGlow/TheLegendaryQuest/issues/31))
 * Crafting disciplines: now all the crafting disciplines needed for crafting the (missing) items are displayed, alongside with the 
-  characters possessing that discipline nearest to the needed level.
-* All the choices for the input selectors are now remembered, instead of just the one for the weapon.
-* Equipped items are now correctly considered
-* Recipes are now collected and display at the root node, instead of repeating them through all the nodes needing them.
-* The crafting expansion of a node is no longer considered if an item is cheaper to buy than to crafting
+  characters possessing that discipline nearest to the needed level ([#25](https://github.com/RedGlow/TheLegendaryQuest/issues/25), [#38](https://github.com/RedGlow/TheLegendaryQuest/issues/38))
+* All the choices for the input selectors are now remembered, instead of just the one for the weapon ([#35](https://github.com/RedGlow/TheLegendaryQuest/issues/35))
+* Equipped items are now correctly considered ([#28](https://github.com/RedGlow/TheLegendaryQuest/issues/28))
+* Recipes are now collected and display at the root node, instead of repeating them through all the nodes needing them ([#37](https://github.com/RedGlow/TheLegendaryQuest/issues/37))
+* The crafting expansion of a node is no longer considered if an item is cheaper to buy than to crafting ([#27](https://github.com/RedGlow/TheLegendaryQuest/issues/27))
 * Some aesthetic and functional animations have been added (they will not be displayed if the browser does not fully
-  support CSS3 animations)
-* API calls are now stored in the web storage, allowing for fewer calls upon closing and reopening the application
-* Various label corrections and renamings
+  support CSS3 animations) ([#26](https://github.com/RedGlow/TheLegendaryQuest/issues/26))
+* API calls are now stored in the web storage, allowing for fewer calls upon closing and reopening the application ([#24](https://github.com/RedGlow/TheLegendaryQuest/issues/24))
+* Various label corrections and renamings ([#39](https://github.com/RedGlow/TheLegendaryQuest/issues/39), [#29](https://github.com/RedGlow/TheLegendaryQuest/issues/29))
+* Internal refactoring of code: all hail [angular-gw2-api](http://www.npmjs.com/package/angular-gw2-api)!
 
 ### [0.3.0](https://www.reddit.com/r/Guildwars2/comments/3fr694/the_legendary_quest_v_030/)
 
