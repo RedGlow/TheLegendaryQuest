@@ -35,14 +35,14 @@
 						<div class="single-cost"
 							ng-switch-when="true"
 							ng-repeat="cost in itemTree.totalCosts"
-							ng-if="(cost.currencyId !== undefined && cost.amount > 0) || (itemTree.totalCosts.length == 1 && cost.itemId === itemTree.itemId)"
+							ng-if="(cost.currencyId !== undefined && cost.amount > 0) || (!!cost.itemId && !(itemTree.totalCosts.length == 1 && cost.itemId === itemTree.itemId))"
 							>
-							<cost-item ng-if="!itemTree.totalCosts.length === 1 && cost.itemId === itemTree.itemId" amount="cost.amount" item-id="cost.itemId"></cost-item>
+							<cost-item ng-if="!!cost.itemId && !(itemTree.totalCosts.length == 1 && cost.itemId === itemTree.itemId)" amount="cost.amount" item-id="cost.itemId"></cost-item>
 							<price ng-if="cost.currencyId === 'Coin'" value="cost.amount"></price>
 							<span ng-if="!!ownedCoin && cost.currencyId === 'Coin' && !child">
 								&nbsp;(owned: <price value="ownedCoin"></price>)
 							</span>
-							<span ng-if="cost.currencyId !== 'Coin' && cost.amount > 0"
+							<span ng-if="!!cost.currencyId && cost.currencyId !== 'Coin' && cost.amount > 0"
 								class="currency" ng-class="formatCurrencyClass(cost.currencyId)">{{ cost.amount }}</span>
 						</div>
 						<div ng-switch-default>&nbsp;</div>
