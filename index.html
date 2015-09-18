@@ -27,154 +27,6 @@
 		<section ng-app="legendarySearch.main"
 			ng-controller="Main"
 			class="container">
-			
-			<!-- PRICE TEMPLATE -->
-			<script type="text/ng-template" id="price-directive.html">
-				<span class="value-{{value}} copper-value"><span class="currency gold" ng-if="hasGold">{{gold}}</span>
-				<span class="currency silver" ng-if="hasSilver">{{silver}}</span>
-				<span class="currency copper">{{copper}}</span></span>
-			</script>
-
-			<!-- COST ITEM TEMPLATE -->
-			<script type="text/ng-template" id="cost-item.html">
-				<span class="cost-item-amount" ng-if="amount > 1">{{ amount }} x</span>
-				<img class="cost-item-img" ng-src="{{item.icon}}">
-				<span class="cost-item-name">{{ item.name }}</span>
-			</script>
-			
-			<!-- SITE LINKS TEMPLATE -->
-			<script type="text/ng-template" id="site-links.html">
-				<div class="site-links">
-					<a ng-if="!!gw2WikiLink" ng-href="{{gw2WikiLink}}" target="_blank">
-						Wiki
-					</a>
-					<span class="hidden-sm hidden-xs">&mdash;</span>
-					<a ng-if="!!gw2SpidyLink" ng-href="{{gw2SpidyLink}}" target="_blank">
-						GW2Spidy
-					</a>
-					<span class="hidden-sm hidden-xs">&mdash;</span>
-					<a ng-if="!!gw2ShiniesLink" ng-href="{{gw2ShiniesLink}}" target="_blank">
-						GW2Shinies
-					</a>
-				</div>
-			</script>
-			
-			<!-- ITEM TABLE TEMPLATE -->
-			<script type="text/ng-template" id="item-table-directive.html">
-				<div class="item-table row">
-					<div class="item-data col-xs-12">
-						<div class="row">
-							<div class="col-xs-1 img-col">
-								<div class="img-container">
-									<span class="arrow"
-										ng-if="!!itemTree.ingredients && itemTree.ingredients.length > 0"
-										ng-click="toggle($event)">
-										<span class="glyphicon"
-											ng-class="{'glyphicon-minus-sign': open, 'glyphicon-plus-sign': !open}"></span>
-									</span>
-									<img class="img img-rounded" ng-src="{{item.icon}}" alt="{{item.name}}" ng-click="toggle($event)">
-								</div>
-							</div>
-							<div class="details col-xs-11">
-								<div class="row">
-									<div class="col-xs-12 item-row">
-										<div class="row">
-											<div class="name col-sm-4 col-xs-6">
-												<span ng-if="itemTree.unitaryRecipeAmount > 1">{{itemTree.unitaryRecipeAmount}} x</span>
-												<span class="name">{{item.name}}</span>
-											</div>
-											<div class="trading-post col-sm-4 col-xs-6" ng-class="{invisible: !itemTree.tradingPostCost}">
-												<span class="hidden-xs">Trading post:</span>
-												<span class="visible-xs-inline">TP:</span>
-												<price value="itemTree.tradingPostCost"></price>
-											</div>
-											<div class="col-sm-4 col-xs-12">
-												<site-links item-id="itemTree.itemId"></site-links>
-											</div>
-										</div>
-									</div>
-									<div class="col-xs-12 item-row"
-										ng-switch on="itemTree.totalCosts.length != 1 || itemTree.totalCosts[0].currencyId != 'copper' || itemTree.totalCosts[0].amount != itemTree.tradingPostCost">
-										<div class="single-cost"
-											ng-switch-when="true"
-											ng-repeat="cost in itemTree.totalCosts">
-											<cost-item ng-if="!!cost.itemId && !(itemTree.totalCosts.length === 1 && cost.itemId === itemTree.itemId)" amount="cost.amount" item-id="cost.itemId"></cost-item>
-											<price ng-if="cost.currencyId === 'copper'" value="cost.amount"></price>
-											<span ng-if="!!cost.currencyId && cost.currencyId !== 'copper'"
-												class="currency" ng-class="cost.currencyId">{{ cost.amount }}</span>
-										</div>
-										<div ng-switch-default>&nbsp;</div>
-									</div>
-									<div class="col-xs-12">
-										<div class="amount" ng-class="{'invisible': !showPercentage}">
-											<div class="percentage-bar" ng-style="{width: itemTree.roundedPercentage + '%'}"></div>
-											<div class="percentage-text">
-											{{itemTree.ownedAmount}} / {{itemTree.ownedAmount + itemTree.remainingNeededAmount}}
-											({{itemTree.roundedPercentage}}%)
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="recipe-container col-xs-11 col-xs-offset-1">
-						<div class="recipe"
-							ng-if="itemTree.remainingNeededAmount > 0">
-							<div class="recipe-element"
-								ng-repeat="element in itemTree.ingredients">
-								<!-- item case -->
-								<item-table
-									ng-if="!!element.itemId"
-									item-tree="element"
-									buy-immediately="buyImmediately"
-									show-percentage="showPercentage"
-									visible="open"
-									visibility-level="childVisibilityLevel"></item-table>
-								<!-- currency case: copper -->
-								<price ng-if="!!element.currencyId && element.currencyId == 'copper'"
-									value="element.unitaryRecipeAmount"></price>
-								<!-- currency case: other -->
-								<span ng-if="!!element.currencyId && element.currencyId != 'copper'"
-									class="currency" ng-class="element.currencyId">{{ element.unitaryRecipeAmount }}</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</script>
-			
-			<!-- ERROR DIALOG TEMPLATE -->
-			<script type="text/ng-template" id="error-dialog.html">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="$dismiss()"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel">Error</h4>
-				</div>
-				<div class="modal-body">
-					<p>An error was encountered.</p>
-					<p>Try reloading the page or launch the request again.</p>
-					<p>If the problem persists, please <a href="https://github.com/RedGlow/TheLegendaryQuest/issues/new"
-					target="_blank">open
-					a bug report</a> and possibly <a href="mailto:mattia.belletti@gmail.com?subject=API key for bug #&lt;INSERT BUG NUMBER&gt;">send me an email with your API
-					key and a reference to the bug you opened</a> at <em>mattia.belletti@gmail.com</em>.</p>
-					<p>
-						<button class="btn btn-default" role="button" ng-click="toggleDetails()">
-							<span class="bug-button glyphicon" ng-class="{'glyphicon-folder-close': openedDetails, 'glyphicon-folder-open': !openedDetails}"></span>
-							<span ng-if="!openedDetails">Open details</span>
-							<span ng-if="openedDetails">Close details</span>
-						</button>
-					</p>
-					<pre ng-if="openedDetails">
-Status: {{ error.status }}
-Status text: {{ error.statusText }}
-Config: {{ error.config | json }}
-Data: {{ error.data | json }}
-					</pre>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="$dismiss()">Close</button>
-				</div>
-			</script>
-								
 			<div class="running-requests" ng-class="{'invisible': runningRequests() <= 0}">
 				<p class="content">
 					<img src="img/loading.gif">
@@ -196,17 +48,39 @@ Data: {{ error.data | json }}
 
 							<!-- LEGENDARY SELECTOR -->
 							<div class="form-group">
-								<label class="col-xs-3 col-sm-2 control-label" for="legendary-selection">Legendary</label>
-								<div class="col-xs-9 col-sm-10">
+								<label class="col-xs-3 col-sm-2 col-md-2 control-label" for="legendary-selection">Item</label>
+								<div class="col-xs-9 col-sm-4 col-md-3">
+									<select class="form-control" ng-model="currentFamily">
+										<option label="Legendaries" value="legendary">Legendary</option>
+										<option label="Named exotics" value="namedexotics">Named exotics</option>
+										<option label="Others" value="others">Others</option>
+									</select>
+								</div>
+								<div class="col-xs-9 col-xs-offset-3 col-sm-offset-0 col-sm-6 col-md-7" ng-class="{hidden: currentFamily !== 'legendary'}">
 									<select class="form-control" id="legendary-selection"
 										ng-options="legendary.id as legendary.name for legendary in availableLegendaries"
-										ng-model="selectedLegendary"></select>
+										ng-model="selectedItemId"></select>
+								</div>
+								<div class="col-xs-9 col-xs-offset-3 col-sm-offset-0 col-sm-6 col-md-7" ng-class="{hidden: currentFamily !== 'namedexotics'}">
+									<select class="form-control" id="namedexotics-selection"
+										ng-options="namedExotic.id as namedExotic.name for namedExotic in namedExotics"
+										ng-model="selectedItemId"
+										></select>
+								</div>
+								<div class="col-xs-9 col-xs-offset-3 col-sm-offset-0 col-sm-6 col-md-7" ng-class="{hidden: currentFamily !== 'others'}">
+									<select class="form-control" id="others-selection"
+										ng-options="other.id as other.name for other in others"
+										ng-model="selectedItemId"
+										></select>
 								</div>
 							</div>
 							
 							<!-- BUY/SELL -->
 							<div class="form-group">
-								<label class="col-xs-3 col-sm-2 control-label" for="buy-selection">Trading Post</label>
+								<label class="col-xs-3 col-sm-2 control-label" for="buy-selection">
+									<span class="hidden-sm hidden-xs">Trading Post Costs</span>
+									<span class="visible-sm-inline visible-xs-inline"><abbr title="Trading Post">TP</abbr> Costs</span>
+								</label>
 								<div class="col-xs-9 col-sm-10">
 									<select class="form-control" id="buy-selection"
 										ng-model="buyImmediately"
@@ -233,22 +107,18 @@ Data: {{ error.data | json }}
 												<h4 class="modal-title" id="myModalLabel">API keys</h4>
 											</div>
 											<div class="modal-body">
-												<p>An <strong>API key</strong> is a way to allow an external program (like this website) to securely access some data from your
-												Guild Wars 2 account.</p>
+												<p>An <strong>API key</strong> is a way to allow an external program (like this website) to securely access some data from your Guild Wars 2 account.</p>
 												<p>In order to produce an API key for this website, follow these steps:</p>
 												<ol>
 													<li>Login on the ArenaNet account website (<strong>https://account.arena.net/login</strong> - for security reasons there is no link on this website sending you directly to the login page)</li>
 													<li>Go to the &ldquo;<strong>Applications</strong>&rdquo; tab</li>
 													<li>Click &ldquo;<strong>New key</strong>&rdquo;</li>
-													<li>Name the key however you want, and make sure <strong>&ldquo;inventories&rdquo; and &ldquo;characters&rdquo;</strong> are checked</li>
+													<li>Name the key however you want, and make sure <strong>&ldquo;inventories&rdquo;</strong>, <strong>&ldquo;characters&rdquo;</strong> and <strong>&ldquo;wallet&rdquo;</strong> are checked</li>
 													<li>Click &ldquo;<strong>Create API key</strong>&rdquo;</li>
 												</ol>
 												<p>These steps need to be performed just once.</p>
-												<p>Once you have the API key, copy it into
-												the API key box, click the button, and it will be saved in your browser.</p>
-												<p>Should you change your browser or delete the cache, just
-												go to the applications page and copy-paste the key you generated once more, without generating a
-												new one.</p>
+												<p>Once you have the API key, copy it into the API key box, click the button, and it will be saved in your browser.</p>
+												<p>Should you change your browser or delete the cache, just go to the applications page and copy-paste the key you generated once more, without generating a new one.</p>
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -260,7 +130,7 @@ Data: {{ error.data | json }}
 							
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-xs-offset-3 col-sm-10 col-xs-9">
-									<button class="btn btn-default" role="button" ng-click="apiKey = apiKeyTemp">Load bank contents</button>
+									<button class="btn btn-default" role="button" ng-click="apiKey = apiKeyTemp">Load account contents</button>
 								</div>
 								<div class="col-sm-offset-2 col-xs-offset-3 col-sm-10 col-xs-10">
 									<div class="help-block" id="helpBlock">
@@ -269,6 +139,7 @@ Data: {{ error.data | json }}
 										<span class="text-danger" ng-if="!!bankContentErrors && !!bankContentErrors.accessError"><br>access error to inventory/characters with given key: {{ bankContentErrors.accessError }}</span>
 										<span class="text-danger" ng-if="!!bankContentErrors && bankContentErrors.inventories"><br>given key has no 'inventories' scope (no data can be loaded)</span>
 										<span class="text-warning" ng-if="!!bankContentErrors && !bankContentErrors.inventories && bankContentErrors.characters"><br>given key has no 'characters' scope (character inventories cannot be loaded)</span>
+										<span class="text-warning" ng-if="!!currenciesContentErrors && !!currenciesContentErrors.accessError"><br>access error to wallet with given key: {{ currenciesContentErrors.accessError }}</span>
 										</p>
 									</div>
 								</div>
@@ -290,20 +161,28 @@ Data: {{ error.data | json }}
 				<div class="col-xs-12">
 					<form ng-if="!!costTree">
 						<legend>Crafting tree</legend>
-						<span class="help-block">Note well: once you insert your API key, the costs displayed are the
-						<em>remaining</em> costs, after
-						the content of your bank, material storage and characters inventories are taken into consideration.
-						For some costs (currencies: copper, spirit shards, dungeon tokens, ...) there is no way at the moment
-						to obtain any information about how many you already have, and so the full cost is always
-						displayed.</span>
+						<span class="help-block">Note well: recipes unlock for the various characters are not yet
+						taken into consideration, thus the recipes always include the recipe sheet costs themselves.</span>
 						<!-- MAIN ITEM TABLE -->
 						<div class="results">
 							<item-table
 								buy-immediately="buyImmediately"
 								item-tree="costTree"
+								owned-coin="currenciesContent.Coin"
 								show-percentage="showPercentage"
-								visible="true"></item-table>
+								is-visible="true"></item-table>
 						</div>
+					</form>
+				</div>
+			</div>
+			
+			<div class="row results-row">
+				<div class="col-xs-12">
+					<form ng-if="!!costTree">
+						<legend>Required disciplines</legend>
+						<disciplines-table
+							item-tree="costTree"
+							api-key="apiKey"></disciplines-table>
 					</form>
 				</div>
 			</div>
@@ -324,5 +203,16 @@ Data: {{ error.data | json }}
 					All other trademarks are the property of their respective owners.</p>
 			</footer>
 		</section>
+
+<!-- google analytics -->		
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-67236437-1', 'auto');
+ga('send', 'pageview');
+</script>
+
 	</body>
 </html>
