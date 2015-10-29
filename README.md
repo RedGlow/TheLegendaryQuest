@@ -39,6 +39,10 @@ In order to setup a functional development environment, the following steps are 
 
 ## Changelog
 
+### [0.4.1](https://www.reddit.com/r/Guildwars2/comments/3lew32/the_legendary_quest_v_040/)
+
+* Added the recipe for Nightfury, Blessed Shoulders of the Swag Seeker.
+
 ### [0.4.0](https://www.reddit.com/r/Guildwars2/comments/3lew32/the_legendary_quest_v_040/)
 
 * Many named exotic weapons and other items have been included ([#20](https://github.com/RedGlow/TheLegendaryQuest/issues/20))
