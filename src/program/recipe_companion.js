@@ -832,6 +832,30 @@ angular.module('legendarySearch.recipeCompanion', [
 			{type: 'item', id: 66933, amount: 20},
 			{type: 'item', id: 46731, amount: 100},
 			{type: 'item', id: 67007},
+		],
+		67362: [ // endless bottle of batwing brew
+			{type: 'item', id: 67386}
+		],
+		73914: [ // bat wing
+			{type: 'item', id: 73430, amount: 4},
+			{type: 'item', id: 46730, amount: 20},
+			{type: 'item', id: 24295, amount: 120},
+			{type: 'item', id: 19976, amount: 250}
+		],
+		74491: [ // nightfury
+			{type: 'item', id: 67362},
+			{type: 'item', id: 19631},
+			{type: 'item', id: 46746},
+			{type: 'item', id: 76036}
+		],
+		76036: [ // preserved bat wing
+			{type: 'item', id: 73914},
+			{type: 'item', id: 24320, amount: 250},
+			{type: 'item', id: 73034, amount: 250},
+			{type: 'item', id: 73231},
+		],
+		76839: [ // milling basin
+			{type: 'currency', id: 'Coin', amount: 56}
 		]
 	};
 	
@@ -924,7 +948,8 @@ angular.module('legendarySearch.recipeCompanion', [
 		31103,
 		36051,
 		36056,
-		36070
+		36070,
+		74491
 	];
 	
 	var othersIds = [

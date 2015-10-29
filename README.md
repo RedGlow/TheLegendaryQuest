@@ -39,7 +39,11 @@ In order to setup a functional development environment, the following steps are 
 
 ## Changelog
 
-### [0.4.0]()
+### [0.4.1](https://www.reddit.com/r/Guildwars2/comments/3lew32/the_legendary_quest_v_040/)
+
+* Added the recipe for Nightfury, Blessed Shoulders of the Swag Seeker.
+
+### [0.4.0](https://www.reddit.com/r/Guildwars2/comments/3lew32/the_legendary_quest_v_040/)
 
 * Many named exotic weapons and other items have been included ([#20](https://github.com/RedGlow/TheLegendaryQuest/issues/20))
 * Currencies are now correctly considered (dungeon tokens, gold, spirit shards, ...) ([#31](https://github.com/RedGlow/TheLegendaryQuest/issues/31))
@@ -47,8 +51,8 @@ In order to setup a functional development environment, the following steps are 
   characters possessing that discipline nearest to the needed level ([#25](https://github.com/RedGlow/TheLegendaryQuest/issues/25), [#38](https://github.com/RedGlow/TheLegendaryQuest/issues/38))
 * All the choices for the input selectors are now remembered, instead of just the one for the weapon ([#35](https://github.com/RedGlow/TheLegendaryQuest/issues/35))
 * Equipped items are now correctly considered ([#28](https://github.com/RedGlow/TheLegendaryQuest/issues/28))
-* Recipes are now collected and display at the root node, instead of repeating them through all the nodes needing them ([#37](https://github.com/RedGlow/TheLegendaryQuest/issues/37))
-* The crafting expansion of a node is no longer considered if an item is cheaper to buy than to crafting ([#27](https://github.com/RedGlow/TheLegendaryQuest/issues/27))
+* Recipes are now collected and displayed at the root node, instead of repeating them through all the nodes needing them ([#37](https://github.com/RedGlow/TheLegendaryQuest/issues/37))
+* The crafting expansion of a node is no longer considered if an item is cheaper to buy than to craft ([#27](https://github.com/RedGlow/TheLegendaryQuest/issues/27))
 * Some aesthetic and functional animations have been added (they will not be displayed if the browser does not fully
   support CSS3 animations) ([#26](https://github.com/RedGlow/TheLegendaryQuest/issues/26))
 * API calls are now stored in the web storage, allowing for fewer calls upon closing and reopening the application ([#24](https://github.com/RedGlow/TheLegendaryQuest/issues/24))
