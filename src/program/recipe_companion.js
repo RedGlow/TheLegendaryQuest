@@ -948,8 +948,7 @@ angular.module('legendarySearch.recipeCompanion', [
 		31103,
 		36051,
 		36056,
-		36070,
-		74491
+		36070
 	];
 	
 	var othersIds = [
@@ -957,7 +956,8 @@ angular.module('legendarySearch.recipeCompanion', [
 		19674,
 		66924,
 		66982,
-		67004
+		67004,
+		74491
 	];
 
 	/* recipe item ids not present in the API for some reason */
